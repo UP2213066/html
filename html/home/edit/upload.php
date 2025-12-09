@@ -1,0 +1,74 @@
+<!-- 
+    Project: Final Year Project Admin Web Application
+    Author: Ayden Lunnon
+    Student Number: UP2213066
+    Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
+    Year: 2025/26
+
+    Description: This file is responsible for taking the spreadsheet uploaded containing
+    staff and their quota. It provides an easy way to upload new staff and also update
+    changes to a staff member automatically.
+
+    © 2025 Ayden Lunnon. All rights reserved.
+    This code is submitted as part of a university project and may not be 
+    reused or redistributed without permission.
+-->
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+include '/sec/db.php';
+require '/var/www/html/vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+$targetDir = '/uploads/';
+
+$file = $_FILES['staffBulkUpload'];
+$fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+$uniqueName = bin2hex(uniqid()) . '.' . $fileExtention;
+$targetFile = $targetDir . $uniqueName;
+
+if ($file['size'] > 5242880){
+  die('File too large.');
+}
+
+$allowed = ['xlsx', 'xls', 'csv', 'ods'];
+if (!in_array($fileExtention, $allowed)) {
+  die('Invalid file type of ' . $fileExtention);
+}
+
+if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
+  die('Failed to save file.');
+}
+
+try {
+  $spreadsheet = IOFactory::load($targetFile);
+  $sheet = $spreadsheet->getActiveSheet();
+  $connection = new mysqli($hostname, $username, $password, $database);
+  $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
+  $first = true;
+  foreach ($sheet->getRowIterator() as $row) {
+    if ($first) {
+      $first = false;
+    } else {
+      $cellIterator = $row->getCellIterator();
+      $cellIterator->setIterateOnlyExistingCells(false);
+      $data = [];
+      foreach ($cellIterator as $cell) {
+        $data[] = $cell->getValue();
+      }
+      $preparedSQL->bind_param("sssssss", $data[0], $data[1], $startPassword, $data[2], $data[3], $data[4], $data[5]);
+      $preparedSQL->execute();
+      if (!$preparedSQL) {
+        echo $connection->error;
+      }
+      echo 'Hello ' . $data[0] . '! You are a ' . $data[2] . ' and your email is ' . $data[1] . ' right?<br>';
+    }
+  }
+} catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+  die('Error reading spreadsheet: ' . $e->getMessage());
+}
+
+if (file_exists($targetFile)) {
+    unlink($targetFile); 
+}
