@@ -56,7 +56,7 @@ if ($_POST['fileType'] === 'staffUpload') {
           foreach ($cellIterator as $cell) {
               $data[] = $cell->getValue();
           }
-          $preparedSQL->bind_param("sssssss", $data[0], $data[1], $startPassword, $data[2], $data[3], $data[4], $data[5]);
+          $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
           $preparedSQL->execute();
           if (!$preparedSQL) {
               echo $connection->error;
