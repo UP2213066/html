@@ -86,7 +86,7 @@ if ($_POST['fileType'] === 'staffUpload') {
         }
         if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
             echo "Skipped blank row<br>";
-            continue;
+            break;
         }
         $preparedSQL->bind_param("sss", $data[0], $data[1], $data[2]);
         $preparedSQL->execute();
