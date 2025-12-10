@@ -14,7 +14,7 @@
 -->
 <?php
 session_start();
-include '/var/www/html/validate.php';
+exec('/var/www/html/validate.php');
 ?>
 
 <!DOCTYPE html>
