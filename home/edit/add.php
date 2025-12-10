@@ -12,7 +12,7 @@
     </nav>
     <main>
         <h1>Add Staff Member</h1>
-            <form action="update.php" method="post">
+            <form action="database_add.php" method="post">
                 <label for="name">Name:</label>
                 <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
                 <label for="email">Email:</label>
