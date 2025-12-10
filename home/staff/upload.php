@@ -62,12 +62,13 @@ if ($_POST['fileType'] === 'staffUpload') {
             $data[] = $cell->getValue();
         }
         if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
-            break;
+          echo 'Incomplete row detected, stopping upload.<br>';
+          break;
         }
         $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
         $preparedSQL->execute();
         if (!$preparedSQL) {
-            echo $connection->error;
+          echo $connection->error;
         }
         echo 'Hello ' . $data[0] . '! You are a ' . $data[2] . ' and your email is ' . $data[1] . ' right?<br>';
     }
