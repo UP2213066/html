@@ -33,8 +33,8 @@ if ($_POST['searchType'] === "name") {
             $studentsToAvoid = $row['studentsToAvoid'];
         }
     } else {
-        $_SESSION['search-error'] = "Staff Member Not Found";
-        header("Location: /home/staff/");
+        $_SESSION['search-error'] = "Student Not Found";
+        header("Location: /home/student/");
         die();
     }
 } elseif ($_POST['searchType'] === "email") {
@@ -72,7 +72,7 @@ if ($_POST['searchType'] === "name") {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Staff Editor</title>
+        <title>FYP Student Editor</title>
         <link rel="stylesheet" href="/style.css?v=1">
     </head>
     <body>
