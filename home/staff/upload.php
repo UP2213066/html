@@ -19,53 +19,55 @@ require '/var/www/html/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $targetDir = '/uploads/';
+if ($_POST['fileType'] === 'staffUpload') {
+  echo 'Processing staff upload...<br>';
+  $file = $_FILES['staffBulkUpload'];
+  $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+  $uniqueName = bin2hex(uniqid()) . '.' . $fileExtention;
+  $targetFile = $targetDir . $uniqueName;
 
-$file = $_FILES['staffBulkUpload'];
-$fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-$uniqueName = bin2hex(uniqid()) . '.' . $fileExtention;
-$targetFile = $targetDir . $uniqueName;
-
-if ($file['size'] > 5242880){
-  die('File too large.');
-}
-
-$allowed = ['xlsx', 'xls', 'csv', 'ods'];
-if (!in_array($fileExtention, $allowed)) {
-  die('Invalid file type of ' . $fileExtention);
-}
-
-if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
-  die('Failed to save file.');
-}
-
-try {
-  $spreadsheet = IOFactory::load($targetFile);
-  $sheet = $spreadsheet->getActiveSheet();
-  $connection = new mysqli($hostname, $username, $password, $database);
-  $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
-  $first = true;
-  foreach ($sheet->getRowIterator() as $row) {
-    if ($first) {
-      $first = false;
-    } else {
-      $cellIterator = $row->getCellIterator();
-      $cellIterator->setIterateOnlyExistingCells(false);
-      $data = [];
-      foreach ($cellIterator as $cell) {
-        $data[] = $cell->getValue();
-      }
-      $preparedSQL->bind_param("sssssss", $data[0], $data[1], $startPassword, $data[2], $data[3], $data[4], $data[5]);
-      $preparedSQL->execute();
-      if (!$preparedSQL) {
-        echo $connection->error;
-      }
-      echo 'Hello ' . $data[0] . '! You are a ' . $data[2] . ' and your email is ' . $data[1] . ' right?<br>';
-    }
+  if ($file['size'] > 5242880){
+    die('File too large.');
   }
-} catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
-  die('Error reading spreadsheet: ' . $e->getMessage());
-}
 
-if (file_exists($targetFile)) {
+  $allowed = ['xlsx', 'xls', 'csv', 'ods'];
+  if (!in_array($fileExtention, $allowed)) {
+    die('Invalid file type of ' . $fileExtention);
+  }
+
+  if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
+    die('Failed to save file.');
+  }
+
+  try {
+    $spreadsheet = IOFactory::load($targetFile);
+    $sheet = $spreadsheet->getActiveSheet();
+    $connection = new mysqli($hostname, $username, $password, $database);
+    $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, 0, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
+    $first = true;
+    foreach ($sheet->getRowIterator() as $row) {
+      if ($first) {
+          $first = false;
+      } else {
+          $cellIterator = $row->getCellIterator();
+          $cellIterator->setIterateOnlyExistingCells(false);
+          $data = [];
+          foreach ($cellIterator as $cell) {
+              $data[] = $cell->getValue();
+          }
+          $preparedSQL->bind_param("sssssss", $data[0], $data[1], $startPassword, $data[2], $data[3], $data[4], $data[5]);
+          $preparedSQL->execute();
+          if (!$preparedSQL) {
+              echo $connection->error;
+          }
+          echo 'Hello ' . $data[0] . '! You are a ' . $data[2] . ' and your email is ' . $data[1] . ' right?<br>';
+      }
+    }
+  } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+      die('Error reading spreadsheet: ' . $e->getMessage());
+  }
+
+  if (file_exists($targetFile)) {
     unlink($targetFile); 
+  }
 }

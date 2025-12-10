@@ -40,9 +40,10 @@ include '/var/www/html/validate.php';
                 echo $_SESSION['search-error'];
             }
             ?>
-            <h2>Bulk Upload</h2>
+            <h2>Bulk Upload Staff</h2>
             <form action="upload.php" method="post" enctype="multipart/form-data">
                 <input type="file" name="staffBulkUpload" id="staffBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
+                <input type="hidden" name="fileType" value="staffUpload">
                 <input type="submit" value="Upload">
             </form>
             <a href="add/"><button>Add New Staff Member</button></a>
