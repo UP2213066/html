@@ -16,7 +16,6 @@
 include '/var/www/html/validate.php';
 if ($_POST['searchType'] === "name") {
     $name = $_POST['firstName'] . ' ' . $_POST['lastName'];
-    $_SESSION['nameToUpdate'] = $name;
     $connection = new mysqli($hostname, $username, $password, $database);
     $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE name=?");
     $preparedSQL->bind_param("s", $name);
@@ -27,6 +26,7 @@ if ($_POST['searchType'] === "name") {
         while ($row = $result->fetch_assoc()) {
             $name = $row['name'];
             $email = $row['email'];
+            $_SESSION['emailToUpdate'] = $email;
             $role = $row['role'];
             $quota = $row['quota'];
             $allocatedStudents = $row['allocatedStudents'];
@@ -38,7 +38,6 @@ if ($_POST['searchType'] === "name") {
         die();
     }
 } elseif ($_POST['searchType'] === "email") {
-    $_SESSION['nameToUpdate'] = $name;
     $connection = new mysqli($hostname, $username, $password, $database);
     $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email=?");
     $preparedSQL->bind_param("s", $_POST['email']);
@@ -49,6 +48,7 @@ if ($_POST['searchType'] === "name") {
         while ($row = $result->fetch_assoc()) {
             $name = $row['name'];
             $email = $row['email'];
+            $_SESSION['emailToUpdate'] = $email;
             $role = $row['role'];
             $quota = $row['quota'];
             $allocatedStudents = $row['allocatedStudents'];
