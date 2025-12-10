@@ -69,7 +69,7 @@ if ($result->num_rows > 0) {
                 <label for="role">Quota:</label>
                 <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
                 <input type="submit" value="Submit">
-                <a href="delete_confirmation.php">Delete</a>
+                <button type="submit" formaction="delete_confirmation.php">Delete</button>
             </form>
         </main>
     </body>
