@@ -34,7 +34,7 @@ if (!isset($_SESSION['role']) && !$_SESSION['role'] === 'Admin') {
         <main>
             <h1>Confirm Staff Delete</h1>
             <form action="delete.php" method="post">
-                <input type="submit" value="Delete " <?php echo $_SESSION['nameToUpdate']; ?>>
+                <input type="submit" value="Delete <?php echo $_SESSION['nameToUpdate']; ?>">
             </form>
         </main>
     </body>
