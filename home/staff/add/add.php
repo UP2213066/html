@@ -14,6 +14,9 @@
     reused or redistributed without permission.
 -->
 <?php
+error_reporting(E_ALL); 
+ini_set('display_errors', TRUE); 
+ini_set('display_startup_errors', TRUE);
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
