@@ -39,29 +39,32 @@ if ($_POST['searchType'] === "name") {
     }
 } elseif ($_POST['searchType'] === "email") {
     $connection = new mysqli($hostname, $username, $password, $database);
-    $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email=?");
+    $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students WHERE email=?");
     $preparedSQL->bind_param("s", $_POST['email']);
     $preparedSQL->execute();
     $result = $preparedSQL->get_result();
     if ($result->num_rows > 0) {
         unset($_SESSION['search-error']);
         while ($row = $result->fetch_assoc()) {
-            $name = $row['name'];
-            $email = $row['email'];
-            $_SESSION['emailToUpdate'] = $email;
-            $role = $row['role'];
-            $quota = $row['quota'];
-            $allocatedStudents = $row['allocatedStudents'];
-            $studentsToAvoid = $row['studentsToAvoid'];
+            $id = $row['id'];
+            $name = $row['firstName'] . ' ' . $row['lastName'];
+            $courseCode = $row['courseCode'];
+            $moduleCode = $row['moduleCode'];
+            if (isset($row['supervisor'])) {
+                $supervisor = $row['supervisor'];
+            }
+            if (isset($row['moderator'])) {
+                $moderator = $row['moderator'];
+            }
         }
     } else {
-        $_SESSION['search-error'] = "Staff Member Not Found";
-        header("Location: /home/staff/");
+        $_SESSION['search-error'] = "Student Not Found";
+        header("Location: /home/student/");
         die();
     }
 } else {
-    $_SESSION['search-error'] = "Staff Member Not Found";
-    header("Location: /home/staff/");
+    $_SESSION['search-error'] = "Student Not Found";
+    header("Location: /home/student/");
     die();
 }
 ?>
