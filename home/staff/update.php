@@ -22,8 +22,10 @@ $preparedSQL->execute();
 $connection->close();
 $name = $_SESSION['name'];
 $role = $_SESSION['role'];
+$email = $_SESSION['email'];
 session_unset();
 $_SESSION['name'] = $name;
 $_SESSION['role'] = $role;
+$_SESSION['email'] = $email
 header("Location: /home/staff/");
 die();
