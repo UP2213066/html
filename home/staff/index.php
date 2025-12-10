@@ -49,6 +49,7 @@ include '/var/www/html/validate.php';
             <?php if (isset($_SESSION['staffMessage'])) {
                 echo $_SESSION['staffMessage'];
                 unset($_SESSION['staffMessage']);
+                echo "<br>";
             } ?>
             <h2>Bulk Upload Staff Quota</h2>
             <form action="upload.php" method="post" enctype="multipart/form-data">
@@ -59,6 +60,7 @@ include '/var/www/html/validate.php';
             <?php if (isset($_SESSION['quotaMessage'])) {
                 echo $_SESSION['quotaMessage'];
                 unset($_SESSION['quotaMessage']);
+                echo "<br>";
             } ?>
             <a href="add/"><button>Add New Staff Member</button></a>
         </main>
