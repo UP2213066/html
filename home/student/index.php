@@ -32,7 +32,7 @@ include '/var/www/html/validate.php';
             <h2>Search For A Student By Student Number</h2>
             <form action="search.php" method="post">
                 <input type="text" name="id" id="id" placeholder="Student Number">
-                <input type="hidden" name="searchType" value="name">
+                <input type="hidden" name="searchType" value="id">
                 <input type="submit" value="Search">
             </form>
             <?php
