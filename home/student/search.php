@@ -48,13 +48,17 @@ if ($_POST['searchType'] === "name") {
         while ($row = $result->fetch_assoc()) {
             $id = $row['id'];
             $name = $row['firstName'] . ' ' . $row['lastName'];
-            $courseCode = $row['courseCode'];
-            $moduleCode = $row['moduleCode'];
+            $course = $row['courseCode'];
+            $module = $row['moduleCode'];
             if (isset($row['supervisor'])) {
                 $supervisor = $row['supervisor'];
+            } else {
+                $supervisor = "";
             }
             if (isset($row['moderator'])) {
                 $moderator = $row['moderator'];
+            } else {
+                $moderator = "";
             }
         }
     } else {
@@ -86,12 +90,14 @@ if ($_POST['searchType'] === "name") {
             <form action="update.php" method="post">
                 <label for="name">Name:</label>
                 <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
-                <label for="email">Email:</label>
-                <?php echo '<input type="text" id="email" name="email" value="' . $email . '">' ?>
-                <label for="role">Role:</label>
-                <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
-                <label for="role">Quota:</label>
-                <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
+                <label for="course">Course Code:</label>
+                <?php echo '<input type="text" id="course" name="course" value="' . $course . '">' ?>
+                <label for="module">Module Code:</label>
+                <?php echo '<input type="text" id="module" name="module" value="' . $module . '">' ?>
+                <label for="supervisor">Supervisor:</label>
+                <?php echo '<input type="text" id="supervisor" name="supervisor" value="' . $supervisor . '">' ?>
+                <label for="moderator">Moderator:</label>
+                <?php echo '<input type="text" id="moderator" name="moderator" value="' . $moderator . '">' ?>
                 <input type="submit" value="Submit">
                 <button type="submit" formaction="delete/">Delete</button>
             </form>
