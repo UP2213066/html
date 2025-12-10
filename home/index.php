@@ -49,8 +49,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'Admin') {
                 <!-- <a class="actionGridButton" href="/home/edit">Edit Staff</a> -->
             </section>
         </main>
-        <!-- <footer>
-            <?php echo '<p class="copyright">© ' . date("Y", ) . ' Ayden Lunnon. All rights reserved.</p>' ?>
-        </footer> -->
+        <?php include 'footer.php';?>
     </body>
 </html>

@@ -51,7 +51,5 @@ if (!isset($_SESSION['role']) && !$_SESSION['role'] === 'Admin') {
             </form>
         </main>
     </body>
-    <footer>
-        <?php echo '<p>© ' . date("Y", ) . ' Ayden Lunnon. All rights reserved.</p>' ?>
-    </footer>
+    <?php include 'footer.php';?>
 </html>
