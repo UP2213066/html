@@ -19,6 +19,7 @@ require '/var/www/html/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $targetDir = '/uploads/';
+echo 'Uploading file...<br>';
 if ($_POST['fileType'] === 'staffUpload') {
   echo 'Processing staff upload...<br>';
   $file = $_FILES['staffBulkUpload'];
