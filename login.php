@@ -27,6 +27,7 @@ if ($result->num_rows > 0) {
             $found = true;
             $_SESSION['name'] = $row['name'];
             $_SESSION['role'] = $row['role'];
+            $_SESSION['email'] = $row['email'];
         }
     }
 }

@@ -18,8 +18,8 @@
 session_start();
 include '/sec/db.php';
 $conn = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $conn->prepare('SELECT role FROM staff WHERE name=?');
-$preparedSQL->bind_param("s", $_SESSION['name']);
+$preparedSQL = $conn->prepare('SELECT role FROM staff WHERE email=?');
+$preparedSQL->bind_param("s", $_SESSION['email']);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 $found = false;
