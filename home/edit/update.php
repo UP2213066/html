@@ -22,7 +22,7 @@ $name = trim($_POST['name']);
 $email = trim($_POST['email']);
 $role = trim($_POST['role']);
 $quota = trim($_POST['quota']);
-$oldName = trim($_SESSION['name']);
+$oldName = trim($_SESSION['nameToUpdate']);
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, quota=? WHERE name=?");
 $preparedSQL->bind_param("sssss", $name, $email, $role, $quota, $oldName);
