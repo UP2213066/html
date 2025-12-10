@@ -16,7 +16,7 @@
 include '/var/www/html/validate.php';
 $name = trim($_POST['name']);
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, quota=? WHERE email=?");
+$preparedSQL = $connection->prepare("UPDATE students SET firstName=?, lastName=?, email=?, courseCode=?, moduleCode=?, supervisor=?, moderator=? WHERE id=?");
 $preparedSQL->bind_param("sssss", $_POST['name'], $_POST['email'], $_POST['role'], $_POST['quota'], $_SESSION['emailToUpdate']);
 $preparedSQL->execute();
 $connection->close();

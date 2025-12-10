@@ -47,7 +47,8 @@ if ($_POST['searchType'] === "name") {
         unset($_SESSION['search-error']);
         while ($row = $result->fetch_assoc()) {
             $id = $row['id'];
-            $name = $row['firstName'] . ' ' . $row['lastName'];
+            $firstName = $row['firstName'];
+            $lastName = $row['lastName'];
             $course = $row['courseCode'];
             $module = $row['moduleCode'];
             if (isset($row['supervisor'])) {
@@ -88,8 +89,10 @@ if ($_POST['searchType'] === "name") {
     <main>
         <?php echo "<h1>" . $name . "</h1>" ?>
             <form action="update.php" method="post">
-                <label for="name">Name:</label>
-                <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
+                <label for="firstName">First Name:</label>
+                <?php echo '<input type="text" id="firstName" name="firstName" value="' . $firstName . '">' ?>
+                <label for="lastName">Last Name:</label>
+                <?php echo '<input type="text" id="lastName" name="lastName" value="' . $lastName . '">' ?>
                 <label for="course">Course Code:</label>
                 <?php echo '<input type="text" id="course" name="course" value="' . $course . '">' ?>
                 <label for="module">Module Code:</label>
