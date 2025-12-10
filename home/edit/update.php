@@ -28,8 +28,10 @@ $preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, q
 $preparedSQL->bind_param("sssss", $name, $email, $role, $quota, $oldName);
 $preparedSQL->execute();
 $connection->close();
+$name = $_SESSION['name'];
 $role = $_SESSION['role'];
 session_unset();
+$_SESSION['name'] = $name;
 $_SESSION['role'] = $role;
 header("Location: /home/edit");
 die();
