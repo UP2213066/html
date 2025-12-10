@@ -30,5 +30,8 @@ if ($result->num_rows > 0) {
             exit();
         }
     }
+} else {
+    header('Location: /');
+    exit(); 
 }
 echo 'Done';
