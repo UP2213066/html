@@ -72,8 +72,8 @@ if ($_POST['fileType'] === 'studentUpload') {
         if (!$preparedSQL) {
           echo $connection->error;
         }
-        $_SESSION['staffMessage'] = "Staff Uploaded Successfully";
-        header('location: /home/staff/');
+        $_SESSION['staffMessage'] = "Students Uploaded Successfully";
+        header('location: /home/student/');
         exit();
       }
   }
