@@ -15,10 +15,6 @@
 <?php
 session_start();
 include '/var/www/html/validate.php';
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'Admin') {
-    header('Location: /'); 
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
