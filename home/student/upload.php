@@ -23,7 +23,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $targetDir = '/uploads/';
 echo 'Uploading file...<br>';
-$file = $_FILES['staffBulkUpload'];
+$file = $_FILES['studentBulkUpload'];
 $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 $uniqueName = bin2hex(uniqid()) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;
@@ -46,10 +46,10 @@ try {
 } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
     die('Error reading spreadsheet: ' . $e->getMessage());
 }
-if ($_POST['fileType'] === 'staffUpload') {
+if ($_POST['fileType'] === 'studentUpload') {
   echo 'Processing staff upload...<br>';
   $connection = new mysqli($hostname, $username, $password, $database);
-  $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, 0, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
+  $preparedSQL = $connection->prepare("INSERT INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL)");
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
     if ($first) {
@@ -61,10 +61,10 @@ if ($_POST['fileType'] === 'staffUpload') {
         foreach ($cellIterator as $cell) {
             $data[] = $cell->getValue();
         }
-        if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
+        if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL || $data[3] === NULL || $data[4] === NULL) {
           break;
         }
-        $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
+        $preparedSQL->bind_param("sssss", $data[0], $data[1], $data[2], $data[3], $data[4]);
         $preparedSQL->execute();
         if (!$preparedSQL) {
           echo $connection->error;
