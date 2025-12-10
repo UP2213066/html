@@ -69,8 +69,9 @@ if ($_POST['fileType'] === 'staffUpload') {
         if (!$preparedSQL) {
           echo $connection->error;
         }
-        echo 'Hello ' . $data[0] . '! You are a ' . $data[2] . ' and your email is ' . $data[1] . ' right?<br>';
-    }
+        header('location: /home/staff/');
+        exit();
+      }
   }
 } elseif ($_POST['fileType'] === 'quotaUpload') {
   echo 'Processing quota upload...<br>';
@@ -95,7 +96,8 @@ if ($_POST['fileType'] === 'staffUpload') {
         if (!$preparedSQL) {
             echo $connection->error;
         }
-        echo 'Updated ' . $data[0] . '(' . $data[1] . ') to have a quota of ' . $data[2] . '<br>';
+        header('location: /home/staff/');
+        exit();
     }
   }
 } else {
