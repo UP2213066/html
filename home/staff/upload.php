@@ -69,6 +69,7 @@ if ($_POST['fileType'] === 'staffUpload') {
         if (!$preparedSQL) {
           echo $connection->error;
         }
+        $_SESSION['staffMessage'] = "Staff Uploaded Successfully";
         header('location: /home/staff/');
         exit();
       }
@@ -96,7 +97,9 @@ if ($_POST['fileType'] === 'staffUpload') {
         if (!$preparedSQL) {
             echo $connection->error;
         }
-        echo 'Updated ' . $data[0] . '(' . $data[1] . ') to have a quota of ' . $data[2] . '<br>';
+        $_SESSION['quotaMessage'] = "Quota Updated Successfully";
+        header('location: /home/staff/');
+        exit();
     }
   }
 } else {
