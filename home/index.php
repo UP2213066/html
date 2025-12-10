@@ -33,14 +33,14 @@ include '/var/www/html/validate.php';
             echo '<h1>Welcome, ' . $_SESSION['name'] . '!</h1>';
             ?>
             <section class="actionGridSection">
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./edit'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
                 
                 <!-- <a class="actionGridButton" href="/home/edit">Edit Staff</a> -->
             </section>
