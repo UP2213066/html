@@ -33,6 +33,12 @@ include '/var/www/html/validate.php';
             <form action="search.php" method="post">
                 <input type="text" name="firstName" id="firstName" placeholder="First Name">
                 <input type="text" name="lastName" id="lastName" placeholder="Last Name">
+                <input type="hidden" name="searchType" value="name">
+                <input type="submit" value="Search">
+            </form>
+            <form action="search.php" method="post">
+                <input type="text" name="email" id="email" placeholder="Email Address">
+                <input type="hidden" name="searchType" value="email">
                 <input type="submit" value="Search">
             </form>
             <?php
