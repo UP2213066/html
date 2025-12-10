@@ -49,6 +49,7 @@ if ($_POST['searchType'] === "name") {
             $id = $row['id'];
             $firstName = $row['firstName'];
             $lastName = $row['lastName'];
+            $name = $firstName . ' ' . $lastName;
             $course = $row['courseCode'];
             $module = $row['moduleCode'];
             if (isset($row['supervisor'])) {
