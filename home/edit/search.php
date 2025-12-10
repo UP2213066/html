@@ -58,16 +58,16 @@ if ($result->num_rows > 0) {
         <?php echo "<h1>" . $name . "</h1>" ?>
             <form action="update.php" method="post">
                 <label for="name">Name:</label>
-                <?php echo '<input type="text" id="name" name="name" value=" ' . $name . '">' ?>
+                <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
                 <label for="email">Email:</label>
-                <?php echo '<input type="text" id="email" name="email" value=" ' . $email . '">' ?>
+                <?php echo '<input type="text" id="email" name="email" value="' . $email . '">' ?>
                 <label for="role">Role:</label>
                 <select id="role" name="role">
                     <option value="Admin">Admin</option>
                     <option value="Supervisor/Moderator">Supervisor/Moderator</option>
                 </select>
                 <label for="role">Quota:</label>
-                <?php echo '<input type="text" id="quota" name="quota" value=" ' . $quota . '">' ?>
+                <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
                 <input type="submit" value="Submit">
             </form>
         </main>
