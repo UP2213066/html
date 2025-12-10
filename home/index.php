@@ -14,6 +14,7 @@
 -->
 <?php
 session_start();
+var_dump($_SESSION);
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'Admin') {
     header('Location: /'); 
     exit();
