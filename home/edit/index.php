@@ -45,6 +45,7 @@ include '/var/www/html/validate.php';
                 <input type="file" name="staffBulkUpload" id="staffBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
                 <input type="submit" value="Upload">
             </form>
+            <a href="add.php"><button>Add New Staff Member</button></a>
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>
