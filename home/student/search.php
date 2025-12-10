@@ -51,6 +51,7 @@ if ($_POST['searchType'] === "name") {
             $firstName = $row['firstName'];
             $lastName = $row['lastName'];
             $name = $firstName . ' ' . $lastName;
+            $_SESSION['nameToUpdate'] = $name;
             $course = $row['courseCode'];
             $module = $row['moduleCode'];
             if (isset($row['supervisor'])) {

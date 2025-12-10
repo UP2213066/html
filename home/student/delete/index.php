@@ -19,7 +19,7 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Staff Delete</title>
+        <title>FYP Student Delete</title>
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
@@ -28,7 +28,7 @@ include '/var/www/html/validate.php';
             <a href="/logout.php">Logout</a>
         </nav>
         <main>
-            <h1>Confirm Staff Delete</h1>
+            <h1>Confirm Student Delete</h1>
             <form action="delete.php" method="post">
                 <input type="submit" value="Delete <?php echo $_SESSION['nameToUpdate']; ?>">
             </form>

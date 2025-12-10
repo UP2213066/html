@@ -15,8 +15,8 @@
 <?php
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("DELETE FROM staff WHERE name=?");
-$preparedSQL->bind_param("s", $_SESSION['nameToUpdate']);
+$preparedSQL = $connection->prepare("DELETE FROM student WHERE id=?");
+$preparedSQL->bind_param("s", $_SESSION['idToDelete']);
 $preparedSQL->execute();
 $connection->close();
 $name = $_SESSION['name'];
