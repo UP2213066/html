@@ -46,7 +46,7 @@ if ($result->num_rows > 0) {
 <html>
     <head>
         <title>FYP Staff Editor</title>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/style.css?v=1">
     </head>
     <body>
     <nav class="navigationBar">
