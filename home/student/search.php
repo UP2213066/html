@@ -42,6 +42,7 @@ if ($_POST['searchType'] === "name") {
     $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students WHERE id=?");
     $preparedSQL->bind_param("s", $_POST['id']);
     $preparedSQL->execute();
+    $_SESSION['idToUpdate'] = $_POST['id'];
     $result = $preparedSQL->get_result();
     if ($result->num_rows > 0) {
         unset($_SESSION['search-error']);

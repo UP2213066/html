@@ -14,10 +14,9 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-$name = trim($_POST['name']);
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("UPDATE students SET firstName=?, lastName=?, email=?, courseCode=?, moduleCode=?, supervisor=?, moderator=? WHERE id=?");
-$preparedSQL->bind_param("sssss", $_POST['name'], $_POST['email'], $_POST['role'], $_POST['quota'], $_SESSION['emailToUpdate']);
+$preparedSQL = $connection->prepare("UPDATE students SET firstName=?, lastName=?, courseCode=?, moduleCode=?, supervisor=?, moderator=? WHERE id=?");
+$preparedSQL->bind_param("sssssss", $_POST['firstName'], $_POST['lastName'], $_POST['courseCode'], $_POST['moduleCode'], $_POST['supervisor'], $_POST['moderator'], $_SESSION['idToUpdate']);
 $preparedSQL->execute();
 $connection->close();
 $name = $_SESSION['name'];
