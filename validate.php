@@ -15,6 +15,7 @@
     reused or redistributed without permission.
 -->
 <?php
+echo "Executed";
 session_start();
 include '/sec/db.php';
 $conn = new mysqli($hostname, $username, $password, $database);
