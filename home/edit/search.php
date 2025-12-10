@@ -72,5 +72,5 @@ if ($result->num_rows > 0) {
             </form>
         </main>
     </body>
-    <?php include 'footer.php';?>
+    <?php include '/var/www/html/footer.php';?>
 </html>

@@ -49,6 +49,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'Admin') {
                 <!-- <a class="actionGridButton" href="/home/edit">Edit Staff</a> -->
             </section>
         </main>
-        <?php include 'footer.php';?>
+       <?php include '/var/www/html/footer.php';?>
     </body>
 </html>

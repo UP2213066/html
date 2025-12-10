@@ -38,5 +38,5 @@ $error = $_SESSION['login_error'] ?? '';
             </form>
         </main>
     </body>
-    <?php include 'footer.php';?>
+    <?php include '/var/www/html/footer.php';?>
 </html>

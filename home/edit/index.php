@@ -51,5 +51,5 @@ if (!isset($_SESSION['role']) && !$_SESSION['role'] === 'Admin') {
             </form>
         </main>
     </body>
-    <?php include 'footer.php';?>
+    <?php include '/var/www/html/footer.php';?>
 </html>
