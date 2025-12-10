@@ -17,7 +17,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
-var_dump($_SESSION);
 include '/sec/db.php';
 $name = trim($_POST['name']);
 $email = trim($_POST['email']);
