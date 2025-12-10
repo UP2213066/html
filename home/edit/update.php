@@ -27,6 +27,7 @@ $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, quota=? WHERE name=?");
 $preparedSQL->bind_param("sssss", $name, $email, $role, $quota, $oldName);
 $preparedSQL->execute();
-echo "Rows updated: " . $preparedSQL->affected_rows;
 $connection->close();
 session_unset();
+header("Location: /home/edit/");
+die();
