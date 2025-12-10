@@ -28,15 +28,14 @@ include '/var/www/html/validate.php';
             <a href="/logout.php">Logout</a>
         </nav>
         <main>
-            <h1>Staff Editor</h1>
-            <h2>Search For A Staff Member By Name</h2>
+            <h1>Student Editor</h1>
+            <h2>Search For A Student By Student Number</h2>
             <form action="search.php" method="post">
-                <input type="text" name="firstName" id="firstName" placeholder="First Name">
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name">
+                <input type="text" name="id" id="id" placeholder="Student Number">
                 <input type="hidden" name="searchType" value="name">
                 <input type="submit" value="Search">
             </form>
-            <h2>Search For A Staff Member By Email</h2>
+            <h2>Search For A Student By Email</h2>
             <form action="search.php" method="post">
                 <input type="text" name="email" id="email" placeholder="Email Address">
                 <input type="hidden" name="searchType" value="email">
@@ -47,30 +46,18 @@ include '/var/www/html/validate.php';
                 echo $_SESSION['search-error'];
             }
             ?>
-            <h2>Bulk Upload Staff</h2>
+            <h2>Bulk Upload Students</h2>
             <form action="upload.php" method="post" enctype="multipart/form-data">
-                <input type="file" name="staffBulkUpload" id="staffBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
-                <input type="hidden" name="fileType" value="staffUpload">
+                <input type="file" name="studentBulkUpload" id="studentBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
+                <input type="hidden" name="fileType" value="studentUpload">
                 <input type="submit" value="Upload">
             </form>
-            <?php if (isset($_SESSION['staffMessage'])) {
-                echo $_SESSION['staffMessage'];
-                unset($_SESSION['staffMessage']);
+            <?php if (isset($_SESSION['studentMessage'])) {
+                echo $_SESSION['studentMessage'];
+                unset($_SESSION['studentMessage']);
                 echo "<br>";
             } ?>
-            <h2>Bulk Upload Staff Quota</h2>
-            <form action="upload.php" method="post" enctype="multipart/form-data">
-                <input type="file" name="staffBulkUpload" id="staffBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
-                <input type="hidden" name="fileType" value="quotaUpload">
-                <input type="submit" value="Upload">
-            </form>
-            <?php if (isset($_SESSION['quotaMessage'])) {
-                echo $_SESSION['quotaMessage'];
-                unset($_SESSION['quotaMessage']);
-                echo "<br>";
-            } ?>
-            <br>
-            <a href="add/"><button>Add New Staff Member</button></a>
+            <a href="add/"><button>Add New Student</button></a>
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>
