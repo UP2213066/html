@@ -72,7 +72,7 @@ if ($_POST['fileType'] === 'studentUpload') {
         if (!$preparedSQL) {
           echo $connection->error;
         }
-        $_SESSION['staffMessage'] = "Students Uploaded Successfully";
+        $_SESSION['studentMessage'] = "Students Uploaded Successfully";
         header('location: /home/student/');
         exit();
       }
