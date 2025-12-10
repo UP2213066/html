@@ -61,6 +61,9 @@ if ($_POST['fileType'] === 'staffUpload') {
         foreach ($cellIterator as $cell) {
             $data[] = $cell->getValue();
         }
+        if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
+            break;
+        }
         $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
         $preparedSQL->execute();
         if (!$preparedSQL) {
@@ -85,7 +88,6 @@ if ($_POST['fileType'] === 'staffUpload') {
             $data[] = $cell->getValue();
         }
         if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
-            echo "Skipped blank row<br>";
             break;
         }
         $preparedSQL->bind_param("sss", $data[0], $data[1], $data[2]);
