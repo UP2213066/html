@@ -29,13 +29,14 @@ include '/var/www/html/validate.php';
         </nav>
         <main>
             <h1>Staff Editor</h1>
-            <h2>Search For A Staff Member</h2>
+            <h2>Search For A Staff Member By Name</h2>
             <form action="search.php" method="post">
                 <input type="text" name="firstName" id="firstName" placeholder="First Name">
                 <input type="text" name="lastName" id="lastName" placeholder="Last Name">
                 <input type="hidden" name="searchType" value="name">
                 <input type="submit" value="Search">
             </form>
+            <h2>Search For A Staff Member By Email</h2>
             <form action="search.php" method="post">
                 <input type="text" name="email" id="email" placeholder="Email Address">
                 <input type="hidden" name="searchType" value="email">
