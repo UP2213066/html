@@ -38,7 +38,5 @@ $error = $_SESSION['login_error'] ?? '';
             </form>
         </main>
     </body>
-    <footer>
-        <?php echo '<p>© ' . date("Y", ) . ' Ayden Lunnon. All rights reserved.</p>' ?>
-    </footer>
+    <?php include 'footer.php';?>
 </html>
