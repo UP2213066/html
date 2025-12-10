@@ -15,19 +15,20 @@
     reused or redistributed without permission.
 -->
 <?php
-// session_start();
-// include '/sec/db.php';
-// $conn = new mysqli($hostname, $username, $password, $database);
-// $sql = 'SELECT role FROM staff WHERE name=?';
-// $preparedSQL->bind_param("s", $_SESSION['name']);
-// $result = $conn->query($sql);
-// $found = false;
-// if ($result->num_rows > 0) {
-//     while ($row = $result->fetch_assoc()) {
-//         if ($row['role'] != 'Admin') {
-//             header('Location: /');
-//             exit();
-//         }
-//     }
-// }
+session_start();
+include '/sec/db.php';
+$conn = new mysqli($hostname, $username, $password, $database);
+$sql = 'SELECT role FROM staff WHERE name=?';
+$preparedSQL->bind_param("s", $_SESSION['name']);
+$result = $conn->query($sql);
+$found = false;
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        if ($row['role'] != 'Admin') {
+            // header('Location: /');
+            // exit();
+            echo 'DENIED';
+        }
+    }
+}
 echo "Done";
