@@ -62,6 +62,7 @@ include '/var/www/html/validate.php';
                 unset($_SESSION['quotaMessage']);
                 echo "<br>";
             } ?>
+            <br>
             <a href="add/"><button>Add New Staff Member</button></a>
         </main>
     </body>
