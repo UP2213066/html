@@ -91,13 +91,12 @@ if ($_POST['fileType'] === 'staffUpload') {
         if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
             break;
         }
-        $preparedSQL->bind_param("sss", $data[2], $data[1], $data[0]);
+        $preparedSQL->bind_param("sss", $data[0], $data[1], $data[2]);
         $preparedSQL->execute();
         if (!$preparedSQL) {
             echo $connection->error;
         }
-        header('location: /home/staff/');
-        exit();
+        echo 'Updated ' . $data[0] . '(' . $data[1] . ') to have a quota of ' . $data[2] . '<br>';
     }
   }
 } else {
