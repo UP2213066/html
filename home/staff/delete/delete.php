@@ -26,6 +26,6 @@ $email = $_SESSION['email'];
 session_unset();
 $_SESSION['name'] = $name;
 $_SESSION['role'] = $role;
-$email = $_SESSION['email'];
+$_SESSION['email'] = $email;
 header("Location: /home/edit");
 die();
