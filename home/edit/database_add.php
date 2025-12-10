@@ -19,6 +19,5 @@ $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
 $preparedSQL->bind_param("sssssss", $_POST['name'], $_POST['email'], $startPassword, $_POST['role'], $_POST['quota']);
 $preparedSQL->execute();
-if (!$preparedSQL) {
-echo $connection->error;
-}
+header('Location: /edit/');
+exit();
