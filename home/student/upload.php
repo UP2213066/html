@@ -64,6 +64,9 @@ if ($_POST['fileType'] === 'studentUpload') {
         if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL || $data[3] === NULL || $data[4] === NULL) {
           break;
         }
+        if (strtoupper(substr($data[0], 0, 2) == "UP")) {
+          $data[0] = substr($data[0],2);
+        }
         $preparedSQL->bind_param("sssss", $data[0], $data[1], $data[2], $data[3], $data[4]);
         $preparedSQL->execute();
         if (!$preparedSQL) {
