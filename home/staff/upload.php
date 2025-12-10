@@ -70,4 +70,6 @@ if ($_POST['fileType'] === 'staffUpload') {
   if (file_exists($targetFile)) {
     unlink($targetFile); 
   }
+} else {
+  echo 'Invalid upload type.';
 }
