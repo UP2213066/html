@@ -14,26 +14,54 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-$name = $_POST['firstName'] . ' ' . $_POST['lastName'];
-$_SESSION['nameToUpdate'] = $name;
-$connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE name=?");
-$preparedSQL->bind_param("s", $name);
-$preparedSQL->execute();
-$result = $preparedSQL->get_result();
-if ($result->num_rows > 0) {
-    unset($_SESSION['search-error']);
-    while ($row = $result->fetch_assoc()) {
-        $name = $row['name'];
-        $email = $row['email'];
-        $role = $row['role'];
-        $quota = $row['quota'];
-        $allocatedStudents = $row['allocatedStudents'];
-        $studentsToAvoid = $row['studentsToAvoid'];
+if ($_POST['searchType'] === "name") {
+    $name = $_POST['firstName'] . ' ' . $_POST['lastName'];
+    $_SESSION['nameToUpdate'] = $name;
+    $connection = new mysqli($hostname, $username, $password, $database);
+    $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE name=?");
+    $preparedSQL->bind_param("s", $name);
+    $preparedSQL->execute();
+    $result = $preparedSQL->get_result();
+    if ($result->num_rows > 0) {
+        unset($_SESSION['search-error']);
+        while ($row = $result->fetch_assoc()) {
+            $name = $row['name'];
+            $email = $row['email'];
+            $role = $row['role'];
+            $quota = $row['quota'];
+            $allocatedStudents = $row['allocatedStudents'];
+            $studentsToAvoid = $row['studentsToAvoid'];
+        }
+    } else {
+        $_SESSION['search-error'] = "Staff Member Not Found";
+        header("Location: /home/staff/");
+        die();
+    }
+} elseif ($_POST['searchType'] === "name") {
+    $_SESSION['nameToUpdate'] = $name;
+    $connection = new mysqli($hostname, $username, $password, $database);
+    $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email=?");
+    $preparedSQL->bind_param("s", $_POST['email']);
+    $preparedSQL->execute();
+    $result = $preparedSQL->get_result();
+    if ($result->num_rows > 0) {
+        unset($_SESSION['search-error']);
+        while ($row = $result->fetch_assoc()) {
+            $name = $row['name'];
+            $email = $row['email'];
+            $role = $row['role'];
+            $quota = $row['quota'];
+            $allocatedStudents = $row['allocatedStudents'];
+            $studentsToAvoid = $row['studentsToAvoid'];
+        }
+    } else {
+        $_SESSION['search-error'] = "Staff Member Not Found";
+        header("Location: /home/staff/");
+        die();
     }
 } else {
     $_SESSION['search-error'] = "Staff Member Not Found";
-    header("Location: /home/edit/");
+    header("Location: /home/staff/");
     die();
 }
 ?>
