@@ -49,7 +49,7 @@ try {
 if ($_POST['fileType'] === 'studentUpload') {
   echo 'Processing staff upload...<br>';
   $connection = new mysqli($hostname, $username, $password, $database);
-  $preparedSQL = $connection->prepare("INSERT INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL)");
+  $preparedSQL = $connection->prepare("INSERT IGNORE INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL)");
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
     if ($first) {
