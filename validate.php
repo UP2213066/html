@@ -18,21 +18,15 @@
 session_start();
 include '/sec/db.php';
 $conn = new mysqli($hostname, $username, $password, $database);
-$sql = 'SELECT email, password, name, role FROM staff';
+$sql = 'SELECT role FROM staff WHERE name=?';
+$preparedSQL->bind_param("s", $_SESSION['name']);
 $result = $conn->query($sql);
 $found = false;
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        if ($_POST['username'] == $row['email'] && password_verify($_POST['password'], $row['password'])) {
-            $found = true;
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['role'] = $row['role'];
+        if ($row['role'] != 'Admin') {
+            header('Location: /');
+            exit();
         }
     }
-}
-if (!$found) {
-    $_SESSION['login_error'] = "Username or password incorrect";
-    session_write_close();     
-    header('Location: /');
-    exit();
 }
