@@ -62,7 +62,6 @@ if ($_POST['fileType'] === 'staffUpload') {
             $data[] = $cell->getValue();
         }
         if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
-          echo 'Incomplete row detected, stopping upload.<br>';
           break;
         }
         $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
