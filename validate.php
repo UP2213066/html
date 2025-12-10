@@ -15,10 +15,9 @@
     reused or redistributed without permission.
 -->
 <?php
-session_start();
 include '/sec/db.php';
 $conn = new mysqli($hostname, $username, $password, $database);
-$sql = 'SELECT role FROM staff WHERE name=?';
+$preparedSQL = $conn->prepare('SELECT role FROM staff WHERE name=?');
 $preparedSQL->bind_param("s", $_SESSION['name']);
 $result = $conn->query($sql);
 $found = false;
