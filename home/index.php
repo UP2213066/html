@@ -34,13 +34,7 @@ include '/var/www/html/validate.php';
             ?>
             <section class="actionGridSection">
                 <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='./staff'">Staff Editor</button>
+                <button class="actionGridButton" onclick="window.location.href='./student'">Student Editor</button>
                 
                 <!-- <a class="actionGridButton" href="/home/edit">Edit Staff</a> -->
             </section>
