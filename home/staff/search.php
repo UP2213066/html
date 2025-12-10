@@ -37,7 +37,7 @@ if ($_POST['searchType'] === "name") {
         header("Location: /home/staff/");
         die();
     }
-} elseif ($_POST['searchType'] === "name") {
+} elseif ($_POST['searchType'] === "email") {
     $_SESSION['nameToUpdate'] = $name;
     $connection = new mysqli($hostname, $username, $password, $database);
     $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email=?");
