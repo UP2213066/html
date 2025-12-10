@@ -29,5 +29,5 @@ $preparedSQL->bind_param("sssss", $name, $email, $role, $quota, $oldName);
 $preparedSQL->execute();
 $connection->close();
 session_unset();
-header("Location: /home/edit/search.php");
+header("Location: /home/edit");
 die();
