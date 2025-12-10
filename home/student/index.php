@@ -35,12 +35,6 @@ include '/var/www/html/validate.php';
                 <input type="hidden" name="searchType" value="name">
                 <input type="submit" value="Search">
             </form>
-            <h2>Search For A Student By Email</h2>
-            <form action="search.php" method="post">
-                <input type="text" name="email" id="email" placeholder="Email Address">
-                <input type="hidden" name="searchType" value="email">
-                <input type="submit" value="Search">
-            </form>
             <?php
             if (isset($_SESSION['search-error'])) {
                 echo $_SESSION['search-error'];

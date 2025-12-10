@@ -89,10 +89,7 @@ if ($_POST['searchType'] === "name") {
                 <label for="email">Email:</label>
                 <?php echo '<input type="text" id="email" name="email" value="' . $email . '">' ?>
                 <label for="role">Role:</label>
-                <select id="role" name="role">
-                    <option value="Admin">Admin</option>
-                    <option value="Supervisor/Moderator">Supervisor/Moderator</option>
-                </select>
+                <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
                 <label for="role">Quota:</label>
                 <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
                 <input type="submit" value="Submit">
