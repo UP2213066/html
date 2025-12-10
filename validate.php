@@ -19,7 +19,8 @@ include '/sec/db.php';
 $conn = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $conn->prepare('SELECT role FROM staff WHERE name=?');
 $preparedSQL->bind_param("s", $_SESSION['name']);
-$result = $conn->query($sql);
+$preparedSQL->execute();
+$result = $preparedSQL->get_result();
 $found = false;
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
