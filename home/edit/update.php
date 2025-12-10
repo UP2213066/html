@@ -13,11 +13,7 @@
     reused or redistributed without permission.
 -->
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-session_start();
-include '/sec/db.php';
+include '/var/www/html/validate.php';
 $name = trim($_POST['name']);
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, quota=? WHERE name=?");

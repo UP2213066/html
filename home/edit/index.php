@@ -13,11 +13,7 @@
     reused or redistributed without permission.
 -->
 <?php
-session_start();
-if (!isset($_SESSION['role']) && !$_SESSION['role'] === 'Admin') {
-    header('Location: /'); 
-    exit();
-}
+include '/var/www/html/validate.php';
 ?>
 
 <!DOCTYPE html>

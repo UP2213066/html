@@ -15,6 +15,7 @@
     reused or redistributed without permission.
 -->
 <?php
+session_start();
 include '/sec/db.php';
 $conn = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $conn->prepare('SELECT role FROM staff WHERE name=?');

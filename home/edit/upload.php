@@ -14,10 +14,7 @@
     reused or redistributed without permission.
 -->
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-include '/sec/db.php';
+include '/var/www/html/validate.php';
 require '/var/www/html/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
