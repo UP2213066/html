@@ -17,7 +17,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
-exec ('/usr/local/bin/php -f /var/www/html/validate.php)') ;
+exec ('php -f /var/www/html/validate.php') ;
 ?>
 
 <!DOCTYPE html>
