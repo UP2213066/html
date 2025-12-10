@@ -84,10 +84,7 @@ if ($_POST['fileType'] === 'staffUpload') {
         foreach ($cellIterator as $cell) {
             $data[] = $cell->getValue();
         }
-        if ($data[0] === '' || $data[1] === '' || $data[2] === '') {
-            echo "Skipped blank row<br>";
-            continue;
-        }
+        var_dump($data);
         $preparedSQL->bind_param("sss", $data[0], $data[1], $data[2]);
         $preparedSQL->execute();
         if (!$preparedSQL) {
