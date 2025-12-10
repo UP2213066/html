@@ -19,7 +19,7 @@ ini_set('display_startup_errors', TRUE);
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("UPDATE students SET firstName=?, lastName=?, courseCode=?, moduleCode=?, supervisor=?, moderator=? WHERE id=?");
-$preparedSQL->bind_param("sssssss", $_POST['firstName'], $_POST['lastName'], $_POST['courseCode'], $_POST['moduleCode'], $_POST['supervisor'], $_POST['moderator'], $_SESSION['idToUpdate']);
+$preparedSQL->bind_param("sssssss", $_POST['firstName'], $_POST['lastName'], $_POST['course'], $_POST['module'], $_POST['supervisor'], $_POST['moderator'], $_SESSION['idToUpdate']);
 $preparedSQL->execute();
 $connection->close();
 $name = $_SESSION['name'];
