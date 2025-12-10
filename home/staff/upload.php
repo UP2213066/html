@@ -55,25 +55,25 @@ if ($_POST['fileType'] === 'staffUpload') {
     if ($first) {
         $first = false;
     } else {
-        $cellIterator = $row->getCellIterator();
-        $cellIterator->setIterateOnlyExistingCells(false);
-        $data = [];
-        foreach ($cellIterator as $cell) {
-            $data[] = $cell->getValue();
-        }
-        if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
-          break;
-        }
-        $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
-        $preparedSQL->execute();
-        if (!$preparedSQL) {
-          echo $connection->error;
-        }
-        $_SESSION['staffMessage'] = "Staff Uploaded Successfully";
-        header('location: /home/staff/');
-        exit();
+      $cellIterator = $row->getCellIterator();
+      $cellIterator->setIterateOnlyExistingCells(false);
+      $data = [];
+      foreach ($cellIterator as $cell) {
+          $data[] = $cell->getValue();
       }
+      if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
+        break;
+      }
+      $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
+      $preparedSQL->execute();
+      if (!$preparedSQL) {
+        echo $connection->error;
+      }
+    }
   }
+  $_SESSION['staffMessage'] = "Staff Uploaded Successfully";
+  header('location: /home/staff/');
+  exit();
 } elseif ($_POST['fileType'] === 'quotaUpload') {
   echo 'Processing quota upload...<br>';
   $connection = new mysqli($hostname, $username, $password, $database);
@@ -83,25 +83,25 @@ if ($_POST['fileType'] === 'staffUpload') {
     if ($first) {
         $first = false;
     } else {
-        $cellIterator = $row->getCellIterator();
-        $cellIterator->setIterateOnlyExistingCells(false);
-        $data = [];
-        foreach ($cellIterator as $cell) {
-            $data[] = $cell->getValue();
-        }
-        if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
-            break;
-        }
-        $preparedSQL->bind_param("sss", $data[2], $data[0], $data[1]);
-        $preparedSQL->execute();
-        if (!$preparedSQL) {
-            echo $connection->error;
-        }
-        $_SESSION['quotaMessage'] = "Quota Updated Successfully";
-        header('location: /home/staff/');
-        exit();
+      $cellIterator = $row->getCellIterator();
+      $cellIterator->setIterateOnlyExistingCells(false);
+      $data = [];
+      foreach ($cellIterator as $cell) {
+          $data[] = $cell->getValue();
+      }
+      if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
+          break;
+      }
+      $preparedSQL->bind_param("sss", $data[2], $data[0], $data[1]);
+      $preparedSQL->execute();
+      if (!$preparedSQL) {
+          echo $connection->error;
+      }  
     }
   }
+  $_SESSION['quotaMessage'] = "Quota Updated Successfully";
+  header('location: /home/staff/');
+  exit();
 } else {
   echo 'Invalid upload type.';
 }
