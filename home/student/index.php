@@ -51,6 +51,7 @@ include '/var/www/html/validate.php';
                 unset($_SESSION['studentMessage']);
                 echo "<br>";
             } ?>
+            <br>
             <a href="add/"><button>Add New Student</button></a>
         </main>
     </body>
