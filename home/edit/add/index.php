@@ -12,7 +12,7 @@
     </nav>
     <main>
         <h1>Add Staff Member</h1>
-            <form action="database_add.php" method="post">
+            <form action="add.php" method="post">
                 <label for="name">Name:</label>
                 <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
                 <label for="email">Email:</label>
@@ -25,7 +25,6 @@
                 <label for="role">Quota:</label>
                 <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
                 <input type="submit" value="Submit">
-                <button type="submit" formaction="delete_confirm.php">Delete</button>
             </form>
         </main>
     </body>
