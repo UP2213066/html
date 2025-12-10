@@ -40,6 +40,8 @@ include '/var/www/html/validate.php';
                 echo $_SESSION['search-error'];
             }
             ?>
+            <h2>View All Students</h2>
+            <a href="all.php"><button>All Students</button></a>
             <h2>Bulk Upload Students</h2>
             <form action="upload.php" method="post" enctype="multipart/form-data">
                 <input type="file" name="studentBulkUpload" id="studentBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
