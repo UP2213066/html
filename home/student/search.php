@@ -37,10 +37,10 @@ if ($_POST['searchType'] === "name") {
         header("Location: /home/student/");
         die();
     }
-} elseif ($_POST['searchType'] === "email") {
+} elseif ($_POST['searchType'] === "id") {
     $connection = new mysqli($hostname, $username, $password, $database);
-    $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students WHERE email=?");
-    $preparedSQL->bind_param("s", $_POST['email']);
+    $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students WHERE id=?");
+    $preparedSQL->bind_param("s", $_POST['id']);
     $preparedSQL->execute();
     $result = $preparedSQL->get_result();
     if ($result->num_rows > 0) {
