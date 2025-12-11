@@ -37,7 +37,7 @@ if ($_POST['searchType'] === "name") {
         header("Location: /home/student/");
         die();
     }
-} elseif ($_POST['searchType'] === "id") {
+} elseif ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (isset($_GET['id'])) {
         $_POST['id'] = $_GET['id'];
     }
