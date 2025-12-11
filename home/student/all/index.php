@@ -54,10 +54,10 @@ include '/var/www/html/validate.php';
                 }
                 if (isset($row['moderator'])) {
                     $moderator = $row['moderator'];
-                    echo " - Moderator: $moderator</a>";
+                    echo " - Moderator: $moderator</a><br>";
                 } else {
                     $moderator = "";
-                    echo " - No Moderator</a>";
+                    echo " - No Moderator</a><br>";
                 }
             }
         } else {
