@@ -41,7 +41,7 @@ include '/var/www/html/validate.php';
             }
             ?>
             <h2>View All Students</h2>
-            <a href="all.php"><button>All Students</button></a>
+            <a href="all/"><button>All Students</button></a>
             <h2>Bulk Upload Students</h2>
             <form action="upload.php" method="post" enctype="multipart/form-data">
                 <input type="file" name="studentBulkUpload" id="studentBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
