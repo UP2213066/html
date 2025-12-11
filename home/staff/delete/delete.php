@@ -27,5 +27,5 @@ session_unset();
 $_SESSION['name'] = $name;
 $_SESSION['role'] = $role;
 $_SESSION['email'] = $email;
-header("Location: /home/edit");
+header("Location: /home/staff/");
 die();
