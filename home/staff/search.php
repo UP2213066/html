@@ -26,6 +26,7 @@ if ($_POST['searchType'] === "name") {
         while ($row = $result->fetch_assoc()) {
             $name = $row['name'];
             $email = $row['email'];
+            $_SESSION['nameToUpdate'] = $name;
             $_SESSION['emailToUpdate'] = $email;
             $role = $row['role'];
             $quota = $row['quota'];
@@ -51,6 +52,7 @@ if ($_POST['searchType'] === "name") {
         while ($row = $result->fetch_assoc()) {
             $name = $row['name'];
             $email = $row['email'];
+            $_SESSION['nameToUpdate'] = $name;
             $_SESSION['emailToUpdate'] = $email;
             $role = $row['role'];
             $quota = $row['quota'];
