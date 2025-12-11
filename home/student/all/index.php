@@ -44,18 +44,20 @@ if ($result->num_rows > 0) {
         $_SESSION['nameToUpdate'] = $name;
         $course = $row['courseCode'];
         $module = $row['moduleCode'];
-        echo "<p>$id - $name - $course - $module";
+        echo "<p>UP$id - $name - $course - $module";
         if (isset($row['supervisor'])) {
             $supervisor = $row['supervisor'];
             echo " - $supervisor";
         } else {
             $supervisor = "";
+            echo " - No Supervisor";
         }
         if (isset($row['moderator'])) {
             $moderator = $row['moderator'];
             echo " - $moderator</p>";
         } else {
             $moderator = "";
+            echo " - No Moderator</p>";
         }
     }
 } else {
