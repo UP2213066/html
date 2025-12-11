@@ -38,6 +38,9 @@ if ($_POST['searchType'] === "name") {
         die();
     }
 } elseif ($_POST['searchType'] === "id") {
+    if (isset($_GET['id'])) {
+        $_POST['id'] = $_GET['id'];
+    }
     $connection = new mysqli($hostname, $username, $password, $database);
     $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students WHERE id=?");
     $preparedSQL->bind_param("s", $_POST['id']);

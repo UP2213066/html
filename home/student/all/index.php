@@ -44,7 +44,7 @@ if ($result->num_rows > 0) {
         $_SESSION['nameToUpdate'] = $name;
         $course = $row['courseCode'];
         $module = $row['moduleCode'];
-        echo "<p>UP$id - $name | Course: $course - FYP Module: $module";
+        echo "<a href='/home/student/search.php?id=$id'>UP$id - $name | Course: $course - FYP Module: $module";
         if (isset($row['supervisor'])) {
             $supervisor = $row['supervisor'];
             echo " | Supervisor: $supervisor";
