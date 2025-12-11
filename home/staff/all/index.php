@@ -18,17 +18,17 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Student Editor</title>
+        <title>FYP Staff Editor</title>
         <link rel="stylesheet" href="/style.css?v=1">
     </head>
     <body>
     <nav class="navigationBar">
         <a class="home" href="/home/">University of Portsmouth</a>
         <a href="/logout.php">Logout</a>
-        <a href="./">Back</a>
+        <a href="../">Back</a>
     </nav>
     <main>
-        <h1>All Students</h1>
+        <h1>All Staff</h1>
         <?php
         $connection = new mysqli($hostname, $username, $password, $database);
         $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff");
