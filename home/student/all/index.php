@@ -54,10 +54,10 @@ if ($result->num_rows > 0) {
         }
         if (isset($row['moderator'])) {
             $moderator = $row['moderator'];
-            echo " - Moderator: $moderator</p>";
+            echo " - Moderator: $moderator</a>";
         } else {
             $moderator = "";
-            echo " - No Moderator</p>";
+            echo " - No Moderator</a>";
         }
     }
 } else {
