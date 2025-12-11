@@ -37,7 +37,10 @@ if ($_POST['searchType'] === "name") {
         header("Location: /home/staff/");
         die();
     }
-} elseif ($_POST['searchType'] === "email") {
+} elseif ($_POST['searchType'] === "email" || isset($_GET['email'])) {
+    if (isset($_GET['email'])) {
+        $_POST['email'] = $_GET['email'];
+    }
     $connection = new mysqli($hostname, $username, $password, $database);
     $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email=?");
     $preparedSQL->bind_param("s", $_POST['email']);
