@@ -90,7 +90,7 @@ if ($_POST['searchType'] === "name") {
     <nav class="navigationBar">
         <a class="home" href="/home/">University of Portsmouth</a>
         <a href="/logout.php">Logout</a>
-        <a href="./">Back</a>
+        <a href="../">Back</a>
     </nav>
     <main>
         <?php echo "<h1>" . $name . "</h1>" ?>
