@@ -27,6 +27,7 @@ include '/var/www/html/validate.php';
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
             <a href="../">Back</a>
+            a
         </nav>
         <main>
             <?php 
