@@ -19,7 +19,7 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Staff Editor</title>
+        <title>FYP Student Editor</title>
         <link rel="stylesheet" href="/style.css?v=2">
     </head>
     <body>
