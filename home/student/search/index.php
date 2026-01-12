@@ -19,21 +19,20 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Staff Editor</title>
+        <title>FYP Student Editor</title>
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <nav class="navigationBar">
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
-            <a href="../">Back</a>
         </nav>
         <main>
-            <h1>Staff Editor</h1>
-            <h2>Search For A Staff Member By Email</h2>
-            <form action="/home/staff/search/search.php" method="post">
-                <input type="text" name="email" id="email" placeholder="Email Address">
-                <input type="hidden" name="searchType" value="email">
+            <h1>Student Editor</h1>
+            <h2>Search For A Student By Student Number</h2>
+            <form action="search.php" method="post">
+                <input type="text" name="id" id="id" placeholder="Student Number">
+                <input type="hidden" name="searchType" value="id">
                 <input type="submit" value="Search">
             </form>
             <?php

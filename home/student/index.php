@@ -6,7 +6,7 @@
     Year: 2025/26
 
     Description: This file is responsible for displaying the admin team member's
-    home page so that they can undertake various tasks.
+    home page so that they can undertake on a various tasks.
 
     © 2025 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
@@ -19,43 +19,26 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Student Editor</title>
-        <link rel="stylesheet" href="/style.css">
+        <title>FYP Staff Editor</title>
+        <link rel="stylesheet" href="/style.css?v=2">
     </head>
     <body>
         <nav class="navigationBar">
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
+            <a href="../">Back</a>
         </nav>
         <main>
-            <h1>Student Editor</h1>
-            <h2>Search For A Student By Student Number</h2>
-            <form action="search.php" method="post">
-                <input type="text" name="id" id="id" placeholder="Student Number">
-                <input type="hidden" name="searchType" value="id">
-                <input type="submit" value="Search">
-            </form>
-            <?php
-            if (isset($_SESSION['search-error'])) {
-                echo $_SESSION['search-error'];
-            }
+            <?php 
+            echo '<h1>Welcome, ' . $_SESSION['name'] . '!</h1>';
             ?>
-            <h2>View All Students</h2>
-            <a href="all/"><button>All Students</button></a>
-            <h2>Bulk Upload Students</h2>
-            <form action="upload.php" method="post" enctype="multipart/form-data">
-                <input type="file" name="studentBulkUpload" id="studentBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
-                <input type="hidden" name="fileType" value="studentUpload">
-                <input type="submit" value="Upload">
-            </form>
-            <?php if (isset($_SESSION['studentMessage'])) {
-                echo $_SESSION['studentMessage'];
-                unset($_SESSION['studentMessage']);
-                echo "<br>";
-            } ?>
-            <br>
-            <a href="add/"><button>Add New Student</button></a>
+            <section class="actionGridSection">
+                <button class="actionGridButton" onclick="window.location.href='/home/staff/all/'">View All Students</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/staff/search/'">Search Students</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/staff/add/'">Add Student</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/staff/upload/'">Upload Students</button>
+            </section>
         </main>
+       <?php include '/var/www/html/footer.php';?>
     </body>
-    <?php include '/var/www/html/footer.php';?>
 </html>

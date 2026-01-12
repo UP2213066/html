@@ -19,28 +19,28 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Staff Editor</title>
+        <title>FYP Student Editor</title>
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <nav class="navigationBar">
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
-            <a href="../">Back</a>
         </nav>
         <main>
-            <h1>Staff Editor</h1>
-            <h2>Search For A Staff Member By Email</h2>
-            <form action="/home/staff/search/search.php" method="post">
-                <input type="text" name="email" id="email" placeholder="Email Address">
-                <input type="hidden" name="searchType" value="email">
-                <input type="submit" value="Search">
+            <h1>Student Editor</h1>
+            <h2>Bulk Upload Students</h2>
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+                <input type="file" name="studentBulkUpload" id="studentBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
+                <input type="hidden" name="fileType" value="studentUpload">
+                <input type="submit" value="Upload">
             </form>
-            <?php
-                if (isset($_SESSION['search-error'])) {
-                    echo $_SESSION['search-error'];
-                }
-            ?>
+            <?php if (isset($_SESSION['studentMessage'])) {
+                echo $_SESSION['studentMessage'];
+                unset($_SESSION['studentMessage']);
+                echo "<br>";
+            } ?>
+            <br>
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>
