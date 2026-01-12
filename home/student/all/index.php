@@ -45,14 +45,14 @@ include '/var/www/html/validate.php';
                 $course = $row['courseCode'];
                 $module = $row['moduleCode'];
                 echo "<a href='/home/student/search.php?id=$id'>UP$id - $name | Course: $course - FYP Module: $module";
-                if (isset($row['supervisor'])) {
+                if (isset($row['supervisor']) && !empty($row['supervisor'])) {
                     $supervisor = $row['supervisor'];
                     echo " | Supervisor: $supervisor";
                 } else {
                     $supervisor = "";
                     echo " | No Supervisor";
                 }
-                if (isset($row['moderator'])) {
+                if (isset($row['moderator']) && !empty($row['moderator'])) {
                     $moderator = $row['moderator'];
                     echo " - Moderator: $moderator</a><br>";
                 } else {
