@@ -90,7 +90,7 @@ if ($_POST['searchType'] === "name") {
     </nav>
     <main>
         <?php echo "<h1>" . $name . "</h1>" ?>
-            <form action="update.php" method="post">
+            <form action="/home/staff/update.php" method="post">
                 <label for="name">Name:</label>
                 <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
                 <label for="email">Email:</label>

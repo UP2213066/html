@@ -94,7 +94,7 @@ if ($_POST['searchType'] === "name") {
     </nav>
     <main>
         <?php echo "<h1>" . $name . "</h1>" ?>
-            <form action="update.php" method="post">
+            <form action="/home/student/update.php" method="post">
                 <label for="firstName">First Name:</label>
                 <?php echo '<input type="text" id="firstName" name="firstName" value="' . $firstName . '">' ?>
                 <label for="lastName">Last Name:</label>
