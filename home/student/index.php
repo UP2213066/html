@@ -33,10 +33,10 @@ include '/var/www/html/validate.php';
             echo '<h1>Welcome, ' . $_SESSION['name'] . '!</h1>';
             ?>
             <section class="actionGridSection">
-                <button class="actionGridButton" onclick="window.location.href='/home/staff/all/'">View All Students</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/staff/search/'">Search Students</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/staff/add/'">Add Student</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/staff/upload/'">Upload Students</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/student/all/'">View All Students</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/student/search/'">Search Students</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/student/add/'">Add Student</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/student/upload/'">Upload Students</button>
             </section>
         </main>
        <?php include '/var/www/html/footer.php';?>
