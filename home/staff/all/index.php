@@ -44,7 +44,7 @@ include '/var/www/html/validate.php';
                 $quota = $row['quota'];
                 $allocatedStudents = $row['allocatedStudents'];
                 $studentsToAvoid = $row['studentsToAvoid'];
-                echo "<a href='/home/staff/search.php?email=$email'>$name - $email | Role: $role | Quota: $quota | Allocated Students: $allocatedStudents</a><br>";
+                echo "<a href='/home/staff/search/search.php?email=$email&return=all'>$name - $email | Role: $role | Quota: $quota | Allocated Students: $allocatedStudents</a><br>";
             }
         } else {
             $_SESSION['search-error'] = "Student Not Found";

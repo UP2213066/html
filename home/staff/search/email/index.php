@@ -6,7 +6,7 @@
     Year: 2025/26
 
     Description: This file is responsible for displaying the admin team member's
-    home page so that they can undertake on a various tasks.
+    home page so that they can undertake various tasks.
 
     © 2025 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
@@ -19,24 +19,24 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Admin Home</title>
-        <link rel="stylesheet" href="/style.css?v=2">
+        <title>FYP Staff Editor</title>
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <nav class="navigationBar">
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
-            <!-- <a href="/home/edit">Edit Staff</a> -->
+            <a href="../">Back</a>
         </nav>
         <main>
-            <?php 
-            echo '<h1>Welcome, ' . $_SESSION['name'] . '!</h1>';
-            ?>
-            <section class="actionGridSection">
-                <button class="actionGridButton" onclick="window.location.href='/home/staff'">Staff Editor</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/student'">Student Editor</button>
-            </section>
+            <h1>Staff Editor</h1>
+            <h2>Search For A Staff Member By Email</h2>
+            <form action="/home/staff/search/search.php" method="post">
+                <input type="text" name="email" id="email" placeholder="Email Address">
+                <input type="hidden" name="searchType" value="email">
+                <input type="submit" value="Search">
+            </form>
         </main>
-       <?php include '/var/www/html/footer.php';?>
     </body>
+    <?php include '/var/www/html/footer.php';?>
 </html>
