@@ -14,10 +14,13 @@
     reused or redistributed without permission.
 -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
-$preparedSQL->bind_param("sssss", $_POST['name'], $_POST['email'], $startPassword, $_POST['role'], $_POST['quota']);
+$preparedSQL = $connection->prepare("INSERT INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL) ON DUPLICATE KEY UPDATE id=VALUE(id), firstName=VALUE(firstName), lastName=VALUE(lastName), courseCode=VALUE(courseCode), moduleCode=VALUE(moduleCode)");
+$preparedSQL->bind_param("sssss", $_POST['id'], $_POST['fname'], $_POST['lname'], $_POST['course'], $_POST['module']);
 $preparedSQL->execute();
-header('Location: /home/staff/');
+header('Location: /home/student/');
 exit();

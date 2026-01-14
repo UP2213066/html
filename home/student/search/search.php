@@ -108,7 +108,7 @@ if ($_POST['searchType'] === "name") {
                 <label for="moderator">Moderator:</label>
                 <?php echo '<input type="text" id="moderator" name="moderator" value="' . $moderator . '">' ?>
                 <input type="submit" value="Submit">
-                <button type="submit" formaction="delete/">Delete</button>
+                <button type="submit" formaction="/home/student/delete/">Delete</button>
             </form>
         </main>
     </body>

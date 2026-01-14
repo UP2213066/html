@@ -11,19 +11,18 @@
         <a href="../">Back</a>
     </nav>
     <main>
-        <h1>Add Staff Member</h1>
+        <h1>Add Student</h1>
             <form action="add.php" method="post">
-                <label for="name">Name:</label>
-                <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
-                <label for="email">Email:</label>
-                <?php echo '<input type="text" id="email" name="email" value="' . $email . '">' ?>
-                <label for="role">Role:</label>
-                <select id="role" name="role">
-                    <option value="Admin">Admin</option>
-                    <option value="Supervisor/Moderator">Supervisor/Moderator</option>
-                </select>
-                <label for="role">Quota:</label>
-                <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
+                <label for="fname">First Name:</label>
+                <?php echo '<input type="text" id="fname" name="fname" value="' . $fname . '">' ?>
+                <label for="lname">Last Name:</label>
+                <?php echo '<input type="text" id="lname" name="lname" value="' . $lname . '">' ?>
+                <label for="id">Student Number:</label>
+                <?php echo '<input type="text" id="id" name="id" value="' . $id . '">' ?>
+                <label for="course">Course Code:</label>
+                <?php echo '<input type="text" id="course" name="course" value="' . $course . '">' ?>
+                <label for="module">Module Code:</label>
+                <?php echo '<input type="text" id="module" name="module" value="' . $module . '">' ?>
                 <input type="submit" value="Submit">
             </form>
         </main>

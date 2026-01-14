@@ -103,7 +103,7 @@ if ($_POST['searchType'] === "name") {
                 <label for="role">Quota:</label>
                 <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
                 <input type="submit" value="Submit">
-                <button type="submit" formaction="delete/">Delete</button>
+                <button type="submit" formaction="/home/staff/delete/">Delete</button>
             </form>
         </main>
     </body>
