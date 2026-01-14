@@ -23,7 +23,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $targetDir = '/uploads/';
 echo 'Uploading file...<br>';
-$file = $_FILES['staffBulkUpload'];
+$file = $_FILES['fileUpload'];
 $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 $uniqueName = bin2hex(uniqid()) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;

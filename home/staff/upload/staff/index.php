@@ -32,7 +32,7 @@ include '/var/www/html/validate.php';
             <h1>Staff Editor</h1>
             <h2>Bulk Upload Staff</h2>
             <form action="/home/upload/" method="post" enctype="multipart/form-data">
-                <input type="file" name="staffBulkUpload" id="staffBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
+                <input type="file" name="fileUpload" id="fileUpload" accept=".xlsx,.xls,.ods,.csv" required>
                 <input type="hidden" name="fileType" value="staffUpload">
                 <input type="submit" value="Upload">
             </form>
