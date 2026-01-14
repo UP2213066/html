@@ -31,7 +31,7 @@ include '/var/www/html/validate.php';
         <main>
             <h1>Student Editor</h1>
             <h2>Bulk Upload Students</h2>
-            <form action="upload.php" method="post" enctype="multipart/form-data">
+            <form action="/home/upload/" method="post" enctype="multipart/form-data">
                 <input type="file" name="studentBulkUpload" id="studentBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
                 <input type="hidden" name="fileType" value="finalStudentUpload">
                 <input type="submit" value="Upload">
