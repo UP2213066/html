@@ -87,7 +87,21 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
                 <input type="submit" value="Submit">
                 <button type="submit" formaction="/home/student/delete/">Delete</button>
             </form>
-            <h1>Notes:</h1>
+            <?php
+                $connection = new mysqli($hostname, $username, $password, $database);
+                $preparedSQL = $connection->prepare("SELECT id, note FROM student_notes WHERE studentID=?");
+                $preparedSQL->bind_param("s", $_POST['id']);
+                $preparedSQL->execute();
+                $result = $preparedSQL->get_result();
+                if ($result->num_rows > 0) {
+                    echo "<h2>Notes:</h2>";
+                    while ($row = $result->fetch_assoc()) {
+                        $note = $row['note'];
+                        $id = $row['id'];
+                        echo "<a href='/home/student/note?id=$id'> $note </a><br>";
+                    }
+                }
+            ?>
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>

@@ -44,7 +44,7 @@ include '/var/www/html/validate.php';
                 $_SESSION['nameToUpdate'] = $name;
                 $course = $row['courseCode'];
                 $module = $row['moduleCode'];
-                echo "<a href='/home/student/search.php?id=$id'>UP$id - $name | Course: $course - FYP Module: $module";
+                echo "<a href='/home/student/search/search.php?id=$id'>UP$id - $name | Course: $course - FYP Module: $module";
                 if (isset($row['supervisor']) && !empty($row['supervisor'])) {
                     $supervisor = $row['supervisor'];
                     echo " | Supervisor: $supervisor";
