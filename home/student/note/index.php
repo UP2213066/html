@@ -50,7 +50,7 @@ if (isset($_GET['id'])) {
         </nav>
         <main>
             <?php echo "<h1>Student Note</h1>" ?>
-            <form action="/home/student/update.php" method="post">
+            <form action="/home/student/note/update/" method="post">
                 <label for="note">Note Text:</label>
                 <?php echo '<input type="text" id="note" name="note" value="' . $note . '">' ?>
                 <input type="submit" value="Submit">

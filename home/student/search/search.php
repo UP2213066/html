@@ -93,16 +93,21 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
                 $preparedSQL->bind_param("s", $_POST['id']);
                 $preparedSQL->execute();
                 $result = $preparedSQL->get_result();
+                echo "<h2>Notes:</h2>";
                 if ($result->num_rows > 0) {
-                    echo "<h2>Notes:</h2>";
                     while ($row = $result->fetch_assoc()) {
                         $note = $row['note'];
                         $id = $row['id'];
                         echo "<a href='/home/student/note?id=$id'> $note </a><br>";
                     }
+                } else {
+                    echo "No Notes Found<br>";
                 }
             ?>
-            <a href="/home/student/note/add/">Add Note</a>
+            <form>
+                <button type="submit" formaction="/home/student/note/add/">Add Note</button>
+            </form>
+            
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>
