@@ -36,11 +36,6 @@ include '/var/www/html/validate.php';
                 <input type="hidden" name="fileType" value="quotaUpload">
                 <input type="submit" value="Upload">
             </form>
-            <?php if (isset($_SESSION['quotaMessage'])) {
-                echo $_SESSION['quotaMessage'];
-                unset($_SESSION['quotaMessage']);
-                echo "<br>";
-            } ?>
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>
