@@ -133,7 +133,38 @@ if ($_POST['fileType'] === 'staffUpload') {
   $_SESSION['studentMessage'] = "Students Uploaded Successfully";
   header('location: /home/student/');
   exit();
-} else {
+} elseif ($_POST['fileType'] === 'placementStudentUpload') {
+  echo 'Processing placement student upload...<br>';
+  $connection = new mysqli($hostname, $username, $password, $database);
+  $preparedSQL = $connection->prepare("INSERT IGNORE INTO placement_students VALUES(?, ?, ?, ?)");
+  $first = true;
+  foreach ($sheet->getRowIterator() as $row) {
+    if ($first) {
+        $first = false;
+    } else {
+      $cellIterator = $row->getCellIterator();
+      $cellIterator->setIterateOnlyExistingCells(false);
+      $data = [];
+      foreach ($cellIterator as $cell) {
+          $data[] = $cell->getValue();
+      }
+      if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL || $data[3] === NULL) {
+        break;
+      }
+      if (strtoupper(substr($data[0], 0, 2) == "UP")) {
+        $data[0] = substr($data[0],2);
+      }
+      $preparedSQL->bind_param("ssss", $data[0], $data[1], $data[2], $data[3]);
+      $preparedSQL->execute();
+      if (!$preparedSQL) {
+        echo $connection->error;
+      }
+    }
+  }
+  $_SESSION['studentMessage'] = "Students Uploaded Successfully";
+  header('location: /home/student/');
+  exit();
+}else {
   echo 'Invalid upload type.';
 }
 if (file_exists($targetFile)) {
