@@ -102,6 +102,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
                     }
                 }
             ?>
+            <a href="/home/student/note/add/">Add Note</a>
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>
