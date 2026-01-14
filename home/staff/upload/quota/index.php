@@ -6,7 +6,7 @@
     Year: 2025/26
 
     Description: This file is responsible for displaying the admin team member's
-    home page so that they can undertake on a various tasks.
+    home page so that they can undertake various tasks.
 
     © 2025 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
@@ -20,7 +20,7 @@ include '/var/www/html/validate.php';
 <html>
     <head>
         <title>FYP Staff Editor</title>
-        <link rel="stylesheet" href="/style.css?v=2">
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <nav class="navigationBar">
@@ -29,14 +29,19 @@ include '/var/www/html/validate.php';
             <a href="../">Back</a>
         </nav>
         <main>
-            <?php 
-            echo '<h1>Welcome, ' . $_SESSION['name'] . '!</h1>';
-            ?>
-            <section class="actionGridSection">
-                <button class="actionGridButton" onclick="window.location.href='/home/staff/upload/staff/'">Upload Staff</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/staff/upload/quota/'">Upload Staff Quota</button>
-            </section>
+            <h1>Staff Editor</h1>
+            <h2>Bulk Upload Staff Quota</h2>
+            <form action="/home/upload/" method="post" enctype="multipart/form-data">
+                <input type="file" name="staffBulkUpload" id="staffBulkUpload" accept=".xlsx,.xls,.ods,.csv" required>
+                <input type="hidden" name="fileType" value="quotaUpload">
+                <input type="submit" value="Upload">
+            </form>
+            <?php if (isset($_SESSION['quotaMessage'])) {
+                echo $_SESSION['quotaMessage'];
+                unset($_SESSION['quotaMessage']);
+                echo "<br>";
+            } ?>
         </main>
-       <?php include '/var/www/html/footer.php';?>
     </body>
+    <?php include '/var/www/html/footer.php';?>
 </html>
