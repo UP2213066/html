@@ -68,6 +68,15 @@ if ($result->num_rows > 0) {
         $projectCodes = explode(",", $row['projectCodes']);
         $projectNames = explode(",", $row['projectNames']);
     }
+    foreach($projectCodes as $code) {
+        if ($code === $module) {
+            $index = array_search($code, $projectCodes);
+            $currentProjectCode = $projectCodes[$index];
+            $currentProjectName = $projectNames[$index];
+            array_splice($projectCodes, $index, 1);
+            array_splice($projectNames, $index, 1);
+        }
+    }
 } 
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("SELECT courseCode FROM projects");
@@ -129,6 +138,7 @@ if ($result->num_rows > 0) {
                     if ($projectCodes == []) {
                         echo "<option value='NONE'>NO MODULES FOUND</option>";
                     } else {
+                        echo "<option value='$currentProjectCode'>$currentProjectName - $currentProjectCode</option>";
                         foreach($projectCodes as $code) {
                             $name = $projectNames[$index];
                             echo "<option value='$code'>$name - $code</option>";
