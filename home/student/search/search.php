@@ -77,6 +77,9 @@ if ($result->num_rows > 0) {
             $currentProjectName = $index;
             array_splice($projectCodes, $index, 1);
             array_splice($projectNames, $index, 1);
+        } else {
+            $currentProjectCode = "No Match";
+            $currentProjectName = "No Match";
         }
     }
 } 
