@@ -21,7 +21,6 @@ form input select option {
 }
 label {
   display: block;       
-  margin-bottom: 1em; 
 }
 .actionGridSection {
   position: absolute;
@@ -60,7 +59,4 @@ label {
   padding: 1em;
   text-decoration: none;  
   font-size: 1.25em;
-}
-label {
-  padding-bottom: 0;
 }
