@@ -64,19 +64,22 @@ $preparedSQL->bind_param("s", $course);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 if ($result->num_rows > 0) {
+    $projectCodes = [];
+    $projectNames = [];
     while ($row = $result->fetch_assoc()) {
-        $projectCodes = explode(",", $row['projectCodes']);
-        $projectNames = explode(",", $row['projectNames']);
+        $projectCodes = array_merge($projectCodes, explode(",", $row['projectCodes']));
+        $projectNames = array_merge($projectNames, explode(",", $row['projectNames']));
     }
     foreach($projectCodes as $code) {
-        if ($code === $module) {
+        if ($code == $module) {
             $index = array_search($code, $projectCodes);
-            echo $index;
             $currentProjectCode = $projectCodes[$index];
             $currentProjectName = $projectNames[$index];
-            array_splice($projectCodes, $index, 1);
-            array_splice($projectNames, $index, 1);
         }
+    }
+    if (isset($index)) {
+        array_splice($projectCodes, $index, 1);
+        array_splice($projectNames, $index, 1);
     }
 } 
 $connection = new mysqli($hostname, $username, $password, $database);
