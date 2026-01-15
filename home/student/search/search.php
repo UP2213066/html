@@ -67,11 +67,11 @@ if ($result->num_rows > 0) {
     $projectCodes = [];
     $projectNames = [];
     while ($row = $result->fetch_assoc()) {
-        $projectCodes = explode(",", $row['projectCodes']);
-        $projectNames = explode(",", $row['projectNames']);
+        $projectCodes[] = explode(",", $row['projectCodes']);
+        $projectNames[] = explode(",", $row['projectNames']);
     }
     foreach($projectCodes as $code) {
-        echo "$code - $module";
+        echo "$projectCodes";
         if (trim($code) == trim($module)) {
             $index = array_search($code, $projectCodes);
             echo $index;
