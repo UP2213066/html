@@ -71,6 +71,7 @@ if ($result->num_rows > 0) {
     foreach($projectCodes as $code) {
         if ($code === $module) {
             $index = array_search($code, $projectCodes);
+            echo $index;
             $currentProjectCode = $projectCodes[$index];
             $currentProjectName = $projectNames[$index];
             array_splice($projectCodes, $index, 1);
