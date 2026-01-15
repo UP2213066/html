@@ -89,7 +89,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
                 <br>
                 <label for="moderator">Moderator:</label>
                 <?php echo '<input type="text" id="moderator" name="moderator" value="' . $moderator . '">' ?>
-                <br>
+                <br><br>
                 <input type="submit" value="Submit Changes">
                 <br><br>
                 <button type="submit" formaction="/home/student/delete/">Delete Student</button>
