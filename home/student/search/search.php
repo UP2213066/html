@@ -50,12 +50,12 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
         }
     } else {
         $_SESSION['search-error'] = "Student Not Found";
-        header("Location: /home/student/");
+        header("Location: /home/student/search/");
         die();
     }
 } else {
     $_SESSION['search-error'] = "Student Not Found";
-    header("Location: /home/student/");
+    header("Location: /home/student/search/");
     die();
 }
 ?>
