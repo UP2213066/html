@@ -74,19 +74,19 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
             <form action="/home/student/update.php" method="post">
                 <label for="firstName">First Name:</label>
                 <?php echo '<input type="text" id="firstName" name="firstName" value="' . $firstName . '">' ?>
-                <br>
+                <br><br>
                 <label for="lastName">Last Name:</label>
                 <?php echo '<input type="text" id="lastName" name="lastName" value="' . $lastName . '">' ?>
-                <br>
+                <br><br>
                 <label for="course">Course Code:</label>
                 <?php echo '<input type="text" id="course" name="course" value="' . $course . '">' ?>
-                <br>
+                <br><br>
                 <label for="module">Module Code:</label>
                 <?php echo '<input type="text" id="module" name="module" value="' . $module . '">' ?>
-                <br>
+                <br><br>
                 <label for="supervisor">Supervisor:</label>
                 <?php echo '<input type="text" id="supervisor" name="supervisor" value="' . $supervisor . '">' ?>
-                <br>
+                <br><br>
                 <label for="moderator">Moderator:</label>
                 <?php echo '<input type="text" id="moderator" name="moderator" value="' . $moderator . '">' ?>
                 <br><br>
