@@ -71,6 +71,7 @@ if ($result->num_rows > 0) {
         $projectNames = explode(",", $row['projectNames']);
     }
     foreach($projectCodes as $code) {
+        echo "$code - $module";
         if (trim($code) == trim($module)) {
             $index = array_search($code, $projectCodes);
             echo $index;
