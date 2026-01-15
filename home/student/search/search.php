@@ -68,7 +68,21 @@ if ($result->num_rows > 0) {
         $projectCodes = explode(",", $row['projectCodes']);
         $projectNames = explode(",", $row['projectNames']);
     }
-}    
+} 
+$connection = new mysqli($hostname, $username, $password, $database);
+$preparedSQL = $connection->prepare("SELECT courseCode FROM projects");
+$preparedSQL->execute();
+$result = $preparedSQL->get_result();
+$courseCodes = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        if ($row['courseCode'] === $course) {
+            $currentCourse = $row['courseCode'];
+        } else {
+            $courseCodes[] = $row['courseCode'];
+        }
+    }
+} 
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +107,20 @@ if ($result->num_rows > 0) {
                 <?php echo '<input type="text" id="lastName" name="lastName" value="' . $lastName . '">' ?>
                 <br><br>
                 <label for="course">Course Code:</label>
-                <?php echo '<input type="text" id="course" name="course" value="' . $course . '">' ?>
+                <select id="course" name="course">
+                    <?php
+                    $index = 0;
+                    if ($projectCodes == []) {
+                        echo "<option value='NONE'>NO MODULES FOUND</option>";
+                    } else {
+                        echo "<option value='$currentCourse'>$currentCourse</option>";
+                        foreach($courseCodes as $code) {
+                            echo "<option value='$code'>$code</option>";
+                            $index++;
+                        }
+                    }
+                    ?>
+                </select>
                 <br><br>
                 <label for="module">Module Code:</label>
                 <select id="module" name="module">
