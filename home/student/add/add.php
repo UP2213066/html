@@ -14,9 +14,6 @@
     reused or redistributed without permission.
 -->
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("INSERT INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL) ON DUPLICATE KEY UPDATE id=VALUE(id), firstName=VALUE(firstName), lastName=VALUE(lastName), courseCode=VALUE(courseCode), moduleCode=VALUE(moduleCode)");

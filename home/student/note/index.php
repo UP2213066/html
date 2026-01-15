@@ -46,7 +46,15 @@ if (isset($_GET['id'])) {
         <nav class="navigationBar">
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
-            <a href="../">Back</a>
+            <?php 
+                include "/var/www/html/redirects.php";
+                if (isset($_GET['redirect']) && isset($redirects[$_GET['redirect']])) {
+                    $redirect = $redirects[$_GET['redirect']];
+                    echo "<a href='$redirect'>Back</a>";
+                } else {
+                    echo "<a href='../'>Back</a>";
+                } 
+            ?>
         </nav>
         <main>
             <?php echo "<h1>Student Note</h1>" ?>

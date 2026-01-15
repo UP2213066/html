@@ -14,9 +14,6 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-error_reporting(E_ALL); 
-ini_set('display_errors', TRUE); 
-ini_set('display_startup_errors', TRUE);
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("DELETE FROM students WHERE id=?");
 $preparedSQL->bind_param("s", $_SESSION['idToUpdate']);
