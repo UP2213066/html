@@ -100,7 +100,7 @@ if ($result->num_rows > 0) {
                     <?php
                     $index = 0;
                     if ($projectCodes == []) {
-                        echo "<option value='BLANK'>NO MODULES FOUND</option>";
+                        echo "<option value=''>NO MODULES FOUND</option>";
                     } else {
                         foreach($projectCodes as $code) {
                             $name = $projectNames[$index];
