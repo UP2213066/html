@@ -39,7 +39,7 @@ include '/var/www/html/validate.php';
         <main>
             <h1>Staff Editor</h1>
             <h2>Search For A Staff Member By Name</h2>
-            <form action="/home/staff/search/search.php" method="post">
+            <form action="/home/staff/search/search.php?redirect=name_search" method="post">
                 <input type="text" name="firstName" id="firstName" placeholder="First Name">
                 <input type="text" name="lastName" id="lastName" placeholder="Last Name">
                 <input type="hidden" name="searchType" value="name">
