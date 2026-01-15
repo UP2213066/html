@@ -68,12 +68,11 @@ if ($result->num_rows > 0) {
         $projectCodes = explode(",", $row['projectCodes']);
         $projectNames = explode(",", $row['projectNames']);
     }
-    var_dump($projectCodes);
+    $projectCodeFound = false;
     foreach($projectCodes as $code) {
-        echo "$code = $module";
         if (trim($code) == trim($module)) {
+            $projectCodeFound = true;
             $index = array_search($code, $projectCodes);
-            echo $index;
             $currentProjectCode = $projectCodes[$index];
             $currentProjectName = $projectNames[$index];
             array_splice($projectCodes, $index, 1);
@@ -142,7 +141,9 @@ if ($result->num_rows > 0) {
                     if ($projectCodes == []) {
                         echo "<option value='NONE'>NO MODULES FOUND</option>";
                     } else {
-                        echo "<option value='$currentProjectCode'>$currentProjectName - $currentProjectCode</option>";
+                        if ($projectCodeFound) {
+                            echo "<option value='$currentProjectCode'>$currentProjectName - $currentProjectCode</option>";
+                        }
                         foreach($projectCodes as $code) {
                             $name = $projectNames[$index];
                             echo "<option value='$code'>$name - $code</option>";
