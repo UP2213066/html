@@ -112,12 +112,12 @@ if ($result->num_rows > 0) {
                 include "/redirects.php";
                 $redirect = $redirects[$_GET['redirect']];
                 if ($redirect != "") {
-                    echo "<a href="$redirect">Back</a>"
+                    echo "<a href="$redirect">Back</a>";
                 } else {
-                    echo "<a href="../">Back</a>"
+                    echo "<a href="../">Back</a>";
                 }
             } else {
-                echo "<a href="../">Back</a>"
+                echo "<a href="../">Back</a>";
             }
         </nav>
         <main>
