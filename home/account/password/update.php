@@ -37,9 +37,11 @@ if (password_verify($_POST['current'], $currentPassword)) {
         $connection->close();
         header("Location: /logout.php");
     } else {
+        $_SESSION['passwordUpdateError'] = "Passwords Must Match";
         header("Location: /home/account/password");
     }
 } else {
+    $_SESSION['passwordUpdateError'] = "Passwords Incorrect";
     header("Location: /home/account/password");
 }
 die();

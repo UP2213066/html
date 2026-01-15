@@ -47,6 +47,7 @@ include '/var/www/html/validate.php';
                 <input type="password" id="new2" name="new2">
                 <input type="submit" value="Submit">
             </form>
+            <?php echo $_SESSION['passwordUpdateError'] ?>
         </main>
     </body>
     <?php include '/var/www/html/footer.php';?>
