@@ -43,7 +43,7 @@ include '/var/www/html/validate.php';
                 <input type="password" id="current" name="current">
                 <label for="new1">Enter New Password:</label>
                 <input type="password" id="new1" name="new1">
-                <label for="new2">Quota:</label>
+                <label for="new2">Re-enter New Password:</label>
                 <input type="password" id="new2" name="new2">
                 <input type="submit" value="Submit">
             </form>
