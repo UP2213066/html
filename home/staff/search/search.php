@@ -87,7 +87,7 @@ if ($_POST['searchType'] === "name") {
                 $redirect = $redirects[$_GET['redirect']];
                 echo "<a href='$redirect'>Back</a>";
             } else {
-                echo "<a href='../'>Back</a>";
+                echo "<a href='./'>Back</a>";
             } 
         ?>
     </nav>
