@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
 $connection->close();
 if (password_verify($_POST['current'], $password)) {
     if ($_POST['new1'] === $_POST['new2']) {
-        $password = password_hash($_POST['new1'], PASSWORD_DEFAULT);
+        $updatedPassword = password_hash($_POST['new1'], PASSWORD_DEFAULT);
         $connection = new mysqli($hostname, $username, $password, $database);
         $preparedSQL = $connection->prepare("UPDATE staff SET password = ? WHERE email = ?");
         $preparedSQL->bind_param("ss", $password, $_SESSION['email']);
