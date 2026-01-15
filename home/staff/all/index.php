@@ -39,7 +39,8 @@ include '/var/www/html/validate.php';
         <h1>All Staff</h1>
         <?php
         $connection = new mysqli($hostname, $username, $password, $database);
-        $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff");
+        $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email <> ?");
+        $preparedSQL->bind_param("s", $_SESSION['email']);
         $preparedSQL->execute();
         $result = $preparedSQL->get_result();
         if ($result->num_rows > 0) {
