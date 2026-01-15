@@ -65,7 +65,7 @@ $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 if ($result->num_rows > 0) {
     $projectCodes = [];
-    $projectNames = []
+    $projectNames = [];
     while ($row = $result->fetch_assoc()) {
         $projectCodes = explode(",", $row['projectCodes']);
         $projectNames = explode(",", $row['projectNames']);
@@ -73,9 +73,8 @@ if ($result->num_rows > 0) {
     foreach($projectCodes as $code) {
         if ($code === $module) {
             $index = array_search($code, $projectCodes);
-            echo $index;
-            $currentProjectCode = $projectCodes[$index];
-            $currentProjectName = $projectNames[$index];
+            $currentProjectCode = $index;
+            $currentProjectName = $index;
             array_splice($projectCodes, $index, 1);
             array_splice($projectNames, $index, 1);
         }
