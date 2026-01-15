@@ -104,8 +104,8 @@ if ($result->num_rows > 0) {
                     foreach($projectCodes as $code) {
                         $name = $projectNames[$index];
                         echo "<option value='$code'>$name - $code</option>";
+                        $index++;
                     }
-                    $index += 1;
                     ?>
                 </select>
                 <br><br>
