@@ -1,5 +1,5 @@
 <?php
-$redirects = ["student_all" => "/home/students/all/"];
+$redirects = ["student_all" => "/home/student/all/"];
 
 if (isset($_GET['redirect']) && isset($redirects[$_GET['redirect']])) {
     $redirect = $redirects[$_GET['redirect']];
