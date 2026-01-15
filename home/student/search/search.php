@@ -89,7 +89,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
                     <option value="M34704">Engineering - M34704</option>
                     <option value="M34703">Study - M34703</option>
                 </select>
-                <?php echo "<a href='https://course-module-catalog.port.ac.uk/#/courseDetail/$course/'>Course Page</a>"
+                <?php echo "<a href='https://course-module-catalog.port.ac.uk/#/courseDetail/$course/'>Course Page</a>"; ?>
                 <br><br>
                 <label for="supervisor">Supervisor:</label>
                 <?php echo '<input type="text" id="supervisor" name="supervisor" value="' . $supervisor . '">' ?>
