@@ -107,7 +107,7 @@ if ($result->num_rows > 0) {
         <nav class="navigationBar">
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
-            <?php include "/redirects.php"; ?>
+            <?php include "/redirects.php" ?>
         </nav>
         <main>
             <?php echo "<h1>" . $name . "</h1>" ?>
