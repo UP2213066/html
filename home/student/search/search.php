@@ -119,6 +119,7 @@ if ($result->num_rows > 0) {
             } else {
                 echo "<a href="../">Back</a>";
             }
+            ?>
         </nav>
         <main>
             <?php echo "<h1>" . $name . "</h1>" ?>
