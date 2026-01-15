@@ -84,8 +84,10 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
                 <?php echo '<input type="text" id="supervisor" name="supervisor" value="' . $supervisor . '">' ?>
                 <label for="moderator">Moderator:</label>
                 <?php echo '<input type="text" id="moderator" name="moderator" value="' . $moderator . '">' ?>
-                <input type="submit" value="Submit">
-                <button type="submit" formaction="/home/student/delete/">Delete</button>
+                <br>
+                <input type="submit" value="Submit Changes">
+                <br>
+                <button type="submit" formaction="/home/student/delete/">Delete Student</button>
             </form>
             <?php
                 $connection = new mysqli($hostname, $username, $password, $database);
