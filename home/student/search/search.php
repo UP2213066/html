@@ -61,7 +61,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
 <html>
     <head>
         <title>FYP Student Editor</title>
-        <link rel="stylesheet" href="/style.css?v=1">
+        <link rel="stylesheet" href="/style.css?v=2">
     </head>
     <body>
         <nav class="navigationBar">
