@@ -26,16 +26,16 @@ $result = $preparedSQL->get_result();
 if ($result->num_rows > 0) {
     unset($_SESSION['search-error']);
     while ($row = $result->fetch_assoc()) {
-        $password = $row['password'];
+        $currentPassword = $row['password'];
     }
 }
 $connection->close();
-if (password_verify($_POST['current'], $password)) {
+if (password_verify($_POST['current'], $currentPassword)) {
     if ($_POST['new1'] === $_POST['new2']) {
         $updatedPassword = password_hash($_POST['new1'], PASSWORD_DEFAULT);
         $connection = new mysqli($hostname, $username, $password, $database);
         $preparedSQL = $connection->prepare("UPDATE staff SET password = ? WHERE email = ?");
-        $preparedSQL->bind_param("ss", $password, $_SESSION['email']);
+        $preparedSQL->bind_param("ss", $updatedPassword, $_SESSION['email']);
         $preparedSQL->execute();
         $connection->close();
         header("Location: /logout.php");
