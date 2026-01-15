@@ -68,7 +68,7 @@ $projectNames = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $projectCodes[] = $row['projectCodes'];
-        $projectNames[] = $row['projectNames']
+        $projectNames[] = $row['projectNames'];
     }
 }    
 ?>
