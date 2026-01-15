@@ -63,12 +63,10 @@ $preparedSQL = $connection->prepare("SELECT projectCodes, projectNames FROM proj
 $preparedSQL->bind_param("s", $course);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
-$projectCodes = [];
-$projectNames = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $projectCodes[] = $row['projectCodes'];
-        $projectNames[] = $row['projectNames'];
+        $projectCodes = explode(",", $row['projectCodes']);
+        $projectNames = explode(",", $row['projectNames']);
     }
 }    
 ?>
