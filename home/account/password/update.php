@@ -28,7 +28,10 @@ if (password_verify($_POST['current'], $password)) {
         $preparedSQL->bind_param("ss", $password, $_SESSION['email']);
         $preparedSQL->execute();
         $connection->close();
+        header("Location: /logout.php");
+    } else {
+        header("Location: /account/password");
     }
+    header("Location: /account/password");
 }
-header("Location: /logout.php");
 die();
