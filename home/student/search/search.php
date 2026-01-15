@@ -107,19 +107,7 @@ if ($result->num_rows > 0) {
         <nav class="navigationBar">
             <a class="home" href="/home/">University of Portsmouth</a>
             <a href="/logout.php">Logout</a>
-            <?php
-            if (isset($_GET['redirect'])) {
-                include "/redirects.php";
-                $redirect = $redirects[$_GET['redirect']];
-                if ($redirect != "") {
-                    echo "<a href='$redirect'>Back</a>";
-                } else {
-                    echo "<a href='../''>Back</a>";
-                }
-            } else {
-                echo "<a href='../''>Back</a>";
-            }
-            ?>
+            <?php include "/redirects.php"; ?>
         </nav>
         <main>
             <?php echo "<h1>" . $name . "</h1>" ?>
