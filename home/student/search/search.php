@@ -71,16 +71,14 @@ if ($result->num_rows > 0) {
         $projectNames = explode(",", $row['projectNames']);
     }
     foreach($projectCodes as $code) {
-        if (trim($code) == trim($module)) {
+        if ($code === $module) {
             $index = array_search($code, $projectCodes);
-            $currentProjectCode = $index;
-            $currentProjectName = $index;
+            echo $index;
+            $currentProjectCode = $projectCodes[$index];
+            $currentProjectName = $projectNames[$index];
             array_splice($projectCodes, $index, 1);
             array_splice($projectNames, $index, 1);
             break;
-        } else {
-            $currentProjectCode = $module;
-            $currentProjectName = $code;
         }
     }
 } 
