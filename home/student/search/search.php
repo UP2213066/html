@@ -64,13 +64,10 @@ $preparedSQL->bind_param("s", $course);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 if ($result->num_rows > 0) {
-    $projectCodes = [];
-    $projectNames = [];
     while ($row = $result->fetch_assoc()) {
-        $projectCodes[] = explode(",", $row['projectCodes']);
-        $projectNames[] = explode(",", $row['projectNames']);
+        $projectCodes = explode(",", $row['projectCodes']);
+        $projectNames = explode(",", $row['projectNames']);
     }
-    var_dump(var_dump($projectCodes));
     foreach($projectCodes as $code) {
         if (trim($code) == trim($module)) {
             $index = array_search($code, $projectCodes);
