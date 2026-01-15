@@ -70,6 +70,7 @@ if ($result->num_rows > 0) {
     }
     var_dump($projectCodes);
     foreach($projectCodes as $code) {
+        echo "$code = $module";
         if (trim($code) == trim($module)) {
             $index = array_search($code, $projectCodes);
             echo $index;
