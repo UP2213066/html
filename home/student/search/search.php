@@ -35,7 +35,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
             $lastName = $row['lastName'];
             $name = $firstName . ' ' . $lastName;
             $_SESSION['nameToUpdate'] = $name;
-            $course = trim($row['courseCode']);
+            $course = $row['courseCode'];
             $module = $row['moduleCode'];
             if (isset($row['supervisor'])) {
                 $supervisor = $row['supervisor'];
@@ -58,6 +58,19 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     header("Location: /home/student/search/");
     die();
 }
+$connection = new mysqli($hostname, $username, $password, $database);
+$preparedSQL = $connection->prepare("SELECT projectCodes, projectNames FROM projects WHERE courseCode=?");
+$preparedSQL->bind_param("s", $course);
+$preparedSQL->execute();
+$result = $preparedSQL->get_result();
+$projectCodes = []
+$projectNames = []
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $projectCodes[] = $row['projectCodes'];
+        $projectNames[] = $row['projectNames']
+    }
+}    
 ?>
 
 <!DOCTYPE html>
@@ -86,10 +99,15 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
                 <br><br>
                 <label for="module">Module Code:</label>
                 <select id="module" name="module">
-                    <option value="M34704">Engineering - M34704</option>
-                    <option value="M34703">Study - M34703</option>
+                    <?php
+                    $index = 0;
+                    foreach($projectCodes as $code) {
+                        $name = $projectNames[$index];
+                        echo "<option value='$code'>$name - $code</option>"
+                    }
+                    $index += 1;
+                    ?>
                 </select>
-                <?php echo "<a href='https://course-module-catalog.port.ac.uk/#/courseDetail/$course/2025%2F26'>Course Page</a>"; ?>
                 <br><br>
                 <label for="supervisor">Supervisor:</label>
                 <?php echo '<input type="text" id="supervisor" name="supervisor" value="' . $supervisor . '">' ?>
