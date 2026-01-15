@@ -70,18 +70,23 @@ if ($result->num_rows > 0) {
         $projectCodes = array_merge($projectCodes, explode(",", $row['projectCodes']));
         $projectNames = array_merge($projectNames, explode(",", $row['projectNames']));
     }
-    foreach($projectCodes as $code) {
-        if ($code == $module) {
-            $index = array_search($code, $projectCodes);
-            $currentProjectCode = $projectCodes[$index];
+    $currentProjectCode = "";
+    $currentProjectName = "";
+
+    foreach ($projectCodes as $index => $code) {
+        if (trim($code) == trim($module)) {
+            $currentProjectCode = $code;
             $currentProjectName = $projectNames[$index];
+            unset($projectCodes[$index]);
+            unset($projectNames[$index]);
+            break;
         }
     }
-    if (isset($index)) {
-        array_splice($projectCodes, $index, 1);
-        array_splice($projectNames, $index, 1);
-    }
-} 
+
+    // optional: reindex arrays
+    $projectCodes = array_values($projectCodes);
+    $projectNames = array_values($projectNames);
+    } 
 $connection = new mysqli($hostname, $username, $password, $database);
 $preparedSQL = $connection->prepare("SELECT courseCode FROM projects");
 $preparedSQL->execute();
