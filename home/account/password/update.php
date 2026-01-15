@@ -42,6 +42,7 @@ if (password_verify($_POST['current'], $currentPassword)) {
     } else {
         header("Location: /home/account/password");
     }
+} else {
     header("Location: /home/account/password");
 }
 die();
