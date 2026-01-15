@@ -18,7 +18,9 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (isset($_GET['id'])) {
         $_POST['id'] = $_GET['id'];
     }
-    echo substr($_POST['id'], 0, 2);
+    if (strtoupper(substr($_POST['id'], 0, 2)) === "UP") {
+        $_POST['id'] = substr($_POST['id'], 2)
+    }
     $connection = new mysqli($hostname, $username, $password, $database);
     $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students WHERE id=?");
     $preparedSQL->bind_param("s", $_POST['id']);
