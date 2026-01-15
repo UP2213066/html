@@ -103,7 +103,7 @@ if ($result->num_rows > 0) {
                     $index = 0;
                     foreach($projectCodes as $code) {
                         $name = $projectNames[$index];
-                        echo "<option value='$code'>$name - $code</option>"
+                        echo "<option value='$code'>$name - $code</option>";
                     }
                     $index += 1;
                     ?>
