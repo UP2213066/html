@@ -41,7 +41,7 @@ if (password_verify($_POST['current'], $currentPassword)) {
         header("Location: /home/account/password");
     }
 } else {
-    $_SESSION['passwordUpdateError'] = "Passwords Incorrect";
+    $_SESSION['passwordUpdateError'] = "Password Incorrect";
     header("Location: /home/account/password");
 }
 die();
