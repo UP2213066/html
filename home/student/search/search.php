@@ -35,7 +35,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
             $lastName = $row['lastName'];
             $name = $firstName . ' ' . $lastName;
             $_SESSION['nameToUpdate'] = $name;
-            $course = $row['courseCode'];
+            $course = trim($row['courseCode']);
             $module = $row['moduleCode'];
             if (isset($row['supervisor'])) {
                 $supervisor = $row['supervisor'];
