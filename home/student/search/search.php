@@ -68,6 +68,7 @@ if ($result->num_rows > 0) {
         $projectCodes = explode(",", $row['projectCodes']);
         $projectNames = explode(",", $row['projectNames']);
     }
+    var_dump($projectCodes);
     foreach($projectCodes as $code) {
         if (trim($code) == trim($module)) {
             $index = array_search($code, $projectCodes);
