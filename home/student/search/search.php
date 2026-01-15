@@ -99,6 +99,9 @@ if ($result->num_rows > 0) {
                 <select id="module" name="module">
                     <?php
                     $index = 0;
+                    if ($projectCodes == []) {
+                        echo "<option value='BLANK'>NO MODULES FOUND</option>"
+                    }
                     foreach($projectCodes as $code) {
                         $name = $projectNames[$index];
                         echo "<option value='$code'>$name - $code</option>";
