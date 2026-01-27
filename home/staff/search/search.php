@@ -69,6 +69,17 @@ if ($_POST['searchType'] === "name") {
     header("Location: /home/staff/");
     die();
 }
+$allocatedStudents = [];
+$connection = new mysqli($hostname, $username, $password, $database);
+$preparedSQL = $connection->prepare("SELECT id FROM students WHERE supervisorEmail=?");
+$preparedSQL->bind_param("s", $email);
+$preparedSQL->execute();
+$result = $preparedSQL->get_result();
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $allocatedStudents[] = $row['id'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
