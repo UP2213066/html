@@ -5,10 +5,10 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for updating the database using the new
-    edited data sent.
+    Description: This file is responsible for processing the password update
+    request by validating the entered passwords and updating to the new password
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->

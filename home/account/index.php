@@ -5,10 +5,11 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for displaying the admin team member's
-    home page so that they can undertake on a various tasks.
+    Description: This file is responsible for displaying the options available to the
+    logged in user for managing their own account and redirecting them to the right
+    page.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->
