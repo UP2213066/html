@@ -44,30 +44,36 @@ include '/var/www/html/validate.php';
         $result = $preparedSQL->get_result();
         if ($result->num_rows > 0) {
             unset($_SESSION['search-error']);
+            echo "<table>";
+            echo "<tr style='font-size: 1.25em; background-color: purple; color: white;'>";
+            echo "<th>ID</th>";
+            echo "<th>Name</th>";
+            echo "<th>Course</th>";
+            echo "<th>Module</th>";
+            echo "<th>Supervisor</th>";
+            echo "<th>Moderator</th>";
+            echo "<th>Profile</th>";
+            echo "</tr>";
             while ($row = $result->fetch_assoc()) {
+                echo "<tr style='font-weight: normal;'>";
                 $id = $row['id'];
                 $firstName = $row['firstName'];
                 $lastName = $row['lastName'];
                 $name = $firstName . ' ' . $lastName;
-                $_SESSION['nameToUpdate'] = $name;
                 $course = $row['courseCode'];
                 $module = $row['moduleCode'];
-                echo "<a href='/home/student/search/search.php?id=$id&redirect=student_all'>UP$id - $name | Course: $course - FYP Module: $module";
-                if (isset($row['supervisor']) && !empty($row['supervisor'])) {
-                    $supervisor = $row['supervisor'];
-                    echo " | Supervisor: $supervisor";
-                } else {
-                    $supervisor = "";
-                    echo " | No Supervisor";
-                }
-                if (isset($row['moderator']) && !empty($row['moderator'])) {
-                    $moderator = $row['moderator'];
-                    echo " - Moderator: $moderator</a><br>";
-                } else {
-                    $moderator = "";
-                    echo " - No Moderator</a><br>";
-                }
+                $supervisor = $row['supervisor'] ?? "NO SUPERVISOR";
+                $moderator = $row['moderator'] ?? "NO MODERATOR";
+                echo "<th>$id</th>";
+                echo "<th>$name</th>";
+                echo "<th>$course</th>";
+                echo "<th>$module</th>";
+                echo "<th>$supervisor</th>";
+                echo "<th>$moderator</th>";
+                echo "<th><a href='/home/student/search/search.php?id=$id&redirect=student_all'>View Profile</a></th>";
+                echo "</tr>";
             }
+            echo "</table>";
         } else {
             $_SESSION['search-error'] = "Student Not Found";
             header("Location: /home/student/");

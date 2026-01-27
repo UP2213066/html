@@ -67,9 +67,7 @@ include '/var/www/html/validate.php';
                 echo "<th>$role</th>";
                 echo "<th>$quota</th>";
                 echo "<th>$allocatedStudents</th>";
-                echo "<form>";
                 echo "<th><a href='/home/staff/search/search.php?email=$email&redirect=staff_all'>View Profile</a></th>";
-                echo "<form>";
                 echo "</tr>";
             }
             echo "</table>";
