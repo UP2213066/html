@@ -119,15 +119,14 @@ if ($result->num_rows > 0) {
                 <br><br>
                 <label for="role">Quota:</label>
                 <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
-                <?php echo '<p id="allocatedStudents" name="allocatedStudents">Allocated: ' . $allocatedStudents . '</p>' ?>
-                <br><br>
+                <?php echo '<p id="allocatedStudents" name="allocatedStudents">Allocated: ' . count($allocatedStudents) . '</p>' ?>
                 <input type="submit" value="Submit">
                 <button type="submit" formaction="/home/staff/delete/">Delete</button>
                 <?php
                 if (!empty($allocatedStudents)) {
                     echo "<p>Allocated Students:</p>";
                     foreach ($allocatedStudents as $student) {
-                        echo '<p>UP' . $student . '</p>';
+                        echo "<a href='/home/student/search/search.php?id=$student&redirect=staff_all'>UP$student</a>";
                     }
                 }
                 ?>

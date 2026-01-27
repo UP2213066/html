@@ -8,6 +8,7 @@ body {
 main {
   flex: 1;
   padding-left: 1em;
+  padding-right: 1em;
 }
 footer {
   text-align: center;
@@ -25,6 +26,18 @@ form input select option {
 }
 label {
   display: block;       
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+th, td {
+  text-align: center;
+  border: 1px solid #ddd;
+}
+a, a:active {
+  color: blue;
 }
 .actionGridSection {
   position: absolute;

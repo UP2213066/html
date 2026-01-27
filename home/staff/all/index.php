@@ -45,15 +45,34 @@ include '/var/www/html/validate.php';
         $result = $preparedSQL->get_result();
         if ($result->num_rows > 0) {
             unset($_SESSION['search-error']);
+            echo "<table>";
+            echo "<tr style='font-size: 1.25em; background-color: purple; color: white;'>";
+            echo "<th>Name</th>";
+            echo "<th>Email</th>";
+            echo "<th>Role</th>";
+            echo "<th>Quota</th>";
+            echo "<th>Allocated</th>";
+            echo "<th>Profile</th>";
+            echo "</tr>";
             while ($row = $result->fetch_assoc()) {
+                echo "<tr style='font-weight: normal;'>";
                 $name = $row['name'];
                 $email = $row['email'];
                 $role = $row['role'];
                 $quota = $row['quota'];
                 $allocatedStudents = $row['allocatedStudents'];
                 $studentsToAvoid = $row['studentsToAvoid'];
-                echo "<a href='/home/staff/search/search.php?email=$email&redirect=staff_all'>$name - $email | Role: $role | Quota: $quota | Allocated Students: $allocatedStudents</a><br>";
+                echo "<th>$name</th>";
+                echo "<th>$email</th>";
+                echo "<th>$role</th>";
+                echo "<th>$quota</th>";
+                echo "<th>$allocatedStudents</th>";
+                echo "<form>";
+                echo "<th><a href='/home/staff/search/search.php?email=$email&redirect=staff_all'>View Profile</a></th>";
+                echo "<form>";
+                echo "</tr>";
             }
+            echo "</table>";
         } else {
             echo "<h2>No staff members found. Go to <a href='/home/account/'>Account Manager</a> to edit your own account</h2>";
         }
