@@ -5,10 +5,10 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for querying the database with a staff
-    members name to pull up their profile for editing.
+    Description: This file is responsible for querying the database of student notes
+    to pull all their notes for viewing and editing.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->

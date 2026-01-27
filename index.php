@@ -8,7 +8,7 @@
     Description: This file is responsible for taking the staff username and 
     password before testing the credentials against the database.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->
@@ -23,9 +23,12 @@ $error = $_SESSION['login_error'] ?? '';
 <html>
     <head>
         <title>FYP Admin Login</title>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/style.css?v=2">
     </head>
     <body>
+    <nav class="navigationBar">
+        <a class="home" href="/">University of Portsmouth</a>
+    </nav>
     <main>
         <h1>Login</h1>
             <form action="login.php" method="post">

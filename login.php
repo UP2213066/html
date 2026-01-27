@@ -5,12 +5,12 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file takes the input from the login page and queries This
+    Description: This file takes the input from the login page and queries this
     against the data stored on the database. If a match occurs, they will be sent
     to the home page with their session data stored. Otherwise, they will be sent
     back to the login page with no session data.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->

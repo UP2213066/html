@@ -8,7 +8,7 @@
     Description: This file is responsible for confirming deletion of a staff member 
     from the database before performing the irreversible action.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->

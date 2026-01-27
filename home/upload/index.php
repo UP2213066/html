@@ -5,18 +5,15 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for taking the spreadsheet uploaded containing
-    staff and their quota. It provides an easy way to upload new staff and also update
-    changes to a staff member automatically.
+    Description: This file is responsible for handling file uploads for staff,
+    student, and quota data. It processes the uploaded spreadsheet files and
+    updates the database accordingly.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->
 <?php
-error_reporting(E_ALL); 
-ini_set('display_errors', TRUE); 
-ini_set('display_startup_errors', TRUE);
 include '/var/www/html/validate.php';
 require '/var/www/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;

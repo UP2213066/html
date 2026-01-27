@@ -1,3 +1,17 @@
+<!-- 
+    Project: Final Year Project Admin Web Application
+    Author: Ayden Lunnon
+    Student Number: UP2213066
+    Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
+    Year: 2025/26
+
+    Description: This file is responsible for taking the input that is required
+    to add a new student to the database.
+
+    © 2025-2026 Ayden Lunnon. All rights reserved.
+    This code is submitted as part of a university project and may not be 
+    reused or redistributed without permission.
+-->
 <!DOCTYPE html>
 <html>
     <head>

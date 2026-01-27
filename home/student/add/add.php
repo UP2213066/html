@@ -5,11 +5,10 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for taking the spreadsheet uploaded containing
-    staff and their quota. It provides an easy way to upload new staff and also update
-    changes to a staff member automatically.
+    Description: This file is responsible for adding a new student to the
+    database and will update an existing student's information.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->

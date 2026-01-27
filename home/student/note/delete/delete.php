@@ -5,10 +5,10 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for delete from the database using the
-    data sent.
+    Description: This file is responsible for deleting a student note from the
+    database based on the note ID stored in the session variable.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->

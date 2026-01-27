@@ -5,10 +5,10 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for displaying the admin team member's
-    home page so that they can undertake various tasks.
+    Description: This file is responsible for taking the staff members email and
+    sending it via a POST request to pull up the staff member for editing.
 
-    © 2025 Ayden Lunnon. All rights reserved.
+    © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
     reused or redistributed without permission.
 -->
