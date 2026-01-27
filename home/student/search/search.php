@@ -13,6 +13,9 @@
     reused or redistributed without permission.
 -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (isset($_GET['id'])) {
@@ -22,7 +25,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
         $_POST['id'] = substr($_POST['id'], 2);
     }
     $connection = new mysqli($hostname, $username, $password, $database);
-    $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students WHERE id=?");
+    $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, supervisorEmail, moderator, moderatorEmail FROM students WHERE id=?");
     $preparedSQL->bind_param("s", $_POST['id']);
     $preparedSQL->execute();
     $_SESSION['idToUpdate'] = $_POST['id'];
@@ -59,44 +62,92 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     die();
 }
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("SELECT projectCodes, projectNames FROM projects WHERE courseCode=?");
+$preparedSQL = $connection->prepare("SELECT moduleCode, moduleName FROM projects WHERE courseCode=?");
 $preparedSQL->bind_param("s", $course);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $projectCodes = explode(",", $row['projectCodes']);
-        $projectNames = explode(",", $row['projectNames']);
+        $moduleCodes[] = $row['moduleCode'];
+        $moduleNames[] = $row['moduleName'];
     }
-    $projectCodeFound = false;
-    foreach($projectCodes as $code) {
-        if (trim($code) == trim($module)) {
-            $projectCodeFound = true;
-            $index = array_search($code, $projectCodes);
-            $currentProjectCode = $projectCodes[$index];
-            $currentProjectName = $projectNames[$index];
-            array_splice($projectCodes, $index, 1);
-            array_splice($projectNames, $index, 1);
+    foreach($moduleCodes as $moduleCode) {
+        if (trim($moduleCode) == trim($module)) {
+            $index = array_search($moduleCode, $moduleCodes);
+            $currentModuleCode = $moduleCodes[$index];
+            $currentModuleName = $moduleNames[$index];
+            array_splice($moduleCodes, $index, 1);
+            array_splice($moduleNames, $index, 1);
             break;
         }
     }
 } 
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("SELECT courseCode FROM projects");
+$preparedSQL = $connection->prepare("SELECT courseCode, courseName FROM courses");
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
-$courseCodes = [];
+$courseFound = false;
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        if ($row['courseCode'] === $course) {
-            $currentCourse = $row['courseCode'];
-        } else {
-            $courseCodes[] = $row['courseCode'];
+        $courseCodes[] = $row['courseCode'];
+        $courseNames[] = $row['courseName'];
+    }
+    foreach($courseCodes as $courseCode) {
+        if (trim($courseCode) == trim($course)) {
+            $courseFound = true;
+            break;
         }
     }
-} 
+}
+if ($courseFound) {
+    $index = array_search($course, $courseCodes);
+    $currentCourseCode = $courseCodes[$index];
+    $currentCourseName = $courseNames[$index];
+    array_splice($courseCodes, $index, 1);
+    array_splice($courseNames, $index, 1);
+} else {
+    $currentCourseCode = $course;
+    $currentCourseName = "UNKNOWN COURSE";
+}
+$connection = new mysqli($hostname, $username, $password, $database);
+$preparedSQL = $connection->prepare("SELECT name, email, quota, allocatedStudents, studentsToAvoid FROM staff");
+$preparedSQL->execute();
+$result = $preparedSQL->get_result();
+$supervisorFound = false;
+$moderatorFound = false;
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $staffMembers[] = ["name" => $row['name'], "email" => $row['email'], "quota" => $row['quota'], "allocatedStudents" => explode(',', $row['allocatedStudents']), "studentsToAvoid" => explode(',', $row['studentsToAvoid'])];
+    }
+    foreach($staffMembers as $staff) {
+        if (trim($staff['email']) == trim($moderator)) {
+            $moderatorFound = true;
+        } elseif (trim($staff['email']) == trim($supervisor)) {
+            $supervisorFound = true;
+        }
+    }
+}
+if ($supervisorFound) {
+    $index = array_search($supervisor, $staffMembers);
+    $currentSupervisorEmail = $staffMembers[$index]["email"];
+    $currentSupervisorName = $staffMembers[$index]["name"];
+    array_splice($staffMembers, $index, 1);
+    array_splice($staffMembers, $index, 1);
+} else {
+    $currentSupervisorEmail = "SUPERVISOR NOT FOUND";
+    $currentSupervisorName = $supervisor;
+}
+if ($moderatorFound) {
+    $index = array_search($moderator, $staffMembers);
+    $currentModeratorEmail = $staffMembers[$index]["email"];
+    $currentModeratorName = $staffMembers[$index]["name"];
+    array_splice($staffMembers, $index, 1);
+    array_splice($staffMembers, $index, 1);
+} else {
+    $currentModeratorEmail = "MODERATOR NOT FOUND";
+    $currentModeratorName = $moderator;
+}
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -130,12 +181,13 @@ if ($result->num_rows > 0) {
                 <select id="course" name="course">
                     <?php
                     $index = 0;
-                    if ($projectCodes == []) {
+                    if ($courseCodes == []) {
                         echo "<option value='NONE'>NO MODULES FOUND</option>";
                     } else {
-                        echo "<option value='$currentCourse'>$currentCourse</option>";
-                        foreach($courseCodes as $code) {
-                            echo "<option value='$code'>$code</option>";
+                        echo "<option value='$currentCourseCode'>$currentCourseCode - $currentCourseName</option>";
+                        foreach($courseCodes as $courseCode) {
+                            $name = $courseNames[$index];
+                            echo "<option value='$courseCode'>$courseCode - $name</option>";
                             $index++;
                         }
                     }
@@ -144,28 +196,143 @@ if ($result->num_rows > 0) {
                 <br><br>
                 <label for="module">Module Code:</label>
                 <select id="module" name="module">
+                </select>
+                <script>
+                    const currentModule = "<?php echo $module; ?>";
+
+                    function loadModulesForCourse() {
+                        const course = document.getElementById("course").value;
+
+                        fetch("/home/student/pullProjects.php?course=" + course)
+                            .then(response => response.json())
+                            .then(data => {
+                                const moduleSelect = document.getElementById("module");
+                                moduleSelect.innerHTML = "";
+
+                                if (data.length === 0) {
+                                    const noOpt = document.createElement("option");
+                                    noOpt.value = "NONE";
+                                    noOpt.textContent = "NO MODULES FOUND";
+                                    moduleSelect.appendChild(noOpt);
+                                    return;
+                                }
+
+                                data.forEach(mod => {
+                                    const opt = document.createElement("option");
+                                    opt.value = mod.code;
+                                    opt.textContent = `${mod.code} - ${mod.name}`;
+
+                                    if (mod.code === currentModule) {
+                                        opt.selected = true;
+                                    }
+
+                                    moduleSelect.appendChild(opt);
+                                });
+                            });
+                    }
+
+                    document.getElementById("course").addEventListener("change", loadModulesForCourse);
+
+                    window.addEventListener("DOMContentLoaded", loadModulesForCourse);
+                </script>
+
+                <br><br>
+                <label for="supervisor">Supervisor:</label>
+                <select id="supervisor" name="supervisor">
                     <?php
                     $index = 0;
-                    if ($projectCodes == []) {
-                        echo "<option value='NONE'>NO MODULES FOUND</option>";
+                    if ($staffMembers == []) {
+                        echo "<option value='NONE'>NO SUPERVISORS FOUND</option>";
                     } else {
-                        if ($projectCodeFound) {
-                            echo "<option value='$currentProjectCode'>$currentProjectName - $currentProjectCode</option>";
+                        if ($supervisorFound) {
+                            echo "<option value='$currentSupervisorEmail'>$currentSupervisorName - $currentSupervisorEmail</option>";
                         }
-                        foreach($projectCodes as $code) {
-                            $name = $projectNames[$index];
-                            echo "<option value='$code'>$name - $code</option>";
-                            $index++;
+                        echo "<option value=''>Not Selected</option>";
+                        foreach($staffMembers as $staff) {
+                            $name = $staff["name"];
+                            $email = $staff["email"];
+                            echo "<option value='$email'>$name - $email</option>";
                         }
                     }
                     ?>
                 </select>
                 <br><br>
-                <label for="supervisor">Supervisor:</label>
-                <?php echo '<input type="text" id="supervisor" name="supervisor" value="' . $supervisor . '">' ?>
-                <br><br>
                 <label for="moderator">Moderator:</label>
-                <?php echo '<input type="text" id="moderator" name="moderator" value="' . $moderator . '">' ?>
+                <select id="moderator" name="moderator">
+                    <?php
+                    $index = 0;
+                    if ($staffMembers == []) {
+                        echo "<option value='NONE'>NO MODERATORS FOUND</option>";
+                    } else {
+                        if ($moderatorFound) {
+                            echo "<option value='$currentModeratorEmail'>$currentModeratorName - $currentModeratorEmail</option>";
+                        }
+                        echo "<option value=''>Not Selected</option>";
+                        foreach($staffMembers as $staff) {
+                            $name = $staff["name"];
+                            $email = $staff["email"];
+                            echo "<option value='$email'>$name - $email</option>";
+                        }
+                    }
+                    ?>
+                </select>
+                <script>
+                    window.addEventListener("DOMContentLoaded", () => {
+                        const supervisorSelect = document.getElementById("supervisor");
+                        const moderatorSelect = document.getElementById("moderator");
+
+                        const NOT_SELECTED_VALUE = "";
+
+                        function extractOptions(select) {
+                            return Array.from(select.options).map(opt => ({
+                                value: opt.value,
+                                text: opt.text
+                            }));
+                        }
+
+                        const supervisorOriginal = extractOptions(supervisorSelect);
+                        const moderatorOriginal = extractOptions(moderatorSelect);
+
+                        function rebuild(select, originalList, selectedOther) {
+                            select.innerHTML = "";
+
+                            originalList.forEach(opt => {
+                                const isNotSelected = opt.value === NOT_SELECTED_VALUE;
+
+                                if (isNotSelected || opt.value !== selectedOther) {
+                                    const o = document.createElement("option");
+                                    o.value = opt.value;
+                                    o.textContent = opt.text;
+
+                                    if (opt.value === select.dataset.currentValue) {
+                                        o.selected = true;
+                                    }
+
+                                    select.appendChild(o);
+                                }
+                            });
+                        }
+
+                        supervisorSelect.dataset.currentValue = supervisorSelect.value;
+                        moderatorSelect.dataset.currentValue = moderatorSelect.value;
+
+                        function refresh() {
+                            const selectedSupervisor = supervisorSelect.value;
+                            const selectedModerator = moderatorSelect.value;
+
+                            rebuild(supervisorSelect, supervisorOriginal, selectedModerator);
+                            rebuild(moderatorSelect, moderatorOriginal, selectedSupervisor);
+
+                            supervisorSelect.dataset.currentValue = selectedSupervisor;
+                            moderatorSelect.dataset.currentValue = selectedModerator;
+                        }
+
+                        supervisorSelect.addEventListener("change", refresh);
+                        moderatorSelect.addEventListener("change", refresh);
+
+                        refresh();
+                    });
+                </script>
                 <br><br>
                 <input type="submit" value="Submit Changes">
                 <br><br>

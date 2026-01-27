@@ -15,8 +15,28 @@
 <?php
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("UPDATE students SET firstName=?, lastName=?, courseCode=?, moduleCode=?, supervisor=?, moderator=? WHERE id=?");
-$preparedSQL->bind_param("sssssss", $_POST['firstName'], $_POST['lastName'], $_POST['course'], $_POST['module'], $_POST['supervisor'], $_POST['moderator'], $_SESSION['idToUpdate']);
+$preparedSQL = $connection->prepare("SELECT name FROM staff WHERE email=?");
+$preparedSQL->bind_param("s", $_POST['supervisor']);
+$preparedSQL->execute();
+$result = $preparedSQL->get_result();
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $supervisorName = $row['name'];
+    }
+}
+$connection = new mysqli($hostname, $username, $password, $database);
+$preparedSQL = $connection->prepare("SELECT name FROM staff WHERE email=?");
+$preparedSQL->bind_param("s", $_POST['moderator']);
+$preparedSQL->execute();
+$result = $preparedSQL->get_result();
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $moderatorName = $row['name'];
+    }
+}
+$connection = new mysqli($hostname, $username, $password, $database);
+$preparedSQL = $connection->prepare("UPDATE students SET firstName=?, lastName=?, courseCode=?, moduleCode=?, supervisor=?, supervisorEmail=?, moderator=?, moderatorEmail=? WHERE id=?");
+$preparedSQL->bind_param("sssssssss", $_POST['firstName'], $_POST['lastName'], $_POST['course'], $_POST['module'], $supervisorName, $_POST['supervisor'], $moderatorName, $_POST['moderator'], $_SESSION['idToUpdate']);
 $preparedSQL->execute();
 $connection->close();
 $name = $_SESSION['name'];
