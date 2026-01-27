@@ -127,7 +127,7 @@ if ($result->num_rows > 0) {
                 if (!empty($allocatedStudents)) {
                     echo "<p>Allocated Students:</p>";
                     foreach ($allocatedStudents as $student) {
-                        echo '<p>' . $student . '</p>';
+                        echo '<p>UP' . $student . '</p>';
                     }
                 }
                 ?>
