@@ -123,6 +123,14 @@ if ($result->num_rows > 0) {
                 <br><br>
                 <input type="submit" value="Submit">
                 <button type="submit" formaction="/home/staff/delete/">Delete</button>
+                <?php
+                if (!empty($allocatedStudents)) {
+                    echo "<p>Allocated Students:</p>";
+                    foreach ($allocatedStudents as $student) {
+                        echo '<p>' . $student . '</p>';
+                    }
+                }
+                ?>
             </form>
         </main>
     </body>
