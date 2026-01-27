@@ -16,7 +16,7 @@
 <?php
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("INSERT INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL) ON DUPLICATE KEY UPDATE id=VALUE(id), firstName=VALUE(firstName), lastName=VALUE(lastName), courseCode=VALUE(courseCode), moduleCode=VALUE(moduleCode)");
+$preparedSQL = $connection->prepare("INSERT INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL, NULL, NULL) ON DUPLICATE KEY UPDATE id=VALUE(id), firstName=VALUE(firstName), lastName=VALUE(lastName), courseCode=VALUE(courseCode), moduleCode=VALUE(moduleCode)");
 $preparedSQL->bind_param("sssss", $_POST['id'], $_POST['fname'], $_POST['lname'], $_POST['course'], $_POST['module']);
 $preparedSQL->execute();
 header('Location: /home/student/');

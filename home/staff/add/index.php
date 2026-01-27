@@ -22,16 +22,16 @@
         <h1>Add Staff Member</h1>
             <form action="add.php" method="post">
                 <label for="name">Name:</label>
-                <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
+                <?php echo '<input type="text" id="name" name="name">' ?>
                 <label for="email">Email:</label>
-                <?php echo '<input type="text" id="email" name="email" value="' . $email . '">' ?>
+                <?php echo '<input type="text" id="email" name="email">' ?>
                 <label for="role">Role:</label>
                 <select id="role" name="role">
-                    <option value="Admin">Admin</option>
                     <option value="Supervisor/Moderator">Supervisor/Moderator</option>
+                    <option value="Admin">Admin</option>
                 </select>
                 <label for="role">Quota:</label>
-                <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
+                <?php echo '<input type="text" id="quota" name="quota" value="0">' ?>
                 <input type="submit" value="Submit">
             </form>
         </main>

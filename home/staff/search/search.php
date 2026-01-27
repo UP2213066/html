@@ -96,15 +96,20 @@ if ($_POST['searchType'] === "name") {
             <form action="/home/staff/update.php" method="post">
                 <label for="name">Name:</label>
                 <?php echo '<input type="text" id="name" name="name" value="' . $name . '">' ?>
+                <br><br>
                 <label for="email">Email:</label>
                 <?php echo '<input type="text" id="email" name="email" value="' . $email . '">' ?>
+                <br><br>
                 <label for="role">Role:</label>
                 <select id="role" name="role">
-                    <option value="Admin">Admin</option>
                     <option value="Supervisor/Moderator">Supervisor/Moderator</option>
+                    <option value="Admin">Admin</option>
                 </select>
+                <br><br>
                 <label for="role">Quota:</label>
                 <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
+                <?php echo '<p id="allocatedStudents" name="allocatedStudents">Allocated: ' . $allocatedStudents . '</p>' ?>
+                <br><br>
                 <input type="submit" value="Submit">
                 <button type="submit" formaction="/home/staff/delete/">Delete</button>
             </form>

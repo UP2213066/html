@@ -48,7 +48,6 @@ include '/var/www/html/validate.php';
             while ($row = $result->fetch_assoc()) {
                 $name = $row['name'];
                 $email = $row['email'];
-                $_SESSION['emailToUpdate'] = $email;
                 $role = $row['role'];
                 $quota = $row['quota'];
                 $allocatedStudents = $row['allocatedStudents'];
@@ -56,9 +55,7 @@ include '/var/www/html/validate.php';
                 echo "<a href='/home/staff/search/search.php?email=$email&redirect=staff_all'>$name - $email | Role: $role | Quota: $quota | Allocated Students: $allocatedStudents</a><br>";
             }
         } else {
-            $_SESSION['search-error'] = "Student Not Found";
-            header("Location: /home/student/");
-            die();
+            echo "<h2>No staff members found. Go to <a href='/home/account/'>Account Manager</a> to edit your own account</h2>";
         }
         ?>
     </main>

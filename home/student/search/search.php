@@ -13,9 +13,9 @@
     reused or redistributed without permission.
 -->
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (isset($_GET['id'])) {
@@ -42,13 +42,17 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
             $module = $row['moduleCode'];
             if (isset($row['supervisor'])) {
                 $supervisor = $row['supervisor'];
+                $supervisorEmail = $row['supervisorEmail'];
             } else {
                 $supervisor = "";
+                $supervisorEmail = "";
             }
             if (isset($row['moderator'])) {
                 $moderator = $row['moderator'];
+                $moderatorEmail = $row['moderatorEmail'];
             } else {
                 $moderator = "";
+                $moderatorEmail = "";
             }
         }
     } else {
@@ -120,30 +124,25 @@ if ($result->num_rows > 0) {
         $staffMembers[] = ["name" => $row['name'], "email" => $row['email'], "quota" => $row['quota'], "allocatedStudents" => explode(',', $row['allocatedStudents']), "studentsToAvoid" => explode(',', $row['studentsToAvoid'])];
     }
     foreach($staffMembers as $staff) {
-        if (trim($staff['email']) == trim($moderator)) {
+        $index = array_search($staff, $staffMembers);
+        if (trim($staff['email']) == trim($moderatorEmail)) {
             $moderatorFound = true;
-        } elseif (trim($staff['email']) == trim($supervisor)) {
+            $currentModeratorEmail = $staffMembers[$index]["email"];
+            $currentModeratorName = $staffMembers[$index]["name"];
+            array_splice($staffMembers, $index, 1);
+        } elseif (trim($staff['email']) == trim($supervisorEmail)) {
             $supervisorFound = true;
+            $currentSupervisorEmail = $staffMembers[$index]["email"];
+            $currentSupervisorName = $staffMembers[$index]["name"];
+            array_splice($staffMembers, $index, 1);
         }
     }
 }
-if ($supervisorFound) {
-    $index = array_search($supervisor, $staffMembers);
-    $currentSupervisorEmail = $staffMembers[$index]["email"];
-    $currentSupervisorName = $staffMembers[$index]["name"];
-    array_splice($staffMembers, $index, 1);
-    array_splice($staffMembers, $index, 1);
-} else {
+if (!$supervisorFound) {
     $currentSupervisorEmail = "SUPERVISOR NOT FOUND";
     $currentSupervisorName = $supervisor;
-}
-if ($moderatorFound) {
-    $index = array_search($moderator, $staffMembers);
-    $currentModeratorEmail = $staffMembers[$index]["email"];
-    $currentModeratorName = $staffMembers[$index]["name"];
-    array_splice($staffMembers, $index, 1);
-    array_splice($staffMembers, $index, 1);
-} else {
+}  
+if (!$moderatorFound) {
     $currentModeratorEmail = "MODERATOR NOT FOUND";
     $currentModeratorName = $moderator;
 }
@@ -192,7 +191,7 @@ if ($moderatorFound) {
                         }
                     }
                     ?>
-                </select>
+                </select> 
                 <br><br>
                 <label for="module">Module Code:</label>
                 <select id="module" name="module">
@@ -247,12 +246,12 @@ if ($moderatorFound) {
                         if ($supervisorFound) {
                             echo "<option value='$currentSupervisorEmail'>$currentSupervisorName - $currentSupervisorEmail</option>";
                         }
-                        echo "<option value=''>Not Selected</option>";
                         foreach($staffMembers as $staff) {
                             $name = $staff["name"];
                             $email = $staff["email"];
                             echo "<option value='$email'>$name - $email</option>";
                         }
+                        echo "<option value=''>Not Selected</option>";
                     }
                     ?>
                 </select>
@@ -267,72 +266,15 @@ if ($moderatorFound) {
                         if ($moderatorFound) {
                             echo "<option value='$currentModeratorEmail'>$currentModeratorName - $currentModeratorEmail</option>";
                         }
-                        echo "<option value=''>Not Selected</option>";
                         foreach($staffMembers as $staff) {
                             $name = $staff["name"];
                             $email = $staff["email"];
                             echo "<option value='$email'>$name - $email</option>";
                         }
+                        echo "<option value=''>Not Selected</option>";
                     }
                     ?>
                 </select>
-                <script>
-                    window.addEventListener("DOMContentLoaded", () => {
-                        const supervisorSelect = document.getElementById("supervisor");
-                        const moderatorSelect = document.getElementById("moderator");
-
-                        const NOT_SELECTED_VALUE = "";
-
-                        function extractOptions(select) {
-                            return Array.from(select.options).map(opt => ({
-                                value: opt.value,
-                                text: opt.text
-                            }));
-                        }
-
-                        const supervisorOriginal = extractOptions(supervisorSelect);
-                        const moderatorOriginal = extractOptions(moderatorSelect);
-
-                        function rebuild(select, originalList, selectedOther) {
-                            select.innerHTML = "";
-
-                            originalList.forEach(opt => {
-                                const isNotSelected = opt.value === NOT_SELECTED_VALUE;
-
-                                if (isNotSelected || opt.value !== selectedOther) {
-                                    const o = document.createElement("option");
-                                    o.value = opt.value;
-                                    o.textContent = opt.text;
-
-                                    if (opt.value === select.dataset.currentValue) {
-                                        o.selected = true;
-                                    }
-
-                                    select.appendChild(o);
-                                }
-                            });
-                        }
-
-                        supervisorSelect.dataset.currentValue = supervisorSelect.value;
-                        moderatorSelect.dataset.currentValue = moderatorSelect.value;
-
-                        function refresh() {
-                            const selectedSupervisor = supervisorSelect.value;
-                            const selectedModerator = moderatorSelect.value;
-
-                            rebuild(supervisorSelect, supervisorOriginal, selectedModerator);
-                            rebuild(moderatorSelect, moderatorOriginal, selectedSupervisor);
-
-                            supervisorSelect.dataset.currentValue = selectedSupervisor;
-                            moderatorSelect.dataset.currentValue = selectedModerator;
-                        }
-
-                        supervisorSelect.addEventListener("change", refresh);
-                        moderatorSelect.addEventListener("change", refresh);
-
-                        refresh();
-                    });
-                </script>
                 <br><br>
                 <input type="submit" value="Submit Changes">
                 <br><br>
@@ -355,6 +297,7 @@ if ($moderatorFound) {
                     echo "No Notes Found<br>";
                 }
             ?>
+            <br>
             <form>
                 <button type="submit" formaction="/home/student/note/add/">Add Note</button>
             </form>

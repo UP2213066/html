@@ -1,16 +1,20 @@
 body {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh;    
   margin: 0;
   padding: 0;
 }
 main {
+  flex: 1;
   padding-left: 1em;
 }
 footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
   text-align: center;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: purple; 
+  color: white;
 }
 form input select option {
   display: block;
