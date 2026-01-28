@@ -42,6 +42,7 @@ include '/var/www/html/validate.php';
         $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students");
         $preparedSQL->execute();
         $result = $preparedSQL->get_result();
+        echo "<h2>Current Students:</h2>";
         if ($result->num_rows > 0) {
             unset($_SESSION['search-error']);
             echo "<table>";
@@ -75,9 +76,38 @@ include '/var/www/html/validate.php';
             }
             echo "</table>";
         } else {
-            $_SESSION['search-error'] = "Student Not Found";
-            header("Location: /home/student/");
-            die();
+            echo "<p>No final students found.</p>";
+        }
+        $connection = new mysqli($hostname, $username, $password, $database);
+        $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, placementEndYear FROM placement_students");
+        $preparedSQL->execute();
+        $result = $preparedSQL->get_result();
+        echo "<h2>Placement Students:</h2>";
+        if ($result->num_rows > 0) {
+            unset($_SESSION['search-error']);
+            echo "<table>";
+            echo "<tr style='font-size: 1.25em; background-color: purple; color: white;'>";
+            echo "<th>ID</th>";
+            echo "<th>Name</th>";
+            echo "<th>Placement End Year</th>";
+            echo "<th>Profile</th>";
+            echo "</tr>";
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr style='font-weight: normal;'>";
+                $id = $row['id'];
+                $firstName = $row['firstName'];
+                $lastName = $row['lastName'];
+                $name = $firstName . ' ' . $lastName;
+                $placementEndYear = $row['placementEndYear'];
+                echo "<th>$id</th>";
+                echo "<th>$name</th>";
+                echo "<th>$placementEndYear</th>";
+                echo "<th><a href='/home/student/placement/search.php?id=$id&redirect=student_all'>View Profile</a></th>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<p>No placement students found.</p>";
         }
         ?>
     </main>

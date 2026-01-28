@@ -14,6 +14,9 @@
     reused or redistributed without permission.
 -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 require '/var/www/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -78,16 +81,16 @@ if ($_POST['fileType'] === 'staffUpload') {
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
     if ($first) {
-        $first = false;
+      $first = false;
     } else {
       $cellIterator = $row->getCellIterator();
       $cellIterator->setIterateOnlyExistingCells(false);
       $data = [];
       foreach ($cellIterator as $cell) {
-          $data[] = $cell->getValue();
+        $data[] = $cell->getValue();
       }
       if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL) {
-          break;
+        break;
       }
       $preparedSQL->bind_param("sss", $data[2], $data[0], $data[1]);
       $preparedSQL->execute();
@@ -102,7 +105,17 @@ if ($_POST['fileType'] === 'staffUpload') {
 } elseif ($_POST['fileType'] === 'studentUpload') {
   echo 'Processing student upload...<br>';
   $connection = new mysqli($hostname, $username, $password, $database);
-  $preparedSQL = $connection->prepare("INSERT IGNORE INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL)");
+  $query = "SELECT id FROM placement_students";
+  $result = $connection->query($query);
+  $placementStudents = [];
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      $placementStudents[] = $row['id'];
+    }
+  }
+  echo $placementStudents;
+  $connection = new mysqli($hostname, $username, $password, $database);
+  $preparedSQL = $connection->prepare("INSERT IGNORE INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL, NULL, NULL)");
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
     if ($first) {
@@ -112,7 +125,7 @@ if ($_POST['fileType'] === 'staffUpload') {
       $cellIterator->setIterateOnlyExistingCells(false);
       $data = [];
       foreach ($cellIterator as $cell) {
-          $data[] = $cell->getValue();
+        $data[] = $cell->getValue();
       }
       if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL || $data[3] === NULL || $data[4] === NULL) {
         break;
@@ -120,10 +133,15 @@ if ($_POST['fileType'] === 'staffUpload') {
       if (strtoupper(substr($data[0], 0, 2) == "UP")) {
         $data[0] = substr($data[0],2);
       }
-      $preparedSQL->bind_param("sssss", $data[0], $data[1], $data[2], $data[3], $data[4]);
-      $preparedSQL->execute();
-      if (!$preparedSQL) {
-        echo $connection->error;
+      if (!in_array($data[0], $placementStudents)) {
+        echo "Adding student ID " . $data[0] . "<br>";
+        $preparedSQL->bind_param("sssss", $data[0], $data[1], $data[2], $data[3], $data[4]);
+        $preparedSQL->execute();
+        if (!$preparedSQL) {
+          echo $connection->error;
+        }
+      } else {
+        echo "Skipping placement student ID " . $data[0] . "<br>";
       }
     }
   }
@@ -137,13 +155,13 @@ if ($_POST['fileType'] === 'staffUpload') {
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
     if ($first) {
-        $first = false;
+      $first = false;
     } else {
       $cellIterator = $row->getCellIterator();
       $cellIterator->setIterateOnlyExistingCells(false);
       $data = [];
       foreach ($cellIterator as $cell) {
-          $data[] = $cell->getValue();
+        $data[] = $cell->getValue();
       }
       if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL || $data[3] === NULL) {
         break;
@@ -165,5 +183,5 @@ if ($_POST['fileType'] === 'staffUpload') {
   echo 'Invalid upload type.';
 }
 if (file_exists($targetFile)) {
-    unlink($targetFile); 
-  }
+  unlink($targetFile); 
+}

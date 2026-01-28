@@ -5,8 +5,8 @@
     Course: BSc (hons) Cybersecurity and Forensic Computing, University of Portsmouth
     Year: 2025/26
 
-    Description: This file is responsible for displaying the student home page
-    with various options for managing student data.
+    Description: This file is responsible for confirming deletion of a student from 
+    the database before performing the irreversible action.
 
     © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
@@ -19,8 +19,8 @@ include '/var/www/html/validate.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FYP Student Editor</title>
-        <link rel="stylesheet" href="/style.css?v=2">
+        <title>FYP Student Delete</title>
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <nav class="navigationBar">
@@ -37,17 +37,11 @@ include '/var/www/html/validate.php';
             ?>
         </nav>
         <main>
-            <?php 
-            echo '<h1>Welcome, ' . $_SESSION['name'] . '!</h1>';
-            ?>
-            <section class="actionGridSection">
-                <button class="actionGridButton" onclick="window.location.href='/home/student/all/'">View All Students</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/student/search/'">Search Students</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/student/add/'">Add Student</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/student/upload/'">Upload Students</button>
-                <button class="actionGridButton" onclick="window.location.href='/home/student/upload/'">Distribute </button>
-            </section>
+            <h1>Confirm Placement Student Delete</h1>
+            <form action="delete.php" method="post">
+                <input type="submit" value="Delete <?php echo $_SESSION['nameToUpdate']; ?>">
+            </form>
         </main>
-       <?php include '/var/www/html/footer.php';?>
     </body>
+    <?php include '/var/www/html/footer.php';?>
 </html>
