@@ -30,6 +30,13 @@ input, select, textarea {
 input[type="submit"] {
   margin-top: 1em;
 }
+form button {
+  font: inherit; 
+  display: block;
+  width: 20em;
+  height: 2em;
+  margin-top: 1em;
+}
 label {
   margin-top: 1em;
 }

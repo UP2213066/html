@@ -169,10 +169,8 @@ if (!$moderatorFound) {
             <form action="/home/student/update.php" method="post">
                 <label for="firstName">First Name:</label>
                 <?php echo '<input type="text" id="firstName" name="firstName" value="' . $firstName . '">' ?>
-                <br><br>
                 <label for="lastName">Last Name:</label>
                 <?php echo '<input type="text" id="lastName" name="lastName" value="' . $lastName . '">' ?>
-                <br><br>
                 <label for="course">Course Code:</label>
                 <select id="course" name="course">
                     <?php
@@ -189,7 +187,6 @@ if (!$moderatorFound) {
                     }
                     ?>
                 </select> 
-                <br><br>
                 <label for="module">Module Code:</label>
                 <select id="module" name="module">
                 </select>
@@ -231,8 +228,6 @@ if (!$moderatorFound) {
 
                     window.addEventListener("DOMContentLoaded", loadModulesForCourse);
                 </script>
-
-                <br><br>
                 <label for="supervisor">Supervisor:</label>
                 <select id="supervisor" name="supervisor">
                     <?php
@@ -252,7 +247,6 @@ if (!$moderatorFound) {
                     }
                     ?>
                 </select>
-                <br><br>
                 <label for="moderator">Moderator:</label>
                 <select id="moderator" name="moderator">
                     <?php
@@ -272,9 +266,7 @@ if (!$moderatorFound) {
                     }
                     ?>
                 </select>
-                <br><br>
                 <input type="submit" value="Submit Changes">
-                <br><br>
                 <button type="submit" formaction="/home/student/delete/">Delete Student</button>
             </form>
             <?php
