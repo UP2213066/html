@@ -45,6 +45,7 @@ include '/var/www/html/validate.php';
                 <button class="actionGridButton" onclick="window.location.href='/home/student/search/'">Search Students</button>
                 <button class="actionGridButton" onclick="window.location.href='/home/student/add/'">Add Student</button>
                 <button class="actionGridButton" onclick="window.location.href='/home/student/upload/'">Upload Students</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/student/export/'">Export Students</button>
                 <button class="actionGridButton" onclick="window.location.href='/home/student/upload/'">Distribute </button>
             </section>
         </main>
