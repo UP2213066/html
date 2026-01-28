@@ -14,6 +14,9 @@
     reused or redistributed without permission.
 -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 require '/var/www/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -68,7 +71,6 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
     }
   }
-  $_SESSION['staffMessage'] = "Staff Uploaded Successfully";
   header('location: /home/staff/');
   exit();
 } elseif ($_POST['fileType'] === 'quotaUpload') {
@@ -96,7 +98,6 @@ if ($_POST['fileType'] === 'staffUpload') {
       }  
     }
   }
-  $_SESSION['quotaMessage'] = "Quota Updated Successfully";
   header('location: /home/staff/');
   exit();
 } elseif ($_POST['fileType'] === 'studentUpload') {
@@ -142,7 +143,6 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
     }
   }
-  $_SESSION['studentMessage'] = "Students Uploaded Successfully";
   header('location: /home/student/');
   exit();
 } elseif ($_POST['fileType'] === 'placementStudentUpload') {
@@ -173,10 +173,134 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
     }
   }
-  $_SESSION['studentMessage'] = "Students Uploaded Successfully";
   header('location: /home/student/');
   exit();
-}else {
+} elseif ($_POST['fileType'] === 'selfReportUpload') {
+  echo 'Processing self report upload...<br>';
+  $first = true;
+  foreach ($sheet->getRowIterator() as $row) {
+    if ($first) {
+      $first = false;
+    } else {
+      $cellIterator = $row->getCellIterator();
+      $cellIterator->setIterateOnlyExistingCells(false);
+      $data = [];
+      foreach ($cellIterator as $cell) {
+        $data[] = $cell->getValue();
+      }
+      var_dump($data);
+      if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL || $data[3] === NULL || $data[5] === NULL) {
+        break;
+      }
+      if (strtoupper($data[5]) === "YES") {
+        $connection = new mysqli($hostname, $username, $password, $database);
+        $preparedSQL = $connection->prepare("SELECT email FROM staff WHERE name=?");
+        $preparedSQL->bind_param("s", $data[1]);
+        $preparedSQL->execute();
+        $result = $preparedSQL->get_result();
+        $email = "";
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $email = $row['email'];
+            }
+        }
+        $connection = new mysqli($hostname, $username, $password, $database);
+        if (strtoupper($data[0]) === "SUPERVISOR") {
+          $preparedSQL = $connection->prepare("UPDATE students SET supervisor=?, supervisorEmail=? WHERE id=?");
+        } elseif (strtoupper($data[0]) === "MODERATOR") {
+          $preparedSQL = $connection->prepare("UPDATE students SET moderator=?, moderatorEmail=? WHERE id=?");
+        }
+        if(substr($data[3], 0, 2) == "UP") {
+          $data[3] = substr($data[3], 2);
+        }
+        $preparedSQL->bind_param("sss", $data[1], $email, $data[3]);
+        $preparedSQL->execute();
+        if (!$preparedSQL) {
+          echo $connection->error;
+        }
+      }
+    }
+  }
+  header('location: /home/student/');
+  exit();
+} elseif ($_POST['fileType'] === 'studentSupervisorChoiceUpload') {
+  echo 'Processing student choice upload...<br>';
+  $first = true;
+  foreach ($sheet->getRowIterator() as $row) {
+    if ($first) {
+      $first = false;
+    } else {
+      $cellIterator = $row->getCellIterator();
+      $cellIterator->setIterateOnlyExistingCells(false);
+      $data = [];
+      foreach ($cellIterator as $cell) {
+        $data[] = $cell->getValue();
+      }
+      if ($data[0] === NULL || $data[1] === NULL || $data[2] === NULL || $data[3] === NULL) {
+        break;
+      }
+      if(substr($data[0], 0, 2) == "UP") {
+          $data[0] = substr($data[0], 2);
+        }
+      $connection = new mysqli($hostname, $username, $password, $database);
+      $preparedSQL = $connection->prepare("SELECT supervisor FROM students WHERE id=?");
+      $preparedSQL->bind_param("s", $data[0]);
+      $preparedSQL->execute();
+      $result = $preparedSQL->get_result();
+      $currentSupervisor = "";
+      if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+              $currentSupervisor = $row['supervisor'];
+          }
+      }
+      if ($currentSupervisor === NULL || $currentSupervisor === "") {
+        $choices = [$data[3], $data[4], $data[5]];
+        foreach ($choices as $choice) {
+          $connection = new mysqli($hostname, $username, $password, $database);
+          $preparedSQL = $connection->prepare("SELECT allocatedStudents, quota, studentsToAvoid FROM staff WHERE name=?");
+          $preparedSQL->bind_param("s", $choice);
+          $preparedSQL->execute();
+          $result = $preparedSQL->get_result();
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              $allocatedStudents = $row['allocatedStudents'];
+              $quota = $row['quota'];
+              if($row['studentsToAvoid'] === NULL) {
+                $row['studentsToAvoid'] = "";
+              }
+              $studentsToAvoid = explode(", ", $row['studentsToAvoid']);
+              if(!in_array($data[0], $studentsToAvoid)) {
+                if ($allocatedStudents < $quota) {
+                  $connection = new mysqli($hostname, $username, $password, $database);
+                  $preparedSQL = $connection->prepare("SELECT email FROM staff WHERE name=?");
+                  $preparedSQL->bind_param("s", $choice);
+                  $preparedSQL->execute();
+                  $result = $preparedSQL->get_result();
+                  $email = "";
+                  if ($result->num_rows > 0) {
+                      while ($row = $result->fetch_assoc()) {
+                          $email = $row['email'];
+                      }
+                  }
+                  $connection = new mysqli($hostname, $username, $password, $database);
+                  $preparedSQL = $connection->prepare("UPDATE students SET supervisor=?, supervisorEmail=? WHERE id=?");
+                  $preparedSQL->bind_param("sss", $choice, $email, $data[0]);
+                  $preparedSQL->execute();
+                  if (!$preparedSQL) {
+                    echo $connection->error;
+                  }
+                  break 2; 
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  header('location: /home/student/');
+  exit();
+} else {
   echo 'Invalid upload type.';
 }
 if (file_exists($targetFile)) {

@@ -7,11 +7,11 @@ require '/var/www/vendor/autoload.php';
 
 $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 $worksheet = $spreadsheet->getActiveSheet();
-foreach (range('A', 'G') as $col) {
+foreach (range('A', 'Z') as $col) {
     $worksheet->getColumnDimension($col)->setWidth(20);
 }
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students");
+$preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, supervisorEmail, moderator, moderatorEmail FROM students");
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 if ($result->num_rows > 0) {
@@ -21,8 +21,10 @@ if ($result->num_rows > 0) {
     $worksheet->setCellValue('D1', 'Course Code');
     $worksheet->setCellValue('E1', 'Module Code');
     $worksheet->setCellValue('F1', 'Supervisor');
-    $worksheet->setCellValue('G1', 'Moderator');
-    $worksheet->getStyle('A1:G' . ($result->num_rows+1))
+    $worksheet->setCellValue('G1', 'Supervisor Email');
+    $worksheet->setCellValue('H1', 'Moderator');
+    $worksheet->setCellValue('I1', 'Moderator Email');
+    $worksheet->getStyle('A1:I' . ($result->num_rows+1))
     ->getAlignment()
     ->setHorizontal(PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
     ->setVertical(PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
