@@ -15,9 +15,16 @@
 <?php
 include '/var/www/html/validate.php';
 $name = trim($_POST['name']);
+if($_POST['studentsToAvoid'] === "") {
+    $_POST['studentsToAvoid'] = NULL;
+} else {
+    $_POST['studentsToAvoid'] = str_replace('UP', '', strtoupper($_POST['studentsToAvoid']));
+    $_POST['studentsToAvoid'] = str_replace(', ', ',', $_POST['studentsToAvoid']);
+    $_POST['studentsToAvoid'] = str_replace(',', ', ', $_POST['studentsToAvoid']);
+}
 $connection = new mysqli($hostname, $username, $password, $database);
-$preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, quota=? WHERE email=?");
-$preparedSQL->bind_param("sssss", $_POST['name'], $_POST['email'], $_POST['role'], $_POST['quota'], $_SESSION['emailToUpdate']);
+$preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, quota=?, studentsToAvoid=? WHERE email=?");
+$preparedSQL->bind_param("ssssss", $_POST['name'], $_POST['email'], $_POST['role'], $_POST['quota'], $_POST['studentsToAvoid'], $_SESSION['emailToUpdate']);
 $preparedSQL->execute();
 $connection->close();
 $name = $_SESSION['name'];

@@ -52,6 +52,7 @@ include '/var/www/html/validate.php';
             echo "<th>Role</th>";
             echo "<th>Quota</th>";
             echo "<th>Allocated</th>";
+            echo "<th>Avoid</th>";
             echo "<th>Profile</th>";
             echo "</tr>";
             while ($row = $result->fetch_assoc()) {
@@ -61,12 +62,13 @@ include '/var/www/html/validate.php';
                 $role = $row['role'];
                 $quota = $row['quota'];
                 $allocatedStudents = $row['allocatedStudents'];
-                $studentsToAvoid = $row['studentsToAvoid'];
+                $studentsToAvoid = $row['studentsToAvoid'] ?? "NONE";
                 echo "<th>$name</th>";
                 echo "<th>$email</th>";
                 echo "<th>$role</th>";
                 echo "<th>$quota</th>";
                 echo "<th>$allocatedStudents</th>";
+                echo "<th>$studentsToAvoid</th>";
                 echo "<th><a href='/home/staff/search/search.php?email=$email&redirect=staff_all'>View Profile</a></th>";
                 echo "</tr>";
             }

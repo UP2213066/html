@@ -116,7 +116,14 @@ if ($result->num_rows > 0) {
                 </select>
                 <label for="role">Quota:</label>
                 <?php echo '<input type="text" id="quota" name="quota" value="' . $quota . '">' ?>
-                <?php echo '<p id="allocatedStudents" name="allocatedStudents">Allocated: ' . count($allocatedStudents) . '</p>' ?>
+                <?php 
+                echo '<p id="allocatedStudents" name="allocatedStudents">Allocated: ' . count($allocatedStudents) . '</p>'; 
+                if (count($allocatedStudents) >= $quota) {
+                    echo '<p>QUOTA MET</p>';
+                } 
+                ?>
+                <label for="studentsToAvoid">Students to Avoid (Comma Separated IDs):</label>
+                <?php echo '<input type="text" id="studentsToAvoid" name="studentsToAvoid" value="' . $studentsToAvoid . '">' ?>
                 <input type="submit" value="Submit">
                 <button type="submit" formaction="/home/staff/delete/">Delete</button>
                 <?php
