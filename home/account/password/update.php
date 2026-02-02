@@ -13,6 +13,9 @@
     reused or redistributed without permission.
 -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
 $preparedSQL = $connection->prepare("SELECT password FROM staff WHERE email = ?");
