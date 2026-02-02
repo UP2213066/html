@@ -175,17 +175,17 @@ if (!$moderatorFound) {
                 <select id="course" name="course">
                     <?php
                     $index = 0;
-                    if (isset($currentCourseCode) && isset($currentCourseName)) {
-                        echo "<option value='$currentCourseCode'>$currentCourseCode - $currentCourseName</option>";
-                    }
                     if ($courseCodes == []) {
-                        echo "<option value='NONE'>NO MODULES FOUND</option>";
-                    } else {
-                        foreach($courseCodes as $courseCode) {
-                            $name = $courseNames[$index];
-                            echo "<option value='$courseCode'>$courseCode - $name</option>";
-                            $index++;
+                        if (isset($currentCourseCode) && isset($currentCourseName)) {
+                            echo "<option value='$currentCourseCode'>$currentCourseCode - $currentCourseName</option>";
+                        } else {
+                            echo "<option value='NONE'>NO MODULES FOUND</option>";
                         }
+                    }
+                    foreach($courseCodes as $courseCode) {
+                        $name = $courseNames[$index];
+                        echo "<option value='$courseCode'>$courseCode - $name</option>";
+                        $index++;
                     }
                     ?>
                 </select> 
