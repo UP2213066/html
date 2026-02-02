@@ -42,6 +42,7 @@ include '/var/www/html/validate.php';
             <form action="/home/upload/" method="post" enctype="multipart/form-data">
                 <input type="file" name="fileUpload" id="fileUpload" accept=".xlsx,.xls,.ods,.csv" required>
                 <input type="hidden" name="fileType" value="studentSupervisorChoiceUpload">
+                <input type="hidden" name="csrf_token" value=<?php echo $_SESSION['csfr_token']; ?>>
                 <input type="submit" value="Upload">
             </form>
             <br>
