@@ -14,9 +14,6 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 if ($_POST['searchType'] === "name") {
     $name = $_POST['firstName'] . ' ' . $_POST['lastName'];
     $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
