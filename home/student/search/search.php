@@ -14,9 +14,6 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (isset($_GET['id'])) {
         $_POST['id'] = $_GET['id'];
@@ -273,7 +270,7 @@ if (!$moderatorFound) {
                 <button type="submit" formaction="/home/student/delete/">Delete Student</button>
             </form>
             <?php
-                $connection = new mysqli($hostname, $username, $password, $database);
+                $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
                 $preparedSQL = $connection->prepare("SELECT id, note FROM student_notes WHERE studentID=?");
                 $preparedSQL->bind_param("s", $_POST['id']);
                 $preparedSQL->execute();
