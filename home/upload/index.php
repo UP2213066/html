@@ -18,11 +18,23 @@ include '/var/www/html/validate.php';
 require '/var/www/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+if (isset($_POST['csrf_token'])) {
+  if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    echo "Invalid CSRF token.";
+    header('Location: /');
+    exit();
+  }
+} else {
+  header('Location: /');
+  exit();
+}
+
+
 $targetDir = '/uploads/';
 echo 'Uploading file...<br>';
 $file = $_FILES['fileUpload'];
 $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-$uniqueName = bin2hex(uniqid()) . '.' . $fileExtention;
+$uniqueName = bin2hex(random_bytes(16)) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;
 
 if ($file['size'] > 5242880){
@@ -41,7 +53,8 @@ try {
   $spreadsheet = IOFactory::load($targetFile);
   $sheet = $spreadsheet->getActiveSheet();
 } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
-    die('Error reading spreadsheet: ' . $e->getMessage());
+  header('location: /home/');
+  exit;
 }
 if (file_exists($targetFile)) {
   unlink($targetFile); 
@@ -66,9 +79,6 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
       $preparedSQL->bind_param("ssss", $data[0], $data[1], $startPassword, $data[2]);
       $preparedSQL->execute();
-      if (!$preparedSQL) {
-        echo $connection->error;
-      }
     }
   }
   header('location: /home/staff/');
@@ -93,9 +103,6 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
       $preparedSQL->bind_param("sss", $data[2], $data[0], $data[1]);
       $preparedSQL->execute();
-      if (!$preparedSQL) {
-          echo $connection->error;
-      }  
     }
   }
   header('location: /home/staff/');
@@ -135,9 +142,6 @@ if ($_POST['fileType'] === 'staffUpload') {
         echo "Adding student ID " . $data[0] . "<br>";
         $preparedSQL->bind_param("sssss", $data[0], $data[1], $data[2], $data[3], $data[4]);
         $preparedSQL->execute();
-        if (!$preparedSQL) {
-          echo $connection->error;
-        }
       } else {
         echo "Skipping placement student ID " . $data[0] . "<br>";
       }
@@ -168,9 +172,6 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
       $preparedSQL->bind_param("ssss", $data[0], $data[1], $data[2], $data[3]);
       $preparedSQL->execute();
-      if (!$preparedSQL) {
-        echo $connection->error;
-      }
     }
   }
   header('location: /home/student/');
@@ -215,9 +216,6 @@ if ($_POST['fileType'] === 'staffUpload') {
         }
         $preparedSQL->bind_param("sss", $data[1], $email, $data[3]);
         $preparedSQL->execute();
-        if (!$preparedSQL) {
-          echo $connection->error;
-        }
       }
     }
   }
@@ -286,9 +284,6 @@ if ($_POST['fileType'] === 'staffUpload') {
                   $preparedSQL = $connection->prepare("UPDATE students SET supervisor=?, supervisorEmail=? WHERE id=?");
                   $preparedSQL->bind_param("sss", $choice, $email, $data[0]);
                   $preparedSQL->execute();
-                  if (!$preparedSQL) {
-                    echo $connection->error;
-                  }
                   break 2; 
                 }
               }
