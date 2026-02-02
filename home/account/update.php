@@ -13,6 +13,9 @@
     reused or redistributed without permission.
 -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 $name = trim($_POST['name']);
 $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
