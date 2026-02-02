@@ -299,10 +299,11 @@ if ($_POST['fileType'] === 'staffUpload') {
     }
   }
   if (file_exists($targetFile)) {
+    echo 'Deleting uploaded file...<br>';
     unlink($targetFile); 
   }
-  header('location: /home/student/');
-  exit();
+  // header('location: /home/student/');
+  // exit();
 } else {
   echo 'Invalid upload type.';
 }
