@@ -181,11 +181,13 @@ if (!$moderatorFound) {
                         } else {
                             echo "<option value='NONE'>NO MODULES FOUND</option>";
                         }
-                    }
-                    foreach($courseCodes as $courseCode) {
-                        $name = $courseNames[$index];
-                        echo "<option value='$courseCode'>$courseCode - $name</option>";
-                        $index++;
+                    } else {
+                        echo "<option value='$currentCourseCode'>$currentCourseCode - $currentCourseName</option>";
+                        foreach($courseCodes as $courseCode) {
+                            $name = $courseNames[$index];
+                            echo "<option value='$courseCode'>$courseCode - $name</option>";
+                            $index++;
+                        }
                     }
                     ?>
                 </select> 
