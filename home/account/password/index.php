@@ -45,6 +45,7 @@ include '/var/www/html/validate.php';
                 <input type="password" id="new1" name="new1">
                 <label for="new2">Re-enter New Password:</label>
                 <input type="password" id="new2" name="new2">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <input type="submit" value="Submit">
             </form>
             <?php 
