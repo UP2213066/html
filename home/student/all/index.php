@@ -14,11 +14,6 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-echo $read_student_username;
-echo $read_student_password;
 ?>
 <!DOCTYPE html>
 <html>
