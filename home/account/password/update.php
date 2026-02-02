@@ -25,7 +25,7 @@ $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 if ($result->num_rows > 0) {
     unset($_SESSION['search-error']);
-    $result->fetch_assoc()
+    $result->fetch_assoc();
     $currentPassword = $row['password'];
 }
 $connection->close();
