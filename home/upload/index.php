@@ -46,6 +46,9 @@ try {
 } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
     die('Error reading spreadsheet: ' . $e->getMessage());
 }
+if (file_exists($targetFile)) {
+  unlink($targetFile); 
+}
 if ($_POST['fileType'] === 'staffUpload') {
   echo 'Processing staff upload...<br>';
   $connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
@@ -298,12 +301,8 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
     }
   }
-  if (file_exists($targetFile)) {
-    echo 'Deleting uploaded file...<br>';
-    unlink($targetFile); 
-  }
-  // header('location: /home/student/');
-  // exit();
+  header('location: /home/student/');
+  exit();
 } else {
   echo 'Invalid upload type.';
 }
