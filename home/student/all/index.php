@@ -41,7 +41,7 @@ error_reporting(E_ALL);
     <main>
         <h1>All Students</h1>
         <?php
-        $connection = new mysqli($hostname, $read_student_username, $read_student_username, $database);
+        $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
         $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students");
         $preparedSQL->execute();
         $result = $preparedSQL->get_result();
@@ -81,7 +81,7 @@ error_reporting(E_ALL);
         } else {
             echo "<p>No final students found.</p>";
         }
-        $connection = new mysqli($hostname, $read_student_username, $read_student_username, $database);
+        $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
         $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, placementEndYear FROM placement_students");
         $preparedSQL->execute();
         $result = $preparedSQL->get_result();
