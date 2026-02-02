@@ -298,11 +298,11 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
     }
   }
+  if (file_exists($targetFile)) {
+    unlink($targetFile); 
+  }
   header('location: /home/student/');
   exit();
 } else {
   echo 'Invalid upload type.';
-}
-if (file_exists($targetFile)) {
-  unlink($targetFile); 
 }
