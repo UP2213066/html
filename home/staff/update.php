@@ -25,7 +25,7 @@ if($_POST['studentsToAvoid'] === "") {
     $_POST['studentsToAvoid'] = str_replace(', ', ',', $_POST['studentsToAvoid']);
     $_POST['studentsToAvoid'] = str_replace(',', ', ', $_POST['studentsToAvoid']);
 }
-$connection = new mysqli($hostname, $update_staff_username, $update_staff_username, $database);
+$connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
 $preparedSQL = $connection->prepare("UPDATE staff SET name=?, email=?, role=?, quota=?, studentsToAvoid=? WHERE email=?");
 $preparedSQL->bind_param("ssssss", $_POST['name'], $_POST['email'], $_POST['role'], $_POST['quota'], $_POST['studentsToAvoid'], $_SESSION['emailToUpdate']);
 $preparedSQL->execute();
