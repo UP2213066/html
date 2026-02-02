@@ -175,10 +175,12 @@ if (!$moderatorFound) {
                 <select id="course" name="course">
                     <?php
                     $index = 0;
+                    if (isset($currentCourseCode) && isset($currentCourseName)) {
+                        echo "<option value='$currentCourseCode'>$currentCourseCode - $currentCourseName</option>";
+                    }
                     if ($courseCodes == []) {
                         echo "<option value='NONE'>NO MODULES FOUND</option>";
                     } else {
-                        echo "<option value='$currentCourseCode'>$currentCourseCode - $currentCourseName</option>";
                         foreach($courseCodes as $courseCode) {
                             $name = $courseNames[$index];
                             echo "<option value='$courseCode'>$courseCode - $name</option>";
