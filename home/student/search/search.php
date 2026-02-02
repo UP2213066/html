@@ -14,6 +14,9 @@
 -->
 <?php
 include '/var/www/html/validate.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (isset($_GET['id'])) {
         $_POST['id'] = $_GET['id'];
