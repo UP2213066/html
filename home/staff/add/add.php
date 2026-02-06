@@ -19,7 +19,7 @@ error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 $connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
 $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
-$preparedSQL->bind_param("sssss", $_POST['name'], $_POST['email'], $startPassword, $_POST['role'], $_POST['quota']);
+$preparedSQL->bind_param("sssss", $_POST['email'], $_POST['name'], $_POST['role'], $start_password, $_POST['quota']);
 $preparedSQL->execute();
 header('Location: /home/staff/');
 exit();
