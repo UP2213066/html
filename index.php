@@ -27,7 +27,7 @@ $error = $_SESSION['login_error'] ?? '';
     </head>
     <body>
     <nav class="navigationBar">
-        <a class="home" href="/">University of Portsmouth</a>
+        <a class="home" href="/">Home</a>
     </nav>
     <main>
         <h1>Login</h1>

@@ -24,9 +24,8 @@ include '/var/www/html/validate.php';
     </head>
     <body>
         <nav class="navigationBar">
-            <a class="home" href="/home/">University of Portsmouth</a>
+            <a class="home" href="/home/">Home</a>
             <a href="/logout.php">Logout</a>
-            <!-- <a href="/home/edit">Edit Staff</a> -->
         </nav>
         <main>
             <?php 

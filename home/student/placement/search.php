@@ -57,7 +57,7 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     </head>
     <body>
         <nav class="navigationBar">
-            <a class="home" href="/home/">University of Portsmouth</a>
+            <a class="home" href="/home/">Home</a>
             <a href="/logout.php">Logout</a>
             <?php 
             include "/var/www/html/redirects.php";
