@@ -32,7 +32,7 @@ include '/var/www/html/validate.php';
                     $redirect = $redirects[$_GET['redirect']];
                     echo "<a href='$redirect'>Back</a>";
                 } else {
-                    echo "<a href='../'>Back</a>";
+                    echo "<a href='/home/student/'>Back</a>";
                 } 
             ?>
         </nav>
