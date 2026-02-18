@@ -17,8 +17,13 @@
 <?php
 session_start();
 include '/sec/db.php';
-$connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
-$preparedSQL = $connection->prepare("SELECT email, password, name, role FROM staff WHERE email = ?");
+try {
+    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+}catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
+    $preparedSQL = $connection->prepare("SELECT email, password, name, role FROM staff WHERE email = ?");
 $preparedSQL->bind_param("s", $_POST['username']);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
