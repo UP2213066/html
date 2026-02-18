@@ -41,6 +41,7 @@ include '/var/www/html/validate.php';
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
         if ($connection->connect_error) {
             echo "<p>Database Connection Failed</p>";
