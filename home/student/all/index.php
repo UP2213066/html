@@ -41,7 +41,7 @@ include '/var/www/html/validate.php';
         try {
             $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
         } catch (mysqli_sql_exception $e) {
-            echo "<p>There was an error when loading. Please try again</p>";
+            echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
             exit();
         }
         $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students");
