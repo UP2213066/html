@@ -39,7 +39,7 @@ include '/var/www/html/validate.php';
         <h1>All Students</h1>
         <?php
         $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
-        if ($connection -> connect_errno) {
+        if ($connection -> error) {
             echo "<p>Database Connection Failed</p>";
             exit();
         }
