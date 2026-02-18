@@ -38,10 +38,10 @@ include '/var/www/html/validate.php';
     <main>
         <h1>All Students</h1>
         <?php
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
         $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+        if ($connection -> connect_errno) {
+            echo "<p>Database Connection Failed</p>";
+        }
         $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, moderator FROM students");
         $preparedSQL->execute();
         $result = $preparedSQL->get_result();
