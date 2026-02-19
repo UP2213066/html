@@ -35,6 +35,7 @@ $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 $mimeType = mime_content_type($file);
 $uniqueName = bin2hex(random_bytes(16)) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;
+echo $mimeType;
 
 if ($file['size'] > 5242880){
   die('File too large.');
