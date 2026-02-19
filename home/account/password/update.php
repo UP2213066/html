@@ -18,7 +18,12 @@ if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST
     header("Location: /");
     exit;
 }
-$connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT password FROM staff WHERE email = ?");
 $preparedSQL->bind_param("s", $_SESSION['email']);
 $preparedSQL->execute();
