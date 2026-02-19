@@ -14,9 +14,6 @@
     reused or redistributed without permission.
 -->
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 require '/var/www/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -31,7 +28,11 @@ if (isset($_POST['csrf_token'])) {
   header('Location: /');
   exit();
 }
-
+function unlinkFile($targetFile) {
+  if (file_exists($targetFile)) {
+    unlink($targetFile); 
+  }
+}
 $targetDir = '/uploads/';
 $file = $_FILES['fileUpload'];
 $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -40,36 +41,41 @@ $finfo = new finfo(FILEINFO_MIME_TYPE);
 $mimeType = $finfo->file($tmpFile);
 $uniqueName = bin2hex(random_bytes(16)) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;
-echo $mimeType;
 
 if ($file['size'] > 5242880){
-  die('File too large.');
+  unlinkFile($targetFile);
+  echo "File too large";
+  exit();
 }
 
 $allowedExtentions = ['xlsx', 'xls', 'csv', 'ods'];
 if (!in_array($fileExtention, $allowedExtentions)) {
-  die('Invalid file type of ' . $fileExtention);
+  unlinkFile($targetFile);
+  echo "Invalid file type of $fileExtention";
+  exit();
 }
 
 $allowedMimes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '	application/vnd.ms-excel', 'text/csv', 'application/vnd.oasis.opendocument.spreadsheet'];
 if (!in_array($mimeType, $allowedMimes)) {
+  unlinkFile($targetFile);  
   echo "Invalid MIME type of $mimeType";
   exit();
 }
 
 if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
-  die('Failed to save file.');
+  unlinkFile($targetFile);
+  echo "Failed to save file";
+  exit();
 }
 try {
   $spreadsheet = IOFactory::load($targetFile);
   $sheet = $spreadsheet->getActiveSheet();
 } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+  unlinkFile($targetFile);
   header('location: /home/');
   exit;
 }
-if (file_exists($targetFile)) {
-  unlink($targetFile); 
-}
+unlinkFile($targetFile);
 if ($_POST['fileType'] === 'staffUpload') {
   echo 'Processing staff upload...<br>';
   $connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
