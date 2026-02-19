@@ -78,7 +78,12 @@ try {
 unlinkFile($targetFile);
 if ($_POST['fileType'] === 'staffUpload') {
   echo 'Processing staff upload...<br>';
-  $connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
+  try {
+    $connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
+  } catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+  }
   $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, 0, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUE(quota), allocatedStudents=VALUE(allocatedStudents), studentsToAvoid=VALUE(studentsToAvoid)");
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
@@ -102,7 +107,12 @@ if ($_POST['fileType'] === 'staffUpload') {
   exit();
 } elseif ($_POST['fileType'] === 'quotaUpload') {
   echo 'Processing quota upload...<br>';
-  $connection = new mysqli($hostname, $update_staff_username, $update_staff_username, $database);
+  try {
+    $connection = new mysqli($hostname, $update_staff_username, $update_staff_username, $database);
+  } catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+  }
   $preparedSQL = $connection->prepare("UPDATE staff SET quota=? WHERE name=? and email=?");
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
@@ -126,7 +136,12 @@ if ($_POST['fileType'] === 'staffUpload') {
   exit();
 } elseif ($_POST['fileType'] === 'studentUpload') {
   echo 'Processing student upload...<br>';
-  $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+  try {
+    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+  } catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+  }
   $query = "SELECT id FROM placement_students";
   $result = $connection->query($query);
   $placementStudents = [];
@@ -136,7 +151,12 @@ if ($_POST['fileType'] === 'staffUpload') {
     }
   }
   echo $placementStudents;
-  $connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
+  try {
+    $connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
+  } catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+  }
   $preparedSQL = $connection->prepare("INSERT IGNORE INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL, NULL, NULL)");
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
@@ -168,7 +188,12 @@ if ($_POST['fileType'] === 'staffUpload') {
   exit();
 } elseif ($_POST['fileType'] === 'placementStudentUpload') {
   echo 'Processing placement student upload...<br>';
-  $connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
+  try {
+    $connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
+  } catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+  } 
   $preparedSQL = $connection->prepare("INSERT IGNORE INTO placement_students VALUES(?, ?, ?, ?)");
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
@@ -211,7 +236,12 @@ if ($_POST['fileType'] === 'staffUpload') {
         break;
       }
       if (strtoupper($data[5]) === "YES") {
-        $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+        try {
+          $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+        } catch (mysqli_sql_exception $e) {
+          echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+          exit();
+        }
         $preparedSQL = $connection->prepare("SELECT email FROM staff WHERE name=?");
         $preparedSQL->bind_param("s", $data[1]);
         $preparedSQL->execute();
@@ -222,7 +252,12 @@ if ($_POST['fileType'] === 'staffUpload') {
                 $email = $row['email'];
             }
         }
-        $connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+        try {
+          $connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+        } catch (mysqli_sql_exception $e) {
+          echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+          exit();
+        }
         if (strtoupper($data[0]) === "SUPERVISOR") {
           $preparedSQL = $connection->prepare("UPDATE students SET supervisor=?, supervisorEmail=? WHERE id=?");
         } elseif (strtoupper($data[0]) === "MODERATOR") {
@@ -256,8 +291,13 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
       if(substr($data[0], 0, 2) == "UP") {
           $data[0] = substr($data[0], 2);
-        }
-      $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+      }
+      try {
+        $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+      } catch (mysqli_sql_exception $e) {
+        echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+        exit();
+      }
       $preparedSQL = $connection->prepare("SELECT supervisor FROM students WHERE id=?");
       $preparedSQL->bind_param("s", $data[0]);
       $preparedSQL->execute();
@@ -271,7 +311,12 @@ if ($_POST['fileType'] === 'staffUpload') {
       if ($currentSupervisor === NULL || $currentSupervisor === "") {
         $choices = [$data[3], $data[4], $data[5]];
         foreach ($choices as $choice) {
-          $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+          try {
+            $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+          } catch (mysqli_sql_exception $e) {
+            echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+            exit();
+          }
           $preparedSQL = $connection->prepare("SELECT allocatedStudents, quota, studentsToAvoid FROM staff WHERE name=?");
           $preparedSQL->bind_param("s", $choice);
           $preparedSQL->execute();
@@ -286,7 +331,12 @@ if ($_POST['fileType'] === 'staffUpload') {
               $studentsToAvoid = explode(", ", $row['studentsToAvoid']);
               if(!in_array($data[0], $studentsToAvoid)) {
                 if ($allocatedStudents < $quota) {
-                  $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+                  try {
+                    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+                  } catch (mysqli_sql_exception $e) {
+                    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+                    exit();
+                  }
                   $preparedSQL = $connection->prepare("SELECT email FROM staff WHERE name=?");
                   $preparedSQL->bind_param("s", $choice);
                   $preparedSQL->execute();
@@ -297,7 +347,12 @@ if ($_POST['fileType'] === 'staffUpload') {
                           $email = $row['email'];
                       }
                   }
-                  $connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+                  try {
+                    $connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+                  } catch (mysqli_sql_exception $e) {
+                    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+                    exit();
+                  }
                   $preparedSQL = $connection->prepare("UPDATE students SET supervisor=?, supervisorEmail=? WHERE id=?");
                   $preparedSQL->bind_param("sss", $choice, $email, $data[0]);
                   $preparedSQL->execute();
