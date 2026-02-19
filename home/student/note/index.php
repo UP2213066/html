@@ -16,7 +16,12 @@
 include '/var/www/html/validate.php';
 if (isset($_GET['id'])) {
     $_SESSION['noteIDToDelete'] = $_GET['id'];
-    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+    try {
+        $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+    } catch (mysqli_sql_exception $e) {
+        echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+        exit();
+    }
     $preparedSQL = $connection->prepare("SELECT note FROM notes WHERE id=?");
     $preparedSQL->bind_param("s", $_GET['id']);
     $preparedSQL->execute();

@@ -10,7 +10,12 @@ $worksheet = $spreadsheet->getActiveSheet();
 foreach (range('A', 'Z') as $col) {
     $worksheet->getColumnDimension($col)->setWidth(20);
 }
-$connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, supervisorEmail, moderator, moderatorEmail FROM students");
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
@@ -30,24 +35,33 @@ if ($result->num_rows > 0) {
     ->setVertical(PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
     $rowNumber = 2;
     while ($row = $result->fetch_assoc()) {
-        $supervisor = $row['supervisor'] ?? "NO SUPERVISOR";
-        $moderator = $row['moderator'] ?? "NO MODERATOR";
-        $worksheet->setCellValue('A' . $rowNumber, $row['id']);
-        $worksheet->setCellValue('B' . $rowNumber, $row['firstName']);
-        $worksheet->setCellValue('C' . $rowNumber, $row['lastName']);
-        $worksheet->setCellValue('D' . $rowNumber, $row['courseCode']);
-        $worksheet->setCellValue('E' . $rowNumber, $row['moduleCode']);
-        $worksheet->setCellValue('F' . $rowNumber, $supervisor);
-        $worksheet->setCellValue('G' . $rowNumber, $moderator);
-        $rowNumber++;
+        try {
+            $supervisor = $row['supervisor'] ?? "NO SUPERVISOR";
+            $moderator = $row['moderator'] ?? "NO MODERATOR";
+            $worksheet->setCellValue('A' . $rowNumber, $row['id']);
+            $worksheet->setCellValue('B' . $rowNumber, $row['firstName']);
+            $worksheet->setCellValue('C' . $rowNumber, $row['lastName']);
+            $worksheet->setCellValue('D' . $rowNumber, $row['courseCode']);
+            $worksheet->setCellValue('E' . $rowNumber, $row['moduleCode']);
+            $worksheet->setCellValue('F' . $rowNumber, $supervisor);
+            $worksheet->setCellValue('G' . $rowNumber, $moderator);
+            $rowNumber++;
+        } catch(Exception $e) {
+            echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+            exit();
+        }
     }
 }
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header("Content-Disposition: attachment; filename=StudentExport.xlsx");
 header('Cache-Control: max-age=0');
-
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
-$writer->save('php://output');
-echo "Download complete.";
+try {
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
+    $writer->save('php://output');
+    echo "Download complete.";
+} catch(Exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 ?>

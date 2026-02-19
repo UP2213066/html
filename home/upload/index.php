@@ -29,11 +29,10 @@ if (isset($_POST['csrf_token'])) {
   exit();
 }
 
-
 $targetDir = '/uploads/';
-echo 'Uploading file...<br>';
 $file = $_FILES['fileUpload'];
 $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+$mimeType = mime_content_type($file);
 $uniqueName = bin2hex(random_bytes(16)) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;
 
@@ -41,9 +40,14 @@ if ($file['size'] > 5242880){
   die('File too large.');
 }
 
-$allowed = ['xlsx', 'xls', 'csv', 'ods'];
-if (!in_array($fileExtention, $allowed)) {
+$allowedExtentions = ['xlsx', 'xls', 'csv', 'ods'];
+if (!in_array($fileExtention, $allowedExtentions)) {
   die('Invalid file type of ' . $fileExtention);
+}
+
+$allowedMimes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '	application/vnd.ms-excel', 'text/csv', 'application/vnd.oasis.opendocument.spreadsheet'];
+if (!in_array($mimeType, $allowedMimes)) {
+  die('Invalid MIME type of ' . $mimeType);
 }
 
 if (!move_uploaded_file($file['tmp_name'], $targetFile)) {

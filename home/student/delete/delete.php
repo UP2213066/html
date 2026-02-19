@@ -14,7 +14,12 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-$connection = new mysqli($hostname, $delete_student_username, $delete_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $delete_student_username, $delete_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("DELETE FROM students WHERE id=?");
 $preparedSQL->bind_param("s", $_SESSION['idToUpdate']);
 $preparedSQL->execute();

@@ -14,7 +14,12 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-$connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
+try {
+    $connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("INSERT INTO students VALUES(?, ?, ?, ?, ?, NULL, NULL, NULL, NULL) ON DUPLICATE KEY UPDATE id=VALUE(id), firstName=VALUE(firstName), lastName=VALUE(lastName), courseCode=VALUE(courseCode), moduleCode=VALUE(moduleCode)");
 $preparedSQL->bind_param("sssss", $_POST['id'], $_POST['fname'], $_POST['lname'], $_POST['course'], $_POST['module']);
 $preparedSQL->execute();

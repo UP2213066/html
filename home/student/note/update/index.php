@@ -14,7 +14,12 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-$connection = new mysqli($hostname, $update_notes_username, $update_notes_password, $database);
+try {
+    $connection = new mysqli($hostname, $update_notes_username, $update_notes_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("UPDATE notes SET note=? WHERE id=?");
 $preparedSQL->bind_param("ss", $_POST['note'], $_SESSION['noteIDToDelete']);
 $preparedSQL->execute();

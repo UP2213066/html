@@ -7,8 +7,12 @@ if (!isset($_GET['course'])) {
 }
 
 $course = $_GET['course'];
-
-$connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT moduleCode, moduleName FROM projects WHERE courseCode=?");
 $preparedSQL->bind_param("s", $course);
 $preparedSQL->execute();

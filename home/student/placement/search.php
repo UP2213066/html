@@ -21,7 +21,12 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (strtoupper(substr($_POST['id'], 0, 2)) === "UP") {
         $_POST['id'] = substr($_POST['id'], 2);
     }
-    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+    try {
+        $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+    } catch (mysqli_sql_exception $e) {
+        echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+        exit();
+    }
     $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, placementEndYear FROM placement_students WHERE id=?");
     $preparedSQL->bind_param("s", $_POST['id']);
     $preparedSQL->execute();

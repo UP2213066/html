@@ -38,7 +38,12 @@ include '/var/www/html/validate.php';
     <main>
         <h1>All Staff</h1>
         <?php
-        $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+        try {
+            $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+        } catch (mysqli_sql_exception $e) {
+            echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+            exit();
+        }
         $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email <> ?");
         $preparedSQL->bind_param("s", $_SESSION['email']);
         $preparedSQL->execute();

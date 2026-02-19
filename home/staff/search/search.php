@@ -16,7 +16,12 @@
 include '/var/www/html/validate.php';
 if ($_POST['searchType'] === "name") {
     $name = $_POST['firstName'] . ' ' . $_POST['lastName'];
-    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+    try {
+        $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+    } catch (mysqli_sql_exception $e) {
+        echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+        exit();
+    }
     $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE name=?");
     $preparedSQL->bind_param("s", $name);
     $preparedSQL->execute();
@@ -42,7 +47,12 @@ if ($_POST['searchType'] === "name") {
     if (isset($_GET['email'])) {
         $_POST['email'] = $_GET['email'];
     }
-    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+    try {
+        $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+    } catch (mysqli_sql_exception $e) {
+        echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+        exit();
+    }
     $preparedSQL = $connection->prepare("SELECT name, email, role, quota, allocatedStudents, studentsToAvoid FROM staff WHERE email=?");
     $preparedSQL->bind_param("s", $_POST['email']);
     $preparedSQL->execute();
@@ -70,7 +80,12 @@ if ($_POST['searchType'] === "name") {
     die();
 }
 $allocatedStudents = [];
-$connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT id FROM students WHERE supervisorEmail=?");
 $preparedSQL->bind_param("s", $email);
 $preparedSQL->execute();

@@ -83,7 +83,12 @@ include '/var/www/html/validate.php';
         } else {
             echo "<p>No final students found.</p>";
         }
-        $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+        try {
+            $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+        } catch (mysqli_sql_exception $e) {
+            echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+            exit();
+        }
         $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, placementEndYear FROM placement_students");
         $preparedSQL->execute();
         $result = $preparedSQL->get_result();

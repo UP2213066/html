@@ -17,7 +17,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include '/var/www/html/validate.php';
-$connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
+try {
+    $connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("INSERT INTO staff VALUES(?, ?, ?, ?, ?, 0, NULL) ON DUPLICATE KEY UPDATE quota=VALUES(quota), allocatedStudents=VALUES(allocatedStudents), studentsToAvoid=VALUES(studentsToAvoid)");
 $preparedSQL->bind_param("sssss", $_POST['email'], $_POST['name'], $_POST['role'], $start_password, $_POST['quota']);
 $preparedSQL->execute();

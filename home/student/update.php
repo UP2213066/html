@@ -14,7 +14,12 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-$connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT name FROM staff WHERE email=?");
 $preparedSQL->bind_param("s", $_POST['supervisor']);
 $preparedSQL->execute();
@@ -24,7 +29,12 @@ if ($result->num_rows > 0) {
         $supervisorName = $row['name'];
     }
 }
-$connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT name FROM staff WHERE email=?");
 $preparedSQL->bind_param("s", $_POST['moderator']);
 $preparedSQL->execute();
@@ -34,7 +44,12 @@ if ($result->num_rows > 0) {
         $moderatorName = $row['name'];
     }
 }
-$connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("UPDATE students SET firstName=?, lastName=?, courseCode=?, moduleCode=?, supervisor=?, supervisorEmail=?, moderator=?, moderatorEmail=? WHERE id=?");
 $preparedSQL->bind_param("sssssssss", $_POST['firstName'], $_POST['lastName'], $_POST['course'], $_POST['module'], $supervisorName, $_POST['supervisor'], $moderatorName, $_POST['moderator'], $_SESSION['idToUpdate']);
 $preparedSQL->execute();

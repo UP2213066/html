@@ -21,7 +21,12 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     if (strtoupper(substr($_POST['id'], 0, 2)) === "UP") {
         $_POST['id'] = substr($_POST['id'], 2);
     }
-    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+    try {
+        $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+    } catch (mysqli_sql_exception $e) {
+        echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+        exit();
+    }
     $preparedSQL = $connection->prepare("SELECT id, firstName, lastName, courseCode, moduleCode, supervisor, supervisorEmail, moderator, moderatorEmail FROM students WHERE id=?");
     $preparedSQL->bind_param("s", $_POST['id']);
     $preparedSQL->execute();
@@ -62,7 +67,12 @@ if ($_POST['searchType'] === "id" || isset($_GET['id'])) {
     header("Location: /home/student/search/");
     die();
 }
-$connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT moduleCode, moduleName FROM projects WHERE courseCode=?");
 $preparedSQL->bind_param("s", $course);
 $preparedSQL->execute();
@@ -83,7 +93,12 @@ if ($result->num_rows > 0) {
         }
     }
 } 
-$connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT courseCode, courseName FROM courses");
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
@@ -110,7 +125,12 @@ if ($courseFound) {
     $currentCourseCode = $course;
     $currentCourseName = "UNKNOWN COURSE";
 }
-$connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+try {
+    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("SELECT name, email, quota, allocatedStudents, studentsToAvoid FROM staff");
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
@@ -274,8 +294,12 @@ if (!$moderatorFound) {
                 <button type="submit" formaction="/home/student/delete/">Delete Student</button>
             </form>
             <?php
-                $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
-                $preparedSQL = $connection->prepare("SELECT id, note FROM student_notes WHERE studentID=?");
+                try {
+                    $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
+                } catch (mysqli_sql_exception $e) {
+                    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+                    exit();
+                }$preparedSQL = $connection->prepare("SELECT id, note FROM student_notes WHERE studentID=?");
                 $preparedSQL->bind_param("s", $_POST['id']);
                 $preparedSQL->execute();
                 $result = $preparedSQL->get_result();

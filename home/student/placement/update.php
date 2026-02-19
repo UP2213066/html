@@ -13,11 +13,13 @@
     reused or redistributed without permission.
 -->
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 include '/var/www/html/validate.php';
-$connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+try {
+    $connection = new mysqli($hostname, $update_student_username, $update_student_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("UPDATE placement_students SET firstName=?, lastName=?, placementEndYear=? WHERE id=?");
 $preparedSQL->bind_param("ssss", $_POST['firstName'], $_POST['lastName'], $_POST['placementEndYear'], $_SESSION['idToUpdate']);
 $preparedSQL->execute();

@@ -14,7 +14,12 @@
 -->
 <?php
 include '/var/www/html/validate.php';
-$connection = new mysqli($hostname, $insert_notes_username, $insert_notes_password, $database);
+try {
+    $connection = new mysqli($hostname, $insert_notes_username, $insert_notes_password, $database);
+} catch (mysqli_sql_exception $e) {
+    echo "<p>Something went wrong while processing your request. Please refresh the page or try again later.</p>";
+    exit();
+}
 $preparedSQL = $connection->prepare("INSERT INTO notes (studentID, note) VALUES (?, ?)");
 $preparedSQL->bind_param("ss", $_SESSION['idToUpdate'], $_POST['note']);
 $preparedSQL->execute();
