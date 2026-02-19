@@ -183,7 +183,7 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
     }
   }
-  // header('location: /home/student/');
+  header('location: /home/student/');
   exit();
 } elseif ($_POST['fileType'] === 'placementStudentUpload') {
   echo 'Processing placement student upload...<br>';
