@@ -20,7 +20,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 if (isset($_POST['csrf_token'])) {
   if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-    echo "Invalid CSRF token.";
     header('Location: /');
     exit();
   }
@@ -51,14 +50,14 @@ if ($file['size'] > 5242880){
 $allowedExtentions = ['xlsx', 'xls', 'csv', 'ods'];
 if (!in_array($fileExtention, $allowedExtentions)) {
   unlinkFile($targetFile);
-  echo "Invalid file type of $fileExtention";
+  echo "Invalid file type of" . htmlspecialchars($fileExtention);
   exit();
 }
 
 $allowedMimes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '	application/vnd.ms-excel', 'text/csv', 'application/vnd.oasis.opendocument.spreadsheet'];
 if (!in_array($mimeType, $allowedMimes)) {
   unlinkFile($targetFile);  
-  echo "Invalid MIME type of $mimeType";
+  echo "Invalid MIME type of " . htmlspecialchars($mimeType);
   exit();
 }
 
@@ -77,7 +76,6 @@ try {
 }
 unlinkFile($targetFile);
 if ($_POST['fileType'] === 'staffUpload') {
-  echo 'Processing staff upload...<br>';
   try {
     $connection = new mysqli($hostname, $uploading_staff_username, $uploading_staff_password, $database);
   } catch (mysqli_sql_exception $e) {
@@ -106,7 +104,6 @@ if ($_POST['fileType'] === 'staffUpload') {
   header('location: /home/staff/');
   exit();
 } elseif ($_POST['fileType'] === 'quotaUpload') {
-  echo 'Processing quota upload...<br>';
   try {
     $connection = new mysqli($hostname, $update_staff_username, $update_staff_username, $database);
   } catch (mysqli_sql_exception $e) {
@@ -135,7 +132,6 @@ if ($_POST['fileType'] === 'staffUpload') {
   header('location: /home/staff/');
   exit();
 } elseif ($_POST['fileType'] === 'studentUpload') {
-  echo 'Processing student upload...<br>';
   try {
     $connection = new mysqli($hostname, $read_student_username, $read_student_password, $database);
   } catch (mysqli_sql_exception $e) {
@@ -175,18 +171,15 @@ if ($_POST['fileType'] === 'staffUpload') {
         $data[0] = substr($data[0],2);
       }
       if (!in_array($data[0], $placementStudents)) {
-        echo "Adding student ID " . $data[0] . "<br>";
         $preparedSQL->bind_param("sssss", $data[0], $data[1], $data[2], $data[3], $data[4]);
         $preparedSQL->execute();
       } else {
-        echo "Skipping placement student ID " . $data[0] . "<br>";
       }
     }
   }
   header('location: /home/student/');
   exit();
 } elseif ($_POST['fileType'] === 'placementStudentUpload') {
-  echo 'Processing placement student upload...<br>';
   try {
     $connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
   } catch (mysqli_sql_exception $e) {
@@ -218,7 +211,6 @@ if ($_POST['fileType'] === 'staffUpload') {
   header('location: /home/student/');
   exit();
 } elseif ($_POST['fileType'] === 'selfReportUpload') {
-  echo 'Processing self report upload...<br>';
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
     if ($first) {
@@ -273,7 +265,6 @@ if ($_POST['fileType'] === 'staffUpload') {
   header('location: /home/student/');
   exit();
 } elseif ($_POST['fileType'] === 'studentSupervisorChoiceUpload') {
-  echo 'Processing student choice upload...<br>';
   $first = true;
   foreach ($sheet->getRowIterator() as $row) {
     if ($first) {
@@ -368,4 +359,5 @@ if ($_POST['fileType'] === 'staffUpload') {
   exit();
 } else {
   echo 'Invalid upload type.';
+  exit();
 }
