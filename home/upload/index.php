@@ -35,9 +35,12 @@ if (isset($_POST['csrf_token'])) {
 $targetDir = '/uploads/';
 $file = $_FILES['fileUpload'];
 $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-$mimeType = mime_content_type($file);
+$tmpFile = $_FILES['fileUpload']['tmp_name'];
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+$mimeType = $finfo->file($tmpFile);
 $uniqueName = bin2hex(random_bytes(16)) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;
+echo $mimeType;
 
 if ($file['size'] > 5242880){
   die('File too large.');
