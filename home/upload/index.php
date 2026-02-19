@@ -14,6 +14,9 @@
     reused or redistributed without permission.
 -->
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '/var/www/html/validate.php';
 require '/var/www/vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -35,7 +38,6 @@ $fileExtention = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 $mimeType = mime_content_type($file);
 $uniqueName = bin2hex(random_bytes(16)) . '.' . $fileExtention;
 $targetFile = $targetDir . $uniqueName;
-echo $mimeType;
 
 if ($file['size'] > 5242880){
   die('File too large.');
