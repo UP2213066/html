@@ -47,7 +47,8 @@ if (!in_array($fileExtention, $allowedExtentions)) {
 
 $allowedMimes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '	application/vnd.ms-excel', 'text/csv', 'application/vnd.oasis.opendocument.spreadsheet'];
 if (!in_array($mimeType, $allowedMimes)) {
-  die('Invalid MIME type of ' . $mimeType);
+  echo "Invalid MIME type of $mimeType";
+  exit();
 }
 
 if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
