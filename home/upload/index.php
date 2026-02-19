@@ -150,7 +150,6 @@ if ($_POST['fileType'] === 'staffUpload') {
       $placementStudents[] = $row['id'];
     }
   }
-  echo $placementStudents;
   try {
     $connection = new mysqli($hostname, $uploading_students_username, $uploading_students_password, $database);
   } catch (mysqli_sql_exception $e) {
@@ -184,7 +183,7 @@ if ($_POST['fileType'] === 'staffUpload') {
       }
     }
   }
-  header('location: /home/student/');
+  // header('location: /home/student/');
   exit();
 } elseif ($_POST['fileType'] === 'placementStudentUpload') {
   echo 'Processing placement student upload...<br>';
