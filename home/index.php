@@ -15,7 +15,6 @@
 <?php
 include '/var/www/html/validate.php';
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
