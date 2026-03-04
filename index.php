@@ -14,10 +14,7 @@
 -->
 <?php
 session_start();
-$error = $_SESSION['login_error'] ?? '';
-unset($_SESSION['login_error']);
-unset($_SESSION['name']);
-unset($_SESSION['role']);
+$_SESSION = [];
 ?>
 
 <!DOCTYPE html>

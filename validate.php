@@ -10,7 +10,7 @@ $found = false;
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row['role'] != 'Admin') {
-            header('Location: /');
+            header('Location: /logout.php');
             exit();
         } else {
             if (empty($_SESSION['csrf_token'])) {
