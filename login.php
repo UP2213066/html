@@ -60,7 +60,6 @@ if ($result->num_rows === 1) {
                 $connection->close();
             } else {
                 $newAttempts = $row['attempts'] + 1;
-                $connection->close();
                 $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
                 $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
