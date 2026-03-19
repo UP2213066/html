@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['email'])) {
+    header('Location: /');
+    exit();
+}
 include '/sec/db.php';
 $conn = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
 $preparedSQL = $conn->prepare('SELECT role FROM staff WHERE email=?');
