@@ -73,7 +73,7 @@ if ($result->num_rows === 1) {
                 $connection->close();
                 $connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
                 $now = date("Y-m-d H:i:s", time());
-                $preparedSQL = $connection->prepare("INSERT INTO failedLogins VALUES(email=?, IP=?, timestamp=?)");
+                $preparedSQL = $connection->prepare("INSERT INTO failedLogins VALUES(?, ?, ?)");
                 $preparedSQL->bind_param("sss", $_POST['username'], $_SERVER['REMOTE_ADDR'], $now);
                 $preparedSQL->execute();
                 $connection->close();
