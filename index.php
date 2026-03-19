@@ -14,6 +14,7 @@
 -->
 <?php
 session_start();
+$error = $_SESSION['login_error'];
 $_SESSION = [];
 ?>
 
