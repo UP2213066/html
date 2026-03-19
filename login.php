@@ -71,6 +71,7 @@ if ($result->num_rows === 1) {
                 $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
                 $preparedSQL->execute();
                 $connection->close();
+                $connection = new mysqli($hostname, $insert_attemp_username, $insert_attempt_password, $database);
                 $now = date("Y-m-d H:i:s", time());
                 $preparedSQL = $connection->prepare("INSERT INTO failedLogins VALUES email=?, IP=?, timestamp=?");
                 $preparedSQL->bind_param("ss", $_POST['username'], $_SERVER['REMOTE_ADDR'], $now);
