@@ -24,25 +24,52 @@ try {
     header('Location: /');
     exit();
 }
-$preparedSQL = $connection->prepare("SELECT email, password, name, role FROM staff WHERE email = ?");
+$preparedSQL = $connection->prepare("SELECT email, password, name, role, attempts, lockUntil FROM staff WHERE email = ?");
 $preparedSQL->bind_param("s", $_POST['username']);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
 $found = false;
-if ($result->num_rows > 0) {
+$targetResponseTime = 0.5; // seconds
+$start = microtime(true);
+if ($result->num_rows === 1) {
     $row = $result->fetch_assoc();
-    if ($_POST['username'] === $row['email'] && password_verify($_POST['password'], $row['password'])) {
-        $found = true;
-        session_regenerate_id(true);
-        $_SESSION['name'] = $row['name'];
-        $_SESSION['role'] = $row['role'];
-        $_SESSION['email'] = $row['email'];
+    if ($row['lockUntil'] <= date("Y-m-d H:i:s", time())) {
+        if ($_POST['username'] === $row['email'] && password_verify($_POST['password'], $row['password'])) {
+            $found = true;
+            $newAttempts = 0;
+            $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
+            $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
+            $preparedSQL->execute();
+            session_regenerate_id(true);
+            $_SESSION['name'] = $row['name'];
+            $_SESSION['role'] = $row['role'];
+            $_SESSION['email'] = $row['email'];
+        } else {
+            if ($row['attempts'] >= 5) {
+                $lockUntil = date("Y-m-d H:i:s", time() + 300);
+                $preparedSQL = $connection->prepare("UPDATE staff SET lockUntil=? WHERE email = ?");
+                $preparedSQL->bind_param("ss", $lockUntil, $_POST['username']);
+                $preparedSQL->execute();
+            } else {
+                $newAttempts = $row['attempts'] + 1;
+                $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
+                $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
+                $preparedSQL->execute();
+            }
+        }
     }
+} else {
+    password_verify('password', '$2y$10$usesomesillystringforsalt$abcdefghijklmnopqrstu');
 }
 $connection->close();
+$elapsed = microtime(true) - $start;
+if ($elapsed < $targetResponseTime) {
+    usleep(($targetResponseTime - $elapsed) * 1e6); // convert seconds to microseconds
+}
 if ($found) {
     header('Location: /home');
 } else {
+
     $_SESSION['login_error'] = "Username or password incorrect";
     header('Location: /');
     exit();
