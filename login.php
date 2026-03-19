@@ -15,9 +15,6 @@
     reused or redistributed without permission. -->
 
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $found = false;
 $targetResponseTime = 0.5; // seconds
 $start = microtime(true);
