@@ -15,9 +15,9 @@
     reused or redistributed without permission. -->
 
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+$found = false;
+$targetResponseTime = 0.5; // seconds
+$start = microtime(true);
 session_start();
 include '/sec/db.php';
 try {
@@ -27,61 +27,68 @@ try {
     header('Location: /');
     exit();
 }
-$preparedSQL = $connection->prepare("SELECT email, password, name, role, attempts, lockUntil FROM staff WHERE email = ?");
-$preparedSQL->bind_param("s", $_POST['username']);
+$connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
+$preparedSQL = $connection->prepare("SELECT COUNT(*) as attempt_count FROM failedLogins WHERE IP = ? AND timestamp >= NOW() - INTERVAL 5 MINUTE");
+$preparedSQL->bind_param("s", $_SERVER['REMOTE_ADDR']);
 $preparedSQL->execute();
-$result = $preparedSQL->get_result();
+$preparedSQL->bind_result($attemptCount);
+$preparedSQL->fetch();
 $connection->close();
-$found = false;
-$targetResponseTime = 0.5; // seconds
-$start = microtime(true);
-if ($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
-    if ($row['lockUntil'] <= date("Y-m-d H:i:s", time())) {
-        if ($_POST['username'] === $row['email'] && password_verify($_POST['password'], $row['password'])) {
-            $found = true;
-            $newAttempts = 0;
-            $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
-            $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
-            $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
-            $preparedSQL->execute();
-            $connection->close();
-            session_regenerate_id(true);
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['role'] = $row['role'];
-            $_SESSION['email'] = $row['email'];
-        } else {
-            if ($row['attempts'] >= 5) {
-                $lockUntil = date("Y-m-d H:i:s", time() + 300);
-                $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
-                $preparedSQL = $connection->prepare("UPDATE staff SET lockUntil=? WHERE email = ?");
-                $preparedSQL->bind_param("ss", $lockUntil, $_POST['username']);
-                $preparedSQL->execute();
-                $connection->close();
-                $connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
-                $now = date("Y-m-d H:i:s", time());
-                $preparedSQL = $connection->prepare("INSERT INTO failedLogins VALUES(?, ?, ?)");
-                $preparedSQL->bind_param("sss", $_POST['username'], $_SERVER['REMOTE_ADDR'], $now);
-                $preparedSQL->execute();
-                $connection->close();
-            } else {
-                $newAttempts = $row['attempts'] + 1;
+if ($attemptCount < 7) {
+    $preparedSQL = $connection->prepare("SELECT email, password, name, role, attempts, lockUntil FROM staff WHERE email = ?");
+    $preparedSQL->bind_param("s", $_POST['username']);
+    $preparedSQL->execute();
+    $result = $preparedSQL->get_result();
+    $connection->close();
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        if (is_null($row['lockUntil']) || $row['lockUntil'] <= date("Y-m-d H:i:s")) {
+            if ($_POST['username'] === $row['email'] && password_verify($_POST['password'], $row['password'])) {
+                $found = true;
+                $newAttempts = 0;
                 $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
                 $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
                 $preparedSQL->execute();
                 $connection->close();
-                $connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
-                $now = date("Y-m-d H:i:s", time());
-                $preparedSQL = $connection->prepare("INSERT INTO failedLogins VALUES(?, ?, ?)");
-                $preparedSQL->bind_param("sss", $_POST['username'], $_SERVER['REMOTE_ADDR'], $now);
-                $preparedSQL->execute();
-                $connection->close();
+                session_regenerate_id(true);
+                $_SESSION['name'] = $row['name'];
+                $_SESSION['role'] = $row['role'];
+                $_SESSION['email'] = $row['email'];
+            } else {
+                if ($row['attempts'] >= 5) {
+                    $preparedSQL = $connection->prepare("SELECT COUNT(*) as attempt_count FROM failedLogins WHERE IP = ? AND timestamp >= NOW() - INTERVAL 5 MINUTE");
+                    $lockUntil = date("Y-m-d H:i:s", time() + 300);
+                    $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
+                    $preparedSQL = $connection->prepare("UPDATE staff SET lockUntil=? WHERE email = ?");
+                    $preparedSQL->bind_param("ss", $lockUntil, $_POST['username']);
+                    $preparedSQL->execute();
+                    $connection->close();
+                    $connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
+                    $now = date("Y-m-d H:i:s", time());
+                    $preparedSQL = $connection->prepare("INSERT INTO failedLogins (email, IP, timestamp) VALUES (?, ?, ?)");
+                    $preparedSQL->bind_param("sss", $_POST['username'], $_SERVER['REMOTE_ADDR'], $now);
+                    $preparedSQL->execute();
+                    $connection->close();
+                } else {
+                    $newAttempts = $row['attempts'] + 1;
+                    $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
+                    $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
+                    $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
+                    $preparedSQL->execute();
+                    $connection->close();
+                    $connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
+                    $now = date("Y-m-d H:i:s", time());
+                    $preparedSQL = $connection->prepare("INSERT INTO failedLogins (email, IP, timestamp) VALUES (?, ?, ?)");
+                    $preparedSQL->bind_param("sss", $_POST['username'], $_SERVER['REMOTE_ADDR'], $now);
+                    $preparedSQL->execute();
+                    $connection->close();
+                }
             }
         }
+    } else {
+        password_verify('password', '$2y$10$usesomesillystringforsalt$abcdefghijklmnopqrstu');
     }
-} else {
-    password_verify('password', '$2y$10$usesomesillystringforsalt$abcdefghijklmnopqrstu');
 }
 $elapsed = microtime(true) - $start;
 if ($elapsed < $targetResponseTime) {
