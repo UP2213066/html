@@ -30,6 +30,7 @@ try {
 $preparedSQL = $connection->prepare("SELECT email, password, name, role, attempts, lockUntil FROM staff WHERE email = ?");
 $preparedSQL->bind_param("s", $_POST['username']);
 $preparedSQL->execute();
+$connection->close();
 $result = $preparedSQL->get_result();
 $found = false;
 $targetResponseTime = 0.5; // seconds
@@ -43,6 +44,7 @@ if ($result->num_rows === 1) {
             $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
             $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
             $preparedSQL->execute();
+            $connection->close();
             session_regenerate_id(true);
             $_SESSION['name'] = $row['name'];
             $_SESSION['role'] = $row['role'];
@@ -53,11 +55,14 @@ if ($result->num_rows === 1) {
                 $preparedSQL = $connection->prepare("UPDATE staff SET lockUntil=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $lockUntil, $_POST['username']);
                 $preparedSQL->execute();
+                $connection->close();
             } else {
                 $newAttempts = $row['attempts'] + 1;
+                $connection = new mysqli($hostname, $update_staff_username, $read_staff_password, $database);
                 $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
                 $preparedSQL->execute();
+                $connection->close();
             }
         }
     }
