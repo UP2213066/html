@@ -51,6 +51,7 @@ if ($result->num_rows === 1) {
         } else {
             if ($row['attempts'] >= 5) {
                 $lockUntil = date("Y-m-d H:i:s", time() + 300);
+                $connection = new mysqli($hostname, $update_staff_username, $read_staff_password, $database);
                 $preparedSQL = $connection->prepare("UPDATE staff SET lockUntil=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $lockUntil, $_POST['username']);
                 $preparedSQL->execute();
