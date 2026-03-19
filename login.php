@@ -30,8 +30,8 @@ try {
 $preparedSQL = $connection->prepare("SELECT email, password, name, role, attempts, lockUntil FROM staff WHERE email = ?");
 $preparedSQL->bind_param("s", $_POST['username']);
 $preparedSQL->execute();
-$connection->close();
 $result = $preparedSQL->get_result();
+$connection->close();
 $found = false;
 $targetResponseTime = 0.5; // seconds
 $start = microtime(true);
