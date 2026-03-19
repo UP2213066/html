@@ -24,13 +24,12 @@ $start = microtime(true);
 session_start();
 include '/sec/db.php';
 try {
-    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
+    $connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
 }catch (mysqli_sql_exception $e) {
     $_SESSION['login_error'] = "Something went wrong while processing your request. Please refresh the page or try again later.";
     header('Location: /');
     exit();
 }
-$connection = new mysqli($hostname, $insert_attempt_username, $insert_attempt_password, $database);
 $preparedSQL = $connection->prepare("SELECT COUNT(*) as attempt_count FROM failedLogins WHERE IP = ? AND timestamp >= NOW() - INTERVAL 5 MINUTE");
 $preparedSQL->bind_param("s", $_SERVER['REMOTE_ADDR']);
 $preparedSQL->execute();
@@ -38,6 +37,7 @@ $preparedSQL->bind_result($attemptCount);
 $preparedSQL->fetch();
 $connection->close();
 if ($attemptCount < 7) {
+    $connection = new mysqli($hostname, $read_staff_username, $read_staff_password, $database);
     $preparedSQL = $connection->prepare("SELECT email, password, name, role, attempts, lockUntil FROM staff WHERE email = ?");
     $preparedSQL->bind_param("s", $_POST['username']);
     $preparedSQL->execute();
