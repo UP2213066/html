@@ -41,7 +41,7 @@ if ($result->num_rows === 1) {
         if ($_POST['username'] === $row['email'] && password_verify($_POST['password'], $row['password'])) {
             $found = true;
             $newAttempts = 0;
-            $connection = new mysqli($hostname, $update_staff_username, $read_staff_password, $database);
+            $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
             $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
             $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
             $preparedSQL->execute();
@@ -53,7 +53,7 @@ if ($result->num_rows === 1) {
         } else {
             if ($row['attempts'] >= 5) {
                 $lockUntil = date("Y-m-d H:i:s", time() + 300);
-                $connection = new mysqli($hostname, $update_staff_username, $read_staff_password, $database);
+                $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
                 $preparedSQL = $connection->prepare("UPDATE staff SET lockUntil=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $lockUntil, $_POST['username']);
                 $preparedSQL->execute();
@@ -61,7 +61,7 @@ if ($result->num_rows === 1) {
             } else {
                 $newAttempts = $row['attempts'] + 1;
                 $connection->close();
-                $connection = new mysqli($hostname, $update_staff_username, $read_staff_password, $database);
+                $connection = new mysqli($hostname, $update_staff_username, $update_staff_password, $database);
                 $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
                 $preparedSQL->execute();
