@@ -31,6 +31,7 @@ $preparedSQL = $connection->prepare("SELECT email, password, name, role, attempt
 $preparedSQL->bind_param("s", $_POST['username']);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
+$connection->close();
 $found = false;
 $targetResponseTime = 0.5; // seconds
 $start = microtime(true);
@@ -40,6 +41,7 @@ if ($result->num_rows === 1) {
         if ($_POST['username'] === $row['email'] && password_verify($_POST['password'], $row['password'])) {
             $found = true;
             $newAttempts = 0;
+            $connection = new mysqli($hostname, $update_staff_username, $read_staff_password, $database);
             $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
             $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
             $preparedSQL->execute();
