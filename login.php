@@ -12,9 +12,12 @@
 
     © 2025-2026 Ayden Lunnon. All rights reserved.
     This code is submitted as part of a university project and may not be 
-    reused or redistributed without permission.
--->
+    reused or redistributed without permission. -->
+
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 include '/sec/db.php';
 try {
