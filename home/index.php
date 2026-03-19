@@ -15,7 +15,6 @@
 <?php
 include '/var/www/html/validate.php';
 session_start();
-session_regenerate_id(true);
 ?>
 <!DOCTYPE html>
 <html>

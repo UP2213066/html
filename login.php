@@ -33,6 +33,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     if ($_POST['username'] === $row['email'] && password_verify($_POST['password'], $row['password'])) {
         $found = true;
+        session_regenerate_id(true);
         $_SESSION['name'] = $row['name'];
         $_SESSION['role'] = $row['role'];
         $_SESSION['email'] = $row['email'];
