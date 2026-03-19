@@ -72,7 +72,6 @@ if ($result->num_rows === 1) {
 } else {
     password_verify('password', '$2y$10$usesomesillystringforsalt$abcdefghijklmnopqrstu');
 }
-$connection->close();
 $elapsed = microtime(true) - $start;
 if ($elapsed < $targetResponseTime) {
     usleep(($targetResponseTime - $elapsed) * 1e6); // convert seconds to microseconds
