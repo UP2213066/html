@@ -31,7 +31,6 @@ $preparedSQL = $connection->prepare("SELECT email, password, name, role, attempt
 $preparedSQL->bind_param("s", $_POST['username']);
 $preparedSQL->execute();
 $result = $preparedSQL->get_result();
-$connection->close();
 $found = false;
 $targetResponseTime = 0.5; // seconds
 $start = microtime(true);
@@ -44,6 +43,7 @@ if ($result->num_rows === 1) {
             $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
             $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
             $preparedSQL->execute();
+            $connection->close();
             session_regenerate_id(true);
             $_SESSION['name'] = $row['name'];
             $_SESSION['role'] = $row['role'];
@@ -57,6 +57,7 @@ if ($result->num_rows === 1) {
                 $connection->close();
             } else {
                 $newAttempts = $row['attempts'] + 1;
+                $connection->close();
                 $connection = new mysqli($hostname, $update_staff_username, $read_staff_password, $database);
                 $preparedSQL = $connection->prepare("UPDATE staff SET attempts=? WHERE email = ?");
                 $preparedSQL->bind_param("ss", $newAttempts, $_POST['username']);
