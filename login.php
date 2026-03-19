@@ -89,6 +89,10 @@ if ($attemptCount < 7) {
     } else {
         password_verify('password', '$2y$10$usesomesillystringforsalt$abcdefghijklmnopqrstu');
     }
+} else {
+    $_SESSION['login_error'] = "IP Limited"; // debugging only
+    header('Location: /');
+    exit();
 }
 $elapsed = microtime(true) - $start;
 if ($elapsed < $targetResponseTime) {
@@ -97,7 +101,6 @@ if ($elapsed < $targetResponseTime) {
 if ($found) {
     header('Location: /home');
 } else {
-
     $_SESSION['login_error'] = "Username or password incorrect";
     header('Location: /');
     exit();
