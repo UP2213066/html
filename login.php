@@ -98,6 +98,7 @@ if ($found) {
     header('Location: /home');
 } else {
     $_SESSION['login_error'] = "Username or password incorrect";
+    http_response_code(401);
     header('Location: /');
     exit();
 }
