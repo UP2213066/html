@@ -98,7 +98,7 @@ if ($found) {
     header('Location: /home');
 } else {
     $_SESSION['login_error'] = "Username or password incorrect";
-    error_log("[client " . $_SERVER['REMOTE_ADDR'] . "] LOGIN FAIL", 3, "/var/log/custom_auth.log");
+    error_log("[client " . $_SERVER['REMOTE_ADDR'] . "] LOGIN FAIL\n", 3, "/var/log/custom_auth.log");
     header('Location: /');
     exit();
 }
