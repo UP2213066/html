@@ -25,9 +25,6 @@ $_SESSION = [];
         <link rel="stylesheet" href="/style.css?v=2">
     </head>
     <body>
-    <nav class="navigationBar">
-        <a class="home" href="/">Home</a>
-    </nav>
     <main>
         <h1>Login</h1>
             <form action="login.php" method="post">
