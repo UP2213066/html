@@ -47,8 +47,7 @@ include '/var/www/html/validate.php';
                 <button class="actionGridButton" onclick="window.location.href='/home/student/upload/'">Upload Students</button>
                 <button class="actionGridButton" onclick="window.location.href='/home/student/export/'">Export Students</button>
                 <button class="actionGridButton" onclick="window.location.href='/home/student/upload/self-report/'">Upload Self Report</button>
-                 <button class="actionGridButton" onclick="window.location.href='/home/student/upload/student-choice/'">Upload Student Choice</button>
-                <button class="actionGridButton" onclick="">Distribute Moderators</button>
+                <button class="actionGridButton" onclick="window.location.href='/home/student/upload/student-choice/'">Upload Student Choice</button>
             </section>
         </main>
        <?php include '/var/www/html/footer.php';?>
